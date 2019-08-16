@@ -1,0 +1,51 @@
+<!-- Panel Lateral Derecho para añadir enlace -->
+<div id="div_panel_admin" class="w3-col w3-container w3-right w3-border w3-round-xlarge w3-animate-right" *ngIf="boolAdminRight">
+    <div class="w3-container tabs" style="display:block">
+        <app-usuarios-admin></app-usuarios-admin>
+    </div>
+</div>
+<!-- Final del Panel Lateral Derecho -->
+
+<!-- Panel Central de la sección de Enlaces -->
+<div class="w3-rest w3-container" id="div-panel-central">
+    <!-- Administración -->
+    <div class="w3-text-blue w3-cell-row w3-margin-bottom w3-margin-top">
+        <div class="w3-cell">
+            <i class="fa fa-lg fa-angle-double-right w3-right" *ngIf="boolAdminRight"></i>
+            <i class="fa fa-lg fa-angle-double-left w3-right" *ngIf="!boolAdminRight"></i>
+            <span class="w3-right mol-cursor" (click)="mostrarAdminRight(!boolAdminRight)">Administración&nbsp;</span>
+        </div>
+    </div>
+
+    <!-- Tabla de datos -->
+    <div class="w3-card w3-responsive w3-border w3-margin-bottom" (window:resize)="onResize($event)">
+        <ngx-datatable class="material striped server-scrolling-demo" [rows]="usuarios" [columnMode]="'flex'" [headerHeight]="headerHeight" [footerHeight]="40" [rowHeight]="rowHeight" [loadingIndicator]="isLoading" [scrollbarV]="true" (scroll)="onScroll($event.offsetY)"
+            [sorts]="[{prop: 'apellidos', dir: 'asc'}, {prop: 'nombre', dir: 'asc'}]" [limit]="numRegs" [messages]="{emptyMessage: 'Sin datos a mostrar'}">
+            <ngx-datatable-column name="Apellidos" prop="apellidos" [headerClass]="'w3-pale-red w3-padding mol-negritaCabecera'" [cellClass]="'w3-padding-small'" [flexGrow]="3" [resizeable]="false"></ngx-datatable-column>
+            <ngx-datatable-column name="Nombre" prop="nombre" [headerClass]="'w3-pale-red w3-padding mol-negritaCabecera'" [cellClass]="'w3-padding-small'" [flexGrow]="2" [resizeable]="false"></ngx-datatable-column>
+            <ngx-datatable-column name="Alias" prop="alias" [headerClass]="'w3-pale-red w3-padding mol-negritaCabecera'" [cellClass]="'w3-padding-small'" [flexGrow]="2" [resizeable]="false"></ngx-datatable-column>
+            <ngx-datatable-column name="Email" prop="email" [headerClass]="'w3-pale-red w3-padding mol-negritaCabecera'" [cellClass]="'w3-padding-small'" [flexGrow]="3" [resizeable]="false"></ngx-datatable-column>
+            <ngx-datatable-column name="Rol" prop="rol.nombre" [headerClass]="'w3-pale-red w3-padding mol-negritaCabecera'" [cellClass]="'w3-padding-small'" [flexGrow]="1" [resizeable]="false"></ngx-datatable-column>
+
+            <ngx-datatable-column name="Acc." [headerClass]="'w3-pale-red w3-padding w3-center mol-negritaCabecera'" [cellClass]="'w3-padding-small w3-center'" [flexGrow]="1" [resizeable]="false" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex " let-row="row ">
+                    <i class="fa fa-lg fa-edit mol-cursor w3-margin-right w3-text-blue" title="Editar" (click)="sendEditarUsuario(row)"></i>
+                    <i class="fa fa-lg fa-times-rectangle mol-cursor w3-text-red" title="Eliminar" (click)="delUsuario(row)"></i>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-footer *ngIf="true">
+                <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset">
+                    <div style="padding: 5px 10px">
+                        <!-- <div>
+                            Rows: {{ rowCount }} | Size: {{ pageSize }} | Current: {{ curPage }} | Offset: {{ offset }}
+                        </div> -->
+                        <div>
+                            Mostrando {{ rowCount }} de {{countUsuarios}} registros.
+                        </div>
+                    </div>
+                </ng-template>
+            </ngx-datatable-footer>
+        </ngx-datatable>
+    </div>
+    <br>
+</div>

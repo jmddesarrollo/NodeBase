@@ -1,0 +1,149 @@
+<!-- Panel de Administración para la gestión de usuarios -->
+<!-- Administración - Tabs -->
+<div class="w3-row w3-panel">
+    <div (click)="abrirPestana('tab_general', 'panel_general');">
+        <div id="tab_general" class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding" [ngClass]="{'w3-border-red': pestanaAbierta === 'panel_general'}">General</div>
+    </div>
+
+    <div (click)="abrirPestana('tab_imagen', 'panel_imagen');" *ngIf="mostrarPestanaImagen">
+        <div id="tab_imagen" class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding" [ngClass]="{'w3-border-red': pestanaAbierta === 'panel_imagen'}">Imagen</div>
+    </div>
+</div>
+
+<!-- Administración - Bloque General -->
+<div id="panel_general" class="w3-container tabs" *ngIf="pestanaAbierta === 'panel_general'">
+    <form class="w3-container w3-panel" [formGroup]="forma" (ngSubmit)="guardarCambios()">
+        <!-- Nombre -->
+        <div class="w3-row w3-margin-bottom">
+            <label class="w3-col l12 m12 s12 mol-negrita">Nombre</label>
+            <div class=" w3-col l12 m12 s12">
+                <input class="w3-input" type="text" name="nombre" formControlName="nombre" title="Entre 2 y 45 letras alfabéticas.">
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['nombre'].errors?.required && forma.controls['nombre'].touched">
+                    El nombre del usuario es requerido.
+                </div>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['nombre'].errors?.formatoNombre && forma.controls['nombre'].touched && !forma.controls['nombre'].errors?.required">
+                    El nombre del usuario no tiene el formato correcto.
+                </div>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['nombre'].errors?.mintext || forma.controls['nombre'].errors?.maxtext) && forma.controls['nombre'].touched && !forma.controls['nombre'].errors?.required">
+                    El nombre del usuario debe estar comprendido entre 2 y 45 caracteres.
+                </div>
+            </div>
+        </div>
+
+        <!-- Apellidos -->
+        <div class="w3-row w3-margin-bottom">
+            <label class="w3-col l12 m12 s12 mol-negrita">Apellidos</label>
+            <div class=" w3-col l12 m12 s12">
+                <input class="w3-input" type="text" name="apellidos" formControlName="apellidos">
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['apellidos'].errors?.required && forma.controls['apellidos'].touched">
+                    Los apellidos del usuario es requerido.
+                </div>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['apellidos'].errors?.formatoApellidos && forma.controls['apellidos'].touched && !forma.controls['apellidos'].errors?.required">
+                    Los apellidos del usuario no tienen el formato correcto.
+                </div>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['apellidos'].errors?.mintext || forma.controls['apellidos'].errors?.maxtext) && forma.controls['apellidos'].touched && !forma.controls['apellidos'].errors?.required">
+                    Los apellidos del usuario debe estar comprendido entre 2 y 100 caracteres.
+                </div>
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="w3-row w3-margin-bottom">
+            <label class="w3-col l12 m12 s12 mol-negrita">Email</label>
+            <div class=" w3-col l12 m12 s12">
+                <input class="w3-input" type="text" name="email" formControlName="email">
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['email'].errors?.required && forma.controls['email'].touched">
+                    El email del usuario es requerido.
+                </div>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['email'].errors?.formatoEmail && forma.controls['email'].touched && !forma.controls['email'].errors?.required">
+                    El email del usuario no tienen el formato correcto.
+                </div>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['email'].errors?.mintext || forma.controls['email'].errors?.maxtext) && forma.controls['email'].touched && !forma.controls['email'].errors?.required">
+                    El email del usuario debe estar comprendido entre 6 y 60 caracteres.
+                </div>
+            </div>
+        </div>
+
+        <!-- Alias -->
+        <div class="w3-row w3-margin-bottom">
+            <label class="w3-col l12 m12 s12 mol-negrita">Alias</label>
+            <div class=" w3-col l12 m12 s12">
+                <input class="w3-input" type="text" name="alias" formControlName="alias">
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['alias'].errors?.required && forma.controls['alias'].touched">
+                    El alias del usuario es requerido.
+                </div>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['alias'].errors?.formatoNombre && forma.controls['alias'].touched && !forma.controls['alias'].errors?.required">
+                    El alias del usuario no tiene el formato correcto.
+                </div>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['alias'].errors?.mintext || forma.controls['alias'].errors?.maxtext) && forma.controls['alias'].touched && !forma.controls['alias'].errors?.required">
+                    El alias del usuario debe estar comprendido entre 2 y 15 caracteres.
+                </div>
+            </div>
+        </div>
+
+        <!-- Rol -->
+        <div class="w3-row w3-margin-bottom">
+            <label class="w3-col l12 m12 s12 mol-negrita">Rol</label>
+            <div class=" w3-col l12 m12 s12">
+                <select class="w3-input w3-select" name="rolid" formControlName="rolid">
+                    <option *ngFor="let rol of rols" value="{{rol.id}}" >{{rol.nombre}}</option>
+                </select>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['rolid'].errors?.required && forma.controls['rolid'].touched">
+                    El rol del usuario es requerido.
+                </div>
+            </div>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="w3-row w3-margin-bottom">
+            <label class="w3-col l12 m12 s12 mol-negrita">Contraseña</label>
+            <div class=" w3-col l12 m12 s12">
+                <input class="w3-input" type="password" name="password" formControlName="password" (keypress)='limpiarErrorPass()'>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['password'].errors?.formatoPassword && forma.controls['password'].touched">
+                    La contraseña no tiene el formato correcto.
+                </div>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="errorPassword">
+                    La contraseña en el alta es obligatoria.
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row w3-margin-bottom">
+            <label class="w3-col l12 m12 s12 mol-negrita">Confirmar contraseña</label>
+            <div class=" w3-col l12 m12 s12">
+                <input class="w3-input" type="password" name="confirmPass" formControlName="confirmPass">
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.errors?.sonIguales && forma.controls['password'].touched">
+                    Las contraseñas deben de ser iguales.
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row w3-margin-bottom">
+            <label class="w3-col l12 m12 s12 negrita">Activo</label>
+            <div class="w3-col l12 m12 s12">
+                <input formControlName="activo" class="w3-check" type="checkbox" name="activo">
+            </div>
+        </div>
+
+        <!-- Bloque de acciones -->
+        <div class="w3-row w3-margin-bottom w3-center w3-padding">
+            <label class="w3-col l2 m2 s12">&nbsp;</label>
+            <div class="w3-col l8 m8 s12">
+                <button type="submit" class="w3-btn w3-blue w3-round" [disabled]="!forma.valid" *ngIf="!forma.controls['id'].value">
+                    Añadir
+                </button>
+                <button type="submit" class="w3-btn w3-blue w3-round" [disabled]="!forma.valid" *ngIf="forma.controls['id'].value">
+                    Editar
+                  </button>
+                <button type="reset" class="w3-btn w3-orange w3-round w3-margin-left" (click)="exeLimpiar()">Limpiar</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Fin Administración - Bloque General -->
+
+<!-- Administración - Bloque Imagen de usuario -->
+<div id="panel_imagen" class="w3-container tabs" *ngIf="pestanaAbierta === 'panel_imagen'">
+    <app-usuarios-imagen></app-usuarios-imagen>
+</div>
+<!-- Fin Administración - Bloque General -->

@@ -1,0 +1,17 @@
+{
+    "development": {
+        "username": "root",
+        "password": "",
+        "database": "nodebase",
+        "host": "localhost",
+        "dialect": "mysql",
+        "port": "3306",
+        "autocommit": false,
+        "pool": {
+            "max": 5,
+            "min": 0,
+            "idle": 30000,
+            "acquire": 30000
+        }
+    }
+}
