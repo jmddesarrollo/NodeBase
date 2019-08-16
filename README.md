@@ -1,5 +1,6 @@
 # Changelog - NodeBase
 Código base con el que partir un proyecto. Contiene el login, la gestión de usuarios, canactivate para acceso a páginas privadas y comunicación con backend mediante HTTP.
+<<<<<<< HEAD
 
 # NodeBase 1.0.0-beta
 ## Funcionalidades
@@ -62,3 +63,6 @@ En el panel de 'Administración' también puede darse de alta nuevos usuarios.
 
 ## Perfil del usuario
 Vista que muestra los datos del usuario y permite el login o logout.
+=======
+Se ha utilizado las tecnologías de Angular 8, NodeJS v10.15 y MySQL.
+>>>>>>> 48dbc3a31b101a5cbc2fe99568f15e8483e3d41e
