@@ -1,0 +1,16 @@
+.img-user {
+    width: 100px;
+}
+
+#div_panel_admin {
+    width: 500px;
+}
+
+
+/* On screens that are 990px or less */
+
+@media screen and (max-width: 990px) {
+    #div_panel_admin {
+        width: 100%;
+    }
+}

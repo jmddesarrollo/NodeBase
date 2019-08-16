@@ -1,0 +1,79 @@
+<!-- Panel Lateral Derecho para añadir enlace -->
+<div id="div_panel_admin" class="w3-col w3-container w3-right w3-border w3-round-xlarge w3-animate-right" *ngIf="boolAdminRight">
+    <div class="w3-container tabs" style="display:block">
+        <app-usuarios-admin></app-usuarios-admin>
+    </div>
+</div>
+<!-- Final del Panel Lateral Derecho -->
+
+<div class="w3-rest w3-container">
+    <!-- Administración -->
+    <div class="w3-text-blue w3-cell-row w3-margin-bottom w3-margin-top" *ngIf="isLog">
+        <div class="w3-cell">
+            <i class="fa fa-lg fa-angle-double-right w3-right" *ngIf="boolAdminRight"></i>
+            <i class="fa fa-lg fa-angle-double-left w3-right" *ngIf="!boolAdminRight"></i>
+            <span class="w3-right mol-cursor" (click)="mostrarAdminRight(!boolAdminRight)">Administración&nbsp;</span>
+        </div>
+    </div>
+
+    <!-- Login -->
+    <div class="w3-center w3-margin-bottom">
+        <h2>Autentificación en App Personal</h2>
+    </div>
+
+    <!-- Datos personales -->
+    <div>
+        <div class="w3-card-4 w3-dark-grey">
+            <div class="w3-container">
+                <h3 class="w3-center">Datos del usuario</h3>
+                <div *ngIf="isLog">
+                    <div class="w3-center">
+                        <img class="w3-circle w3-margin-top img-user" [src]="usuario.imagen | imagen" alt="Avatar" title="Imagen usuario">
+
+                        <h5><label class="w3-margin-right">Nombre:</label>{{ usuario.nombre }}</h5>
+                        <h5><label class="w3-margin-right">Apellidos:</label>{{ usuario.apellidos}} </h5>
+                        <h5><label class="w3-margin-right">Email:</label>{{ usuario.email }}</h5>
+                        <h5><label class="w3-margin-right">Alias: </label>{{ usuario.alias }}</h5>
+
+                        <button class="w3-button w3-green w3-large" *ngIf="isLog" (click)="logout()">Logout</button>
+                    </div>
+                    <div class="w3-margin-bottom"></div>
+                </div>
+                <div *ngIf="!isLog" class="w3-center">
+                    <img class="w3-circle w3-margin-top img-user" [src]="usuario.imagen | imagen" alt="Avatar" title="Imagen usuario">
+                    <h5>INVITADO</h5>
+                    <button onclick="document.getElementById('modal_login').style.display='block'" class="w3-button w3-green w3-large">Login</button>
+                    <div class="w3-margin-bottom"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ventana modal para Login -->
+    <div id="modal_login" class="w3-modal">
+        <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+
+            <div class="w3-center"><br>
+                <span onclick="document.getElementById('modal_login').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+                <img src="../../../assets/images/m.png" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top">
+            </div>
+
+            <form ngNativeValidate #f="ngForm" class="w3-container" (ngSubmit)="ingresar(f)">
+                <div class="w3-section">
+                    <label><b>Email</b></label>
+                    <input [(ngModel)]="email" name="email" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Introduce email" required>
+                    <label><b>Contraseña</b></label>
+                    <input ngModel name="password" class="w3-input w3-border" type="password" placeholder="Introduce contraseña" name="password" required>
+                    <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">Login</button>
+                    <input [(ngModel)]="recuerdame" name="recuerdame" class="w3-check w3-margin-top" type="checkbox" checked="checked"> Recuérdame
+                </div>
+            </form>
+
+            <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                <button onclick="document.getElementById('modal_login').style.display='none'" type="button" class="w3-button w3-red">Cancelar</button>
+                <span class="w3-right w3-padding w3-hide-small">¿Olvidaste <a href="#">contraseña?</a></span>
+            </div>
+
+        </div>
+    </div>
+</div>

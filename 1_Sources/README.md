@@ -1,13 +1,6 @@
-# Changelog - NodeBase
+# NodeBase
+## Descripción
 Código base con el que partir un proyecto. Contiene el login, la gestión de usuarios, canactivate para acceso a páginas privadas y comunicación con backend mediante HTTP.
-
-# NodeBase 1.0.0-beta
-## Funcionalidades
-* Login por Token
-* Comunicación por HTTP
-* Gestión de usuarios
-* Página pública
-* Página privada
 
 --- 
 # Puesta a punto - NodeBase
