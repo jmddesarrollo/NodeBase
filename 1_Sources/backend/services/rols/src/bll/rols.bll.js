@@ -18,7 +18,6 @@ async function getRols() {
  * Consultar un rol
  */
 async function getRol(id) {
-    console.log('Vamos por el rol2');
     let rol = await RolsDAL.getRol(id);
 
     return rol;

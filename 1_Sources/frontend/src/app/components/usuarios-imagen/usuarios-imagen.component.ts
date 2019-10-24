@@ -48,7 +48,8 @@ export class UsuariosImagenComponent implements OnInit {
         this.toastr.success('Imagen actualizada correctamente.');
       },
       error => {
-        console.log(error);
+        const errorMSg = JSON.parse(error);
+        this.toastr.error(errorMSg.message);
       });
   }
 
@@ -64,12 +65,12 @@ export class UsuariosImagenComponent implements OnInit {
   _getEditUsuario() {
     const ob = this.shareUsuariosService.currentObjUsuarioEdit.subscribe(
       usuario => {
-        if (usuario) {
+        if (usuario.id) {
           this.usuario = usuario;
           this.usuario.password = '';
           this.usuario.confirmPass = '';
-          this.usuario.imagen = '';
-          this.usuario.rolid = usuario.rol.id;
+          // this.usuario.imagen = '';
+          this.usuario.rol_id = usuario.rol.id;
         }
       }
     );

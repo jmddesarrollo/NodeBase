@@ -69,8 +69,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     const viewHeight = this.el.nativeElement.getBoundingClientRect().height - this.headerHeight;
 
     // check if we scrolled to the end of the viewport
-    if (!this.isLoading && offsetY + viewHeight >= this.usuarios.length * this.rowHeight
-    ) {
+    if (!this.isLoading && offsetY + viewHeight >= this.usuarios.length * this.rowHeight) {
       // total number of results to load
       let limit = this.pageLimit;
 
@@ -94,6 +93,12 @@ export class UsuariosComponent implements OnInit, OnDestroy {
    */
   mostrarAdminRight(valor) {
     this.boolAdminRight = valor;
+
+    // Al cerrar la ventana limpiar contenido de edición de usuario
+    if (!valor) {
+      const usuario = new Usuario(null, null, null, null, null, false, null, null, null, null, null);
+      this.shareUsuariosService.editObjUsuario(usuario);
+    }
 
     this.refrescarDisplayTabla();
   }
@@ -134,6 +139,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
    * Enviar a sección Admin el usuario para su edición
    */
   sendEditarUsuario(row) {
+    row.rol_id = row.rol.id;
     this.shareUsuariosService.editObjUsuario(row);
 
     this.mostrarAdminRight(true);

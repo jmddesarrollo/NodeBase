@@ -5,7 +5,7 @@
         <div id="tab_general" class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding" [ngClass]="{'w3-border-red': pestanaAbierta === 'panel_general'}">General</div>
     </div>
 
-    <div (click)="abrirPestana('tab_imagen', 'panel_imagen');" *ngIf="mostrarPestanaImagen">
+    <div (click)="abrirPestana('tab_imagen', 'panel_imagen');">
         <div id="tab_imagen" class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding" [ngClass]="{'w3-border-red': pestanaAbierta === 'panel_imagen'}">Imagen</div>
     </div>
 </div>
@@ -84,12 +84,17 @@
         <!-- Rol -->
         <div class="w3-row w3-margin-bottom">
             <label class="w3-col l12 m12 s12 mol-negrita">Rol</label>
-            <div class=" w3-col l12 m12 s12">
-                <select class="w3-input w3-select" name="rolid" formControlName="rolid">
-                    <option *ngFor="let rol of rols" value="{{rol.id}}" >{{rol.nombre}}</option>
-                </select>
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['rolid'].errors?.required && forma.controls['rolid'].touched">
-                    El rol del usuario es requerido.
+            <div class=" w3-col l12 m12 s12" *ngIf="rols && usuario">
+                <div *ngIf="!usuario.rol_id || usuario.rol_id === adminId">
+                    <select class="w3-input w3-select" name="rol_id" formControlName="rol_id">
+                        <option *ngFor="let rol of rols" value="{{rol.id}}" >{{rol.nombre}}</option>
+                    </select>
+                    <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['rol_id'].errors?.required && forma.controls['rol_id'].touched">
+                        El rol del usuario es requerido.
+                    </div>
+                </div>
+                <div *ngIf="usuario.rol_id && (usuario.rol_id !== adminId)">
+                    {{usuario.rol.nombre}}
                 </div>
             </div>
         </div>
@@ -118,7 +123,7 @@
             </div>
         </div>
 
-        <div class="w3-row w3-margin-bottom">
+        <div class="w3-row w3-margin-bottom" *ngIf="usuario.rol_id === adminId">
             <label class="w3-col l12 m12 s12 negrita">Activo</label>
             <div class="w3-col l12 m12 s12">
                 <input formControlName="activo" class="w3-check" type="checkbox" name="activo">
@@ -135,7 +140,7 @@
                 <button type="submit" class="w3-btn w3-blue w3-round" [disabled]="!forma.valid" *ngIf="forma.controls['id'].value">
                     Editar
                   </button>
-                <button type="reset" class="w3-btn w3-orange w3-round w3-margin-left" (click)="exeLimpiar()">Limpiar</button>
+                <button type="reset" class="w3-btn w3-orange w3-round w3-margin-left" (click)="exeLimpiar()" *ngIf="usuario.rol_id === adminId">Limpiar</button>
             </div>
         </div>
     </form>

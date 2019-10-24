@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public recuerdame: boolean;
   public email: string;
   public isLog: boolean;
+  public isLoading: boolean;
   public usuario: Usuario;
 
   public boolAdminRight: boolean;
@@ -43,6 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.email = localStorage.getItem('email') || '';
     this.recuerdame = false;
     this.isLog = false;
+    this.isLoading = false;
 
     this.usuario = new Usuario(null, null, null, null, null);
 
@@ -72,7 +74,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   estalogueado() {
     this.isLog = this.usuarioService.estalogueado();
     if (this.isLog) {
-      this.usuario = this.usuarioService.usuario;
+      const id = localStorage.getItem('id');
+      this.usuarioService.cargarUsuario(id).subscribe((respuesta) => {
+        if (respuesta) {
+          this.usuario = respuesta['usuario'];
+          this.usuario.rol = respuesta['rol'];
+        }
+      });
+      this.isLoading = true;
     }
   }
 
@@ -85,12 +94,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.usuarioService.login(this.usuario).subscribe(
       response => {
-        response.data.usuario.rolid = response.data.usuario.rol_id;
-        response.data.usuario.rol_id = undefined;
         localStorage.setItem('id', response.data.usuario.id);
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('usuario', JSON.stringify(response.data.usuario));
-        console.log(response.data.usuario);
 
         if (this.recuerdame) {
           localStorage.setItem('email', response.data.usuario.email);
@@ -123,7 +128,6 @@ export class LoginComponent implements OnInit, OnDestroy {
    */
   mostrarAdminRight(valor) {
     this.boolAdminRight = valor;
-    this.usuario.rol = {id: this.usuario.rolid, nombre: ''};
 
     this.shareUsuariosService.editObjUsuario(this.usuario);
   }
@@ -135,7 +139,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     const ob = this.shareUsuariosService.currentObjUsuarioEditPost.subscribe(usuarioEdit => {
       if (usuarioEdit && usuarioEdit.id === this.usuario.id) {
         this.usuario = usuarioEdit;
-        this.usuario.rolid = usuarioEdit.rol.id;
         this.mostrarAdminRight(false);
       }
     });

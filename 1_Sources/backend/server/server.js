@@ -1,13 +1,19 @@
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const path = require('path');
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+var path = require('path');
+
+// Socket Io
+var http = require('http');
+var httpServer = http.createServer(app);
+var socketIO = require('socket.io');
+var io = socketIO(httpServer);
 
 // En el archivo config se definen variables globales (variables de entorno) que se usan en la app.
 require('../config/config');
 
 // Recoge el archivo que se está subiendo y lo coloca en req.files.
-const fileUpload = require('express-fileupload');
+var fileUpload = require('express-fileupload');
 app.use(fileUpload());
 
 // Cargar rutas

@@ -16,10 +16,8 @@ class PagedData<T> {
 @Injectable()
 export class UsuarioService {
   public token: string;
-  public usuario: Usuario;
   public headers: any;
   public url: string;
-  public isAdmin: boolean;
 
   constructor(
     private http: Http,
@@ -32,14 +30,8 @@ export class UsuarioService {
 
   getToken() {
     this.token = localStorage.getItem('token') || '';
-    this.usuario = JSON.parse(localStorage.getItem('usuario'));
     this.headers = new Headers({ 'Content-Type': 'application/json'});
     this.headers.append('Authorization', 'Bearer ' + this.token);
-    if (this.usuario && this.usuario.rolid === 1) {
-      this.isAdmin = true;
-    } else {
-      this.isAdmin = false;
-    }
   }
 
   estalogueado() {
@@ -56,11 +48,9 @@ export class UsuarioService {
 
   logout() {
     this.token = '';
-    this.isAdmin = false;
 
     localStorage.removeItem('token');
     localStorage.removeItem('id');
-    localStorage.removeItem('usuario');
 
     this.headers.delete('Authorization');
 
@@ -81,10 +71,11 @@ export class UsuarioService {
     });
   }
 
-  cargarUsuarioConectado() {
-    this.usuario = JSON.parse(localStorage.getItem('usuario'));
+  cargarUsuario(termino: string) {
+    const url = this.url + 'usuario/' + termino;
+    this.getToken();
 
-    return this.usuario;
+    return this.http.get(url, {headers: this.headers}).map(res => res.json());
   }
 
   cargarUsuarios() {
@@ -102,13 +93,6 @@ export class UsuarioService {
       delay(new Date(Date.now() + 500)),
       map(res => res.json())
     );
-  }
-
-  cargarUsuario(termino: string) {
-    const url = this.url + 'usuario/' + termino;
-    this.getToken();
-
-    return this.http.get(url, {headers: this.headers}).map(res => res.json());
   }
 
   crearUsuario(usuario: Usuario) {
