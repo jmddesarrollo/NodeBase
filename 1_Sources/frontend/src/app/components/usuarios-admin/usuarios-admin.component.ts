@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+import { adminId } from '../../config/config';
+
 // Modelos
 import { Usuario } from '../../models/usuario.model';
 import { Rol } from '../../models/rol.model';
@@ -24,6 +26,7 @@ export class UsuariosAdminComponent implements OnInit, OnDestroy {
   public usuarioPrev: Usuario;
   public rols: Rol[];
   public mostrarPestanaImagen: boolean;
+  public adminId: number;
 
   public errorPassword: boolean;
   public errorNombre: boolean;
@@ -47,11 +50,11 @@ export class UsuariosAdminComponent implements OnInit, OnDestroy {
     this.usuarioPrev = Usuario.copiar(this.usuario);
     this.rols = [];
     this.pestanaAbierta = 'panel_general';
+    this.adminId = adminId;
 
     this.errorPassword = false;
     this.errorNombre = false;
     this.errorEmail = false;
-    this.mostrarPestanaImagen = false;
 
     this.getRols();
 
@@ -86,7 +89,7 @@ export class UsuariosAdminComponent implements OnInit, OnDestroy {
           this.validadoresService.validarPasswordMedium
         ]),
         confirmPass: new FormControl(''),
-        rolid: new FormControl('', [Validators.required]),
+        rol_id: new FormControl('', [Validators.required]),
         activo: new FormControl(true),
         id: new FormControl(''),
         imagen: new FormControl(''),
@@ -222,10 +225,11 @@ export class UsuariosAdminComponent implements OnInit, OnDestroy {
     // Alta de un usuario
     this.usuarioService.actualizarUsuario(this.usuario).subscribe(
       response => {
-        const usuario = response.data;
+        const usuario = response.usuario;
 
-        const rol = response.aux;
+        const rol = response.rol;
         usuario.rol = rol;
+        usuario.rol_id = rol.id;
         // Informar a componentes con observables del alta de usuario
         this.shareUsuariosService.editObjUsuarioPost(usuario);
 
@@ -276,7 +280,6 @@ export class UsuariosAdminComponent implements OnInit, OnDestroy {
           this.usuario = usuario;
           this.usuario.password = '';
           this.usuario.confirmPass = '';
-          this.usuario.rolid = usuario.rol.id;
 
           this.forma.reset();
           this.forma.setValue(this.usuario);
@@ -312,14 +315,15 @@ export class UsuariosAdminComponent implements OnInit, OnDestroy {
 
   // Limpiar contenido de objeto que contiene información a editar.
   limpiarData() {
-    this.usuario = new Usuario(null, null, null, null, null);
+    this.usuario = new Usuario(null, null, null, null, null, false, null, null, null, null, null);
+    this.shareUsuariosService.editObjUsuario(this.usuario);
 
     this.forma.reset({
       nombre: '',
       apellidos: '',
       email: '',
       alias: '',
-      rolid: '',
+      rol_id: '',
       password: '',
       confirmPass: '',
       activo: true

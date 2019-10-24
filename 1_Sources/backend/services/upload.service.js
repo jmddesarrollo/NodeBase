@@ -22,7 +22,8 @@ function putArchivo(req) {
 
     // Recoger nombre y Extensión
     const nombreCortado = archivo.name.split('.');
-    const extension = nombreCortado[nombreCortado.length - 1];
+    let extension = nombreCortado[nombreCortado.length - 1];
+    extension = extension.toLowerCase();
 
     // Restringir extensión permitidas
     let extensionesValidas = ['png', 'jpg', 'gif', 'jpeg'];
@@ -69,10 +70,11 @@ async function updImgUsuario(id, req) {
 
     // Recoger nombre y Extensión
     const nombreCortado = archivo.name.split('.');
-    const extension = nombreCortado[nombreCortado.length - 1];
+    let extension = nombreCortado[nombreCortado.length - 1];
+    extension = extension.toLowerCase();
 
     // Restringir extensión permitidas
-    let extensionesValidas = ['png', 'jpg', 'gif', 'jpeg', 'JPG', 'JPEG'];
+    let extensionesValidas = ['png', 'jpg', 'gif', 'jpeg'];
 
     if (extensionesValidas.indexOf(extension) < 0) {
         throw new ControlException('Error. Las extensiones permitidas son: ' + extensionesValidas.join(', '), 400);

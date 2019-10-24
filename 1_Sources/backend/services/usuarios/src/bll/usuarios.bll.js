@@ -99,12 +99,23 @@ async function updUsuario(editUsuario, t) {
     }
 
     if (usuario.email !== editUsuario.email) {
-        const usuarioEmail = await getUsuarioByEmail(editUsuario.email);
+        const usuarioEmail = await UsuariosDAL.getUsuarioByEmail(editUsuario.email);
 
         if (usuarioEmail) {
             throw new ControlException(
-                "El email editado ya se encuentra dado de alta.",
-                500
+                "El email introducido ya se encuentra dado de alta.",
+                409
+            );
+        }
+    }
+
+    if (usuario.alias !== editUsuario.alias) {
+        const usuarioAlias = await UsuariosDAL.getUsuarioByAlias(editUsuario.alias);
+
+        if (usuarioAlias) {
+            throw new ControlException(
+                "El alias introducido ya se encuentra dado de alta.",
+                409
             );
         }
     }

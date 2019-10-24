@@ -51,9 +51,10 @@ async function getUsuario(req, res) {
     const id = req.params.id;
 
     try {
-        let usuario = await UsuariosService.getUsuario(id);
+        const usuario = await UsuariosService.getUsuario(id);
+        const rol = await RolsService.getRol(usuario.rol_id);
 
-        res.status(200).send({ status: 'success', data: usuario, mensaje: "Consulta de usuario realizada correctamente." });
+        res.status(200).send({ status: 'success', usuario, rol, mensaje: "Consulta de usuario realizada correctamente." });
     } catch (error) {
         if (error instanceof ControlException) {
             res.status(error.code).send({ status: 'error', message: error.message });
@@ -114,7 +115,7 @@ async function updUsuario(req, res) {
         nombre: body.nombre,
         apellidos: body.apellidos,
         alias: body.alias,
-        rol_id: body.rolid,
+        rol_id: body.rol_id,
         activo: body.activo
     };
 
@@ -124,10 +125,10 @@ async function updUsuario(req, res) {
     try {
         const usuario = await UsuariosService.updUsuario(editUsuario, t);
         const rol = await RolsService.getRol(editUsuario.rol_id);
-        usuario.rol_id = undefined;
+
         await t.commit();
 
-        res.status(200).send({ status: 'success', data: usuario, aux: rol, mensaje: "Edición de usuario realizada correctamente." });
+        res.status(200).send({ status: 'success', usuario, rol, mensaje: "Edición de usuario realizada correctamente." });
     } catch (error) {
         await t.rollback();
 

@@ -35,7 +35,6 @@ export class UploadService {
       };
 
       xhr.open('PUT', url, true);
-      console.log(token);
       xhr.setRequestHeader('Authorization', 'bearer ' + token);
       xhr.send(formData);
     });

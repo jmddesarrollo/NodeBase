@@ -10,7 +10,7 @@ export class Usuario {
         public activo?: boolean,
         public imagen?: string,
         public rol?: Rol,
-        public rolid?: number,
+        public rol_id?: number,
         public confirmPass?: string,
         public id?: string
     ) {}
@@ -18,6 +18,6 @@ export class Usuario {
     // Realiza copia para no referenciar varios objetos.
     static copiar(json) {
         return new Usuario(json.nombre, json.apellidos, json.email, json.password,
-            json.alias, json.activo, json.imagen, json.rol, json.rolid, json.confirmpass, json.id);
+            json.alias, json.activo, json.imagen, json.rol, json.rol_id, json.confirmpass, json.id);
     }
 }
