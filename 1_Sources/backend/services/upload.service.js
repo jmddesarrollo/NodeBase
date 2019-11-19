@@ -1,6 +1,7 @@
 'use strict'
 // Servicios
-var UsuarioService = require('../services/usuarios');
+const UsuarioService = require('../services/usuarios');
+const DownLoadService = require('../services/download.service');
 
 var moment = require('moment');
 
@@ -35,7 +36,6 @@ function putArchivo(req) {
     // Mover el archivo a carpeta del servicor
     archivo.mv(`uploads/archivos/${archivo.name}`, (err) => {
         if (err) {
-            console.log(err);
             throw new ControlException('Ha ocurrido un error al guardar el archivo.', 500);
         }
     });
@@ -88,7 +88,6 @@ async function updImgUsuario(id, req) {
     // Mover el archivo a carpeta del servicor
     archivo.mv(`uploads/usuarios/${nombreImg}`, (err) => {
         if (err) {
-            console.log(err);
             throw new ControlException('Ha ocurrido un error al guardar el archivo.', 500);
         }
     });
@@ -96,21 +95,11 @@ async function updImgUsuario(id, req) {
     // Eliminar del servidor la imagen antigua del usuario.
     if (imgAntigua) {
         var tipo = 'usuarios';
-        eliminarArchivo(imgAntigua, tipo);
+        // eliminarArchivo(imgAntigua, tipo);
+        DownLoadService.eliminarArchivo(imgAntigua, tipo);
     }
 
     return true;
-}
-
-/**
- * Eliminar un archivo del repositorio del servidor
- */
-function eliminarArchivo(nombre, tipo) {
-    var pathFile = path.resolve(__dirname, `../uploads/${tipo}/${nombre}`);
-
-    if (fs.existsSync(pathFile)) {
-        fs.unlinkSync(pathFile);
-    }
 }
 
 module.exports = {

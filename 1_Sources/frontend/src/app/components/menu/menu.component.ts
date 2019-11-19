@@ -1,13 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { WebsocketService } from '../../services/websocket.service';
 
 import { adminId } from '../../config/config';
 
 // Modelos
 import { Usuario } from '../../models/usuario.model';
 
-// Servicios
-import { UsuarioService } from '../../services/service.index';
+// Servicios propios
 import { ShareUsuariosService } from '../../services/share/share-usuarios';
+// Servicios HTTP
+import { UsuarioService } from '../../services/service.index';
+// Servicios Socket
+import { WsUsuarioService } from '../../services/socket/usuario.service';
+// Modulo de notificaciones.
+import { ToastrService, Toast } from 'ngx-toastr';
 
 @Component({
   selector: 'app-menu',
@@ -23,7 +29,10 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   constructor(
     private usuarioService: UsuarioService,
-    private shareUsuariosService: ShareUsuariosService
+    private shareUsuariosService: ShareUsuariosService,
+    private wsUsuarioService: WsUsuarioService,
+    private toastr: ToastrService,
+    public wsService: WebsocketService
   ) {
     this.isLog = false;
     this.adminId = adminId;
@@ -32,7 +41,9 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.estalogueado();
-    this._getEditUsuario();
+    this.getEditUsuario();
+    this.getLogin();
+    this.getLogout();
   }
 
   ngOnDestroy() {
@@ -59,7 +70,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   /*
    * Observable para la edición de un usuario.
    */
-  _getEditUsuario() {
+  getEditUsuario() {
     const ob = this.shareUsuariosService.currentObjUsuarioEditPost.subscribe(usuarioEdit => {
       if (usuarioEdit && (usuarioEdit.id === this.usuario.id)) {
         this.usuario = usuarioEdit;
@@ -67,6 +78,39 @@ export class MenuComponent implements OnInit, OnDestroy {
     });
 
     this.observables.push(ob);
+  }
+
+  getLogin() {
+    const ob = this.wsUsuarioService.getLogin().subscribe((data) => {
+      const id = localStorage.getItem('id');
+      if (id) {
+        this.usuarioService.cargarUsuario(id).subscribe(
+          response => {
+            this.usuario = response["usuario"];
+          },
+          error => {
+            const errorMensaje = JSON.parse(error._body);
+            if (errorMensaje.mensaje !== undefined) {
+              this.toastr.error(errorMensaje.mensaje);
+            } else {
+              this.toastr.error('Ha ocurrido un error indeterminado en el login.');
+            }
+          }
+        );
+      }
+    });
+    this.observables.push(ob);
+  }
+
+  getLogout() {
+    const ob = this.wsUsuarioService.getLogout().subscribe((data) => {
+      this.limpiarUsuario();
+    });
+    this.observables.push(ob);
+  }
+
+  limpiarUsuario() {
+    this.usuario = new Usuario(null, null, null, null, null);
   }
 
 }

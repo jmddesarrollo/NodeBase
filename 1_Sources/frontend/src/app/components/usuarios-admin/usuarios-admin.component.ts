@@ -16,6 +16,9 @@ import { UsuarioService } from '../../services/http/usuario.service';
 import { ShareUsuariosService } from '../../services/share/share-usuarios';
 import { ValidadoresService } from '../../services/regex/validadores.service';
 
+// Servicios websocket
+import { WsUsuarioService } from '../../services/socket/usuario.service';
+
 @Component({
   selector: 'app-usuarios-admin',
   templateUrl: './usuarios-admin.component.html',
@@ -24,6 +27,7 @@ import { ValidadoresService } from '../../services/regex/validadores.service';
 export class UsuariosAdminComponent implements OnInit, OnDestroy {
   public usuario: Usuario;
   public usuarioPrev: Usuario;
+  public usuarioConectado: Usuario;
   public rols: Rol[];
   public mostrarPestanaImagen: boolean;
   public adminId: number;
@@ -42,12 +46,14 @@ export class UsuariosAdminComponent implements OnInit, OnDestroy {
     private usuarioService: UsuarioService,
     private shareUsuariosService: ShareUsuariosService,
     private validadoresService: ValidadoresService,
+    private wsUsuarioService: WsUsuarioService,
     private toastr: ToastrService
   ) {}
 
   ngOnInit() {
     this.usuario = new Usuario(null, null, null, null, null);
     this.usuarioPrev = Usuario.copiar(this.usuario);
+    this.usuarioConectado = new Usuario(null, null, null, null, null);
     this.rols = [];
     this.pestanaAbierta = 'panel_general';
     this.adminId = adminId;
@@ -56,7 +62,10 @@ export class UsuariosAdminComponent implements OnInit, OnDestroy {
     this.errorNombre = false;
     this.errorEmail = false;
 
+    this.getUsuarioConectado();
     this.getRols();
+    this.getActualizarUsuario();
+    this.getCrearUsuario();
 
     // FormControl parametros: valor por defecto / regla validación[] / regla validación asincrona[]
     this.forma = new FormGroup(
@@ -143,6 +152,25 @@ export class UsuariosAdminComponent implements OnInit, OnDestroy {
     );
   }
 
+  getUsuarioConectado() {
+    const id = localStorage.getItem('id');
+    if (id) {
+      this.usuarioService.cargarUsuario(id).subscribe(
+        response => {
+          this.usuarioConectado = response["usuario"];
+        },
+        error => {
+          const errorMensaje = JSON.parse(error._body);
+          if (errorMensaje.mensaje !== undefined) {
+            this.toastr.error(errorMensaje.mensaje);
+          } else {
+            this.toastr.error('Ha ocurrido un error indeterminado en el login.');
+          }
+        }
+      );
+    }
+  }
+
   /**
    * Alta o edición de un usuario.
    */
@@ -180,7 +208,8 @@ export class UsuariosAdminComponent implements OnInit, OnDestroy {
       this.usuario.apellidos === this.usuarioPrev.apellidos &&
       this.usuario.email === this.usuarioPrev.email &&
       this.usuario.alias === this.usuarioPrev.alias &&
-      this.usuario.rol.id === this.usuarioPrev.rol.id
+      this.usuario.rol_id === this.usuarioPrev.rol_id &&
+      this.usuario.activo === this.usuarioPrev.activo
     ) {
       if (this.usuario.password === null || this.usuario.password === '') {
         this.toastr.warning('No se ha encontrado ningún cambio en el usuario.');
@@ -191,68 +220,41 @@ export class UsuariosAdminComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Llamada a servicio para crear un usuario
+   * Llamada a servicio para añadir a un usuario
    */
   crearUsuario() {
-    // Alta de un usuario
-    this.usuarioService.crearUsuario(this.usuario).subscribe(
-      response => {
-        const usuario = response.data;
-        const rol = response.aux;
-        usuario.rol = rol;
-        // Informar a componentes con observables del alta de usuario
-        this.shareUsuariosService.addObjUsuario(usuario);
-
-        this.limpiarData();
-        this.toastr.success(response.mensaje);
-      },
-      error => {
-        const dataError = JSON.parse(error._body);
-
-        if (dataError.mensaje) {
-          this.toastr.error(dataError.mensaje);
-        } else if (dataError.message) {
-          this.toastr.error(dataError.message);
-        }
+    this.wsUsuarioService.crearUsuario(this.usuario);
+  }
+  getCrearUsuario() {
+    const ob = this.wsUsuarioService.getCrearUsuario().subscribe((data) => {
+      this.limpiarData();
+      if (data["mensaje"]) {
+        this.toastr.success(data["mensaje"]);
       }
-    );
+    });
+    this.observables.push(ob);
   }
 
   /**
    * Llamada a servicio para editar datos de un usuario
    */
   editUsuario() {
-    // Alta de un usuario
-    this.usuarioService.actualizarUsuario(this.usuario).subscribe(
-      response => {
-        const usuario = response.usuario;
-
-        const rol = response.rol;
-        usuario.rol = rol;
-        usuario.rol_id = rol.id;
-        // Informar a componentes con observables del alta de usuario
-        this.shareUsuariosService.editObjUsuarioPost(usuario);
-
-        this.limpiarData();
-        this.toastr.success(response.mensaje);
-      },
-      error => {
-        const dataError = JSON.parse(error._body);
-
-        if (dataError.mensaje) {
-          this.toastr.error(dataError.mensaje);
-        } else if (dataError.message) {
-          this.toastr.error(dataError.message);
-        }
+    this.wsUsuarioService.actualizarUsuario(this.usuario);
+  }
+  getActualizarUsuario() {
+    const ob = this.wsUsuarioService.getActualizarUsuario().subscribe((data) => {
+      this.limpiarData();
+      if (data["mensaje"]) {
+        this.toastr.success(data["mensaje"]);
       }
-    );
+    });
+    this.observables.push(ob);
   }
 
   /**
    * Llamada a servicio para editar contraseña de un usuario
    */
   editPassword() {
-    // Alta de un usuario
     this.usuarioService.actualizarContrasena(this.usuario).subscribe(
       response => {
         this.limpiarData();

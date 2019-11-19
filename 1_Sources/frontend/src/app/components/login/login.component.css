@@ -6,6 +6,19 @@
     width: 500px;
 }
 
+#contenedor_form {
+    margin: auto;
+    overflow: auto;
+}
+
+.data-label {
+    text-align: right;
+}
+
+.data-content {
+    text-align: left;
+}
+
 
 /* On screens that are 990px or less */
 

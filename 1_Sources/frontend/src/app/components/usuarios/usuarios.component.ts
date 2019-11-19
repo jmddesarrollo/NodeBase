@@ -1,7 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef, Injectable } from '@angular/core';
-
-import { Observable, of } from "rxjs";
-import { delay, map } from "rxjs/operators";
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 
 // Modelos
 import { Usuario } from '../../models/usuario.model';
@@ -12,6 +9,9 @@ import { ToastrService } from 'ngx-toastr';
 // Servicios
 import { UsuarioService } from '../../services/http/usuario.service';
 import { ShareUsuariosService } from '../../services/share/share-usuarios';
+
+// Servicios WebSockets
+import { WsUsuarioService } from '../../services/socket/usuario.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -37,6 +37,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   constructor(
     private usuarioService: UsuarioService,
     private shareUsuariosService: ShareUsuariosService,
+    private wsUsuarioService: WsUsuarioService,
     private toastr: ToastrService,
     private el: ElementRef
   ) {}
@@ -51,9 +52,11 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.usuarios = [];
     this.countUsuarios = null;
 
-    this._getNewUsuario();
-    this._getEditUsuario();
+    this.getCrearUsuario();
+    this.getActualizarUsuario();
+    this.getEliminarUsuario();
     this.onScroll(0);
+    this.limpiarUsuario();
   }
 
   ngOnDestroy() {
@@ -96,11 +99,15 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
     // Al cerrar la ventana limpiar contenido de edición de usuario
     if (!valor) {
-      const usuario = new Usuario(null, null, null, null, null, false, null, null, null, null, null);
-      this.shareUsuariosService.editObjUsuario(usuario);
+      this.limpiarUsuario();
     }
 
     this.refrescarDisplayTabla();
+  }
+
+  limpiarUsuario() {
+    const usuario = new Usuario(null, null, null, null, null, true, null, null, null, null, null);
+    this.shareUsuariosService.editObjUsuario(usuario);
   }
 
   /**
@@ -147,52 +154,55 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   delUsuario(row) {
     if (confirm('Confirmar la eliminación del usuario "' + row.alias + '" ')) {
-      this.usuarioService.borrarUsuario(row).subscribe(
-        response => {
-          this.usuarios = this.usuarios.filter(usuario => usuario.id !== row.id);
-          this.mostrarAdminRight(false);
-          this.refrescarDisplayTabla();
-          this.toastr.success(response.mensaje);
-        }, error => {
-          const errorMensaje = JSON.parse(error._body);
-          if (errorMensaje.mensaje !== undefined) {
-            this.toastr.error(errorMensaje.mensaje);
-          } else {
-            this.toastr.error('Ha ocurrido un error indeterminado al eliminar el usuario.');
-          }
-        }
-      );
+      this.wsUsuarioService.eliminarUsuario(row);
     }
     return true;
   }
 
-  /*
-   * Observable para la adición de un nuevo usuario.
-   */
-  _getNewUsuario() {
-    const ob = this.shareUsuariosService.currentObjUsuario.subscribe(usuario => {
+  getEliminarUsuario() {
+    const ob = this.wsUsuarioService.getEliminarUsuario().subscribe((data) => {
+      const usuario = data["usuario"];
       if (usuario) {
-          this.usuarios.push(usuario);
-          this.mostrarAdminRight(false);
-          this.refrescarDisplayTabla();
+        this.usuarios = this.usuarios.filter(user => user.id !== usuario.id);
+        this.mostrarAdminRight(false);
+        this.refrescarDisplayTabla();
+        if (data["mensaje"]) {
+          this.toastr.success(data["mensaje"]);
+        }
       }
     });
+    this.observables.push(ob);
+  }
 
+  /**
+   * Observable para la creación de usuario
+   */
+  getCrearUsuario() {
+    const ob = this.wsUsuarioService.getCrearUsuario().subscribe((data) => {
+      const usuario = data["usuario"];
+      usuario.rol = data["rol"];
+      if (usuario) {
+        this.usuarios.push(usuario);
+        this.mostrarAdminRight(false);
+        this.refrescarDisplayTabla();
+      }
+    });
     this.observables.push(ob);
   }
 
   /*
    * Observable para la edición de un usuario.
    */
-  _getEditUsuario() {
-    const ob = this.shareUsuariosService.currentObjUsuarioEditPost.subscribe(usuarioEdit => {
-      if (usuarioEdit) {
-        const index = this.usuarios.findIndex(usuario => usuario.id === usuarioEdit.id);
-        this.usuarios[index] = usuarioEdit;
-        this.usuarios = [...this.usuarios];
-      }
-    });
+  getActualizarUsuario() {
+    const ob = this.wsUsuarioService.getActualizarUsuario().subscribe((data) => {
+      let usuarioEdit = new Usuario(null, null, null, null, null, false, null, null, null, null, null);
+      usuarioEdit = data["usuario"];
+      usuarioEdit.rol = data["rol"];
 
+      const index = this.usuarios.findIndex(usuario => usuario.id === usuarioEdit.id);
+      this.usuarios[index] = usuarioEdit;
+      this.usuarios = [...this.usuarios];
+    });
     this.observables.push(ob);
   }
 
@@ -206,6 +216,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   refrescarDisplayTabla() {
     setTimeout(() => {
       this.usuarios = [...this.usuarios];
-    }, 400);
+    }, 100);
   }
 }
