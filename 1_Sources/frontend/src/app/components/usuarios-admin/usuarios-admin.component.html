@@ -131,7 +131,7 @@
         </div>
 
         <!-- Bloque de acciones -->
-        <div class="w3-row w3-margin-bottom w3-center w3-padding">
+        <div class="w3-row w3-center w3-padding">
             <label class="w3-col l2 m2 s12">&nbsp;</label>
             <div class="w3-col l8 m8 s12">
                 <button type="submit" class="w3-btn w3-blue w3-round" [disabled]="!forma.valid" *ngIf="!forma.controls['id'].value">
@@ -144,6 +144,9 @@
             </div>
         </div>
     </form>
+    <div class="w3-center w3-margin-bottom">
+        <img class="w3-circle w3-margin-top img-user" [src]="usuario.imagen | imagen" alt="Avatar" title="Imagen usuario">
+    </div>
 </div>
 <!-- Fin Administración - Bloque General -->
 

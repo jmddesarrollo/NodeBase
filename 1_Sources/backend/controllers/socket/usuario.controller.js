@@ -7,6 +7,8 @@ const UsuariosListaService = require('../../services/lista-usuarios.service');
 const UsuariosService = require('../../services/usuarios');
 const RolsService = require('../../services/rols');
 
+const DownLoadService = require('../../services/download.service');
+
 const sequelize = require('../../models').sequelize;
 
 /**
@@ -69,6 +71,26 @@ async function crearUsuario(req, cliente) {
 }
 
 /*
+ * Consultar un usuario
+ */
+async function consultarUsuario(req, cliente) {
+    const eUsuario = req.usuario;
+
+    try {
+        const usuario = await UsuariosService.getUsuario(eUsuario.id);
+
+        cliente.emit('usuario/consultar', { usuario: usuario });
+        cliente.broadcast.emit('usuario/consultar', { usuario: usuario });
+    } catch (error) {
+        if (error instanceof ControlException) {
+            cliente.emit("error_message", { message: error.message, code: error.code });
+        } else {
+            cliente.emit("error_message", { message: "Error no controlado" });
+        }
+    }
+}
+
+/*
  * Editar un nuevo usuario
  */
 async function actualizarUsuario(req, cliente) {
@@ -120,11 +142,42 @@ async function eliminarUsuario(req, cliente) {
     }
 }
 
+async function quitarImagenUsuario(req, cliente) {
+    const eUsuario = req.usuario;
+
+    let t = await sequelize.transaction();
+    try {
+        const usuario = await UsuariosService.getUsuario(eUsuario.id);
+
+        await UsuariosService.updImagenUsuario(usuario.id, null);
+
+        // Quitar imagen
+        const tipo = 'usuarios';
+        DownLoadService.eliminarArchivo(usuario.imagen, tipo);
+        usuario.imagen = null;
+
+        // Iniciar transacción
+        await t.commit();
+
+        cliente.emit('usuario/consultar', { usuario: usuario });
+        cliente.broadcast.emit('usuario/consultar', { usuario: usuario });
+    } catch (error) {
+        await t.rollback();
+        if (error instanceof ControlException) {
+            cliente.emit("error_message", { message: error.message, code: error.code });
+        } else {
+            cliente.emit("error_message", { message: "Error no controlado" });
+        }
+    }
+}
+
 module.exports = {
     configurarUsuario,
     desconfigurarUsuario,
     actualizarEmailWS,
-    actualizarUsuario,
     crearUsuario,
-    eliminarUsuario
+    consultarUsuario,
+    actualizarUsuario,
+    eliminarUsuario,
+    quitarImagenUsuario
 }

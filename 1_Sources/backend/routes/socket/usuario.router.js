@@ -10,4 +10,6 @@ module.exports = (socket) => {
     socket.on("usuario/crear", req => { UsuarioController.crearUsuario(req, socket) });
     socket.on("usuario/actualizar", req => { UsuarioController.actualizarUsuario(req, socket) });
     socket.on("usuario/eliminar", req => { UsuarioController.eliminarUsuario(req, socket) });
+    socket.on("usuario/consultar", req => { UsuarioController.consultarUsuario(req, socket) });
+    socket.on("usuario/delimagen", req => { UsuarioController.quitarImagenUsuario(req, socket) });
 };

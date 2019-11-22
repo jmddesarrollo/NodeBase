@@ -52,4 +52,19 @@ export class WsUsuarioService {
   getEliminarUsuario() {
     return this.wsService.listen("usuario/eliminar");
   }
+
+  consultarUsuario(usuario: Usuario) {
+    const payload = { usuario };
+    this.wsService.emit("usuario/consultar", payload);
+  }
+
+  getConsultarUsuario() {
+    return this.wsService.listen("usuario/consultar");
+  }
+
+  quitarImagenUsuario(usuario: Usuario) {
+    const payload = { usuario };
+    this.wsService.emit("usuario/delimagen", payload);
+  }
+
 }

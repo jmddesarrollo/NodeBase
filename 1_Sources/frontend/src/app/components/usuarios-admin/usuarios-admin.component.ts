@@ -288,6 +288,8 @@ export class UsuariosAdminComponent implements OnInit, OnDestroy {
 
           this.usuarioPrev = Usuario.copiar(this.usuario);
           this.mostrarPestanaImagen = true;
+
+          this.abrirPestana('tab_general', 'panel_general');
         }
       }
     );

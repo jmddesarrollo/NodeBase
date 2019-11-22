@@ -94,8 +94,7 @@ async function updImgUsuario(id, req) {
 
     // Eliminar del servidor la imagen antigua del usuario.
     if (imgAntigua) {
-        var tipo = 'usuarios';
-        // eliminarArchivo(imgAntigua, tipo);
+        const tipo = 'usuarios';
         DownLoadService.eliminarArchivo(imgAntigua, tipo);
     }
 

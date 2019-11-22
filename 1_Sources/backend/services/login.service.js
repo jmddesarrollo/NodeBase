@@ -21,6 +21,10 @@ async function loginUser(usuarioLogin) {
         throw new ControlException('El usuario no está registrado', 500);
     }
 
+    if (!usuario.activo) {
+        throw new ControlException('El usuario está inactivo', 500);
+    }
+
     if (usuarioLogin.contrasena === undefined) {
         throw new ControlException('La contraseña debe venir informada.', 500);
     }

@@ -55,6 +55,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.getCrearUsuario();
     this.getActualizarUsuario();
     this.getEliminarUsuario();
+    this.getConsultarUsuario();
     this.onScroll(0);
     this.limpiarUsuario();
   }
@@ -201,6 +202,16 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
       const index = this.usuarios.findIndex(usuario => usuario.id === usuarioEdit.id);
       this.usuarios[index] = usuarioEdit;
+      this.usuarios = [...this.usuarios];
+    });
+    this.observables.push(ob);
+  }
+
+  getConsultarUsuario() {
+    const ob = this.wsUsuarioService.getConsultarUsuario().subscribe((data) => {
+      const usuarioImg = data["usuario"];
+      const index = this.usuarios.findIndex(usuario => usuario.id === usuarioImg.id);
+      this.usuarios[index].imagen = usuarioImg.imagen;
       this.usuarios = [...this.usuarios];
     });
     this.observables.push(ob);
