@@ -85,7 +85,7 @@
         <div class="w3-row w3-margin-bottom">
             <label class="w3-col l12 m12 s12 mol-negrita">Rol</label>
             <div class=" w3-col l12 m12 s12" *ngIf="rols && usuario">
-                <div *ngIf="!usuario.rol_id || usuario.rol_id === adminId">
+                <div *ngIf="usuarioConectado && (!usuarioConectado.rol_id || usuarioConectado.rol_id === adminId)">
                     <select class="w3-input w3-select" name="rol_id" formControlName="rol_id">
                         <option *ngFor="let rol of rols" value="{{rol.id}}" >{{rol.nombre}}</option>
                     </select>
@@ -93,7 +93,7 @@
                         El rol del usuario es requerido.
                     </div>
                 </div>
-                <div *ngIf="usuario.rol_id && (usuario.rol_id !== adminId)">
+                <div *ngIf="!usuarioConectado || (usuarioConectado.rol_id && (usuarioConectado.rol_id !== adminId))">
                     {{usuario.rol.nombre}}
                 </div>
             </div>
@@ -123,7 +123,7 @@
             </div>
         </div>
 
-        <div class="w3-row w3-margin-bottom" *ngIf="usuario.rol_id === adminId">
+        <div class="w3-row w3-margin-bottom" *ngIf="usuario.rol_id !== adminId">
             <label class="w3-col l12 m12 s12 negrita">Activo</label>
             <div class="w3-col l12 m12 s12">
                 <input formControlName="activo" class="w3-check" type="checkbox" name="activo">
@@ -131,7 +131,7 @@
         </div>
 
         <!-- Bloque de acciones -->
-        <div class="w3-row w3-margin-bottom w3-center w3-padding">
+        <div class="w3-row w3-center w3-padding">
             <label class="w3-col l2 m2 s12">&nbsp;</label>
             <div class="w3-col l8 m8 s12">
                 <button type="submit" class="w3-btn w3-blue w3-round" [disabled]="!forma.valid" *ngIf="!forma.controls['id'].value">
@@ -140,10 +140,13 @@
                 <button type="submit" class="w3-btn w3-blue w3-round" [disabled]="!forma.valid" *ngIf="forma.controls['id'].value">
                     Editar
                   </button>
-                <button type="reset" class="w3-btn w3-orange w3-round w3-margin-left" (click)="exeLimpiar()" *ngIf="usuario.rol_id === adminId">Limpiar</button>
+                <button type="reset" class="w3-btn w3-orange w3-round w3-margin-left" (click)="exeLimpiar()" *ngIf="usuario.rol_id !== adminId">Limpiar</button>
             </div>
         </div>
     </form>
+    <div class="w3-center w3-margin-bottom">
+        <img class="w3-circle w3-margin-top img-user" [src]="usuario.imagen | imagen" alt="Avatar" title="Imagen usuario">
+    </div>
 </div>
 <!-- Fin Administración - Bloque General -->
 

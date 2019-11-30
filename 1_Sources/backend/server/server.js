@@ -8,6 +8,15 @@ var http = require('http');
 var httpServer = http.createServer(app);
 var socketIO = require('socket.io');
 var io = socketIO(httpServer);
+var port = process.env.PORT || 3679;
+var serverUrl = "0.0.0.0";
+
+// Carga eventos de WebSocket
+require('../routes/socket/index')(io);
+
+httpServer.listen(port, serverUrl, function() {
+    console.log("A la escucha por Socket en http://localhost:" + port);
+});
 
 // En el archivo config se definen variables globales (variables de entorno) que se usan en la app.
 require('../config/config');

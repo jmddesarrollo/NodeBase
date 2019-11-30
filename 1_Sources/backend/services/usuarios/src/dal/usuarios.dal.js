@@ -25,7 +25,6 @@ function getUsuarios() {
             ["nombre", "ASC"]
         ]
     }).catch(error => {
-        console.log(error);
         throw new ControlException(
             "Ha ocurrido un error al consultar los usuarios.",
             500
@@ -40,7 +39,6 @@ function getUsuarios() {
  */
 function getUsuario(id) {
     let usuario = Usuarios.findOne({ where: { id: id } }).catch(error => {
-        console.log(error);
         throw new ControlException(
             "Ha ocurrido un error al consultar el usuario solicitado.",
             500
@@ -88,7 +86,6 @@ function addUsuario(usuario, t) {
             activo: usuario.activo,
             rol_id: usuario.rol_id
         }, { transaction: t }).catch(error => {
-            console.log(error);
             throw new ControlException(
                 "Revisar los datos introducidos. Se ha producido un error al añadir un nuevo usuario.",
                 500
@@ -97,7 +94,6 @@ function addUsuario(usuario, t) {
 
         return usuarioAdd;
     } catch (error) {
-        console.log(error);
         throw new ControlException(
             "Revisar los datos introducidos. Se ha producido un error al añadir un nuevo usuario.",
             500
@@ -110,7 +106,6 @@ function addUsuario(usuario, t) {
  */
 function updUsuario(usuario, t) {
     const usuarioUpd = usuario.save({ transaction: t }).catch(error => {
-        console.log(error);
         throw new ControlException(
             "Revisar datos introduciods. Se ha producido un error al editar el usuario.",
             500
@@ -125,16 +120,13 @@ function updUsuario(usuario, t) {
  */
 async function delUsuario(id, t) {
     try {
-        Usuarios.destroy({ where: { id: id } }, { transaction: t }).catch(function(
-            error
-        ) {
-            console.log(error);
-            throw new ControlException("Error al eliminar el usuario.", 500);
-        });
+        Usuarios.destroy({ where: { id: id } }, { transaction: t })
+            .catch(function(error) {
+                throw new ControlException("Error al eliminar el usuario.", 500);
+            });
 
         return true;
     } catch (error) {
-        console.log(error);
         throw new ControlException("Error al eliminar el usuario.", 500);
     }
 }

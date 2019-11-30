@@ -7,6 +7,9 @@
     <button type="submit" class="w3-btn w3-blue w3-round w3-margin-top" (click)="subirImagen()" [disabled]="!filesToUpload || !usuario.id">
         Subir imagen
     </button>
+    <button type="submit" class="w3-btn w3-red w3-round w3-margin-top" (click)="quitarImagen()" [disabled]="!usuario.imagen">
+        Quitar imagen
+    </button>
 </div>
 <div class="w3-panel w3-yellow" *ngIf="!usuario.id">
     <h3>Advertencia!</h3>

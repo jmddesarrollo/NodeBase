@@ -5,11 +5,15 @@ import { UploadService } from '../../services/service.index';
 import { UsuarioService } from '../../services/http/usuario.service';
 import { ShareUsuariosService } from '../../services/share/share-usuarios';
 
+// Servicios Sockets
+import { WsUsuarioService } from '../../services/socket/usuario.service';
+
 // Modelos
 import { Usuario } from '../../models/usuario.model';
 
 // Modulo de notificaciones.
 import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-usuarios-imagen',
@@ -29,6 +33,7 @@ export class UsuariosImagenComponent implements OnInit {
     private uploadService: UploadService,
     private usuarioService: UsuarioService,
     private shareUsuariosService: ShareUsuariosService,
+    private wsUsuarioService: WsUsuarioService,
     private toastr: ToastrService
   ) {
     this.url = uploadService.url;
@@ -46,6 +51,7 @@ export class UsuariosImagenComponent implements OnInit {
                                         this.usuarioService.token, 'imagen')
       .then( () => {
         this.toastr.success('Imagen actualizada correctamente.');
+        this.wsUsuarioService.consultarUsuario(this.usuario);
       },
       error => {
         const errorMSg = JSON.parse(error);
@@ -58,6 +64,10 @@ export class UsuariosImagenComponent implements OnInit {
     this.filesToUpload = fileInput.target.files;
   }
   // Fin Subida archivos al servidor
+
+  quitarImagen() {
+    this.wsUsuarioService.quitarImagenUsuario(this.usuario);
+  }
 
   /*
    * Observable para la edición de un nuevo usuario.

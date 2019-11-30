@@ -9,6 +9,7 @@ import { Usuario } from '../../models/usuario.model';
 // Servicios
 import { UsuarioService } from '../../services/service.index';
 import { ShareUsuariosService } from '../../services/share/share-usuarios';
+import { WsUsuarioService } from '../../services/service.index';
 
 // Modulo de notificaciones.
 import { ToastrService } from 'ngx-toastr';
@@ -33,6 +34,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private usuarioService: UsuarioService,
     private shareUsuariosService: ShareUsuariosService,
+    private wsUsuarioService: WsUsuarioService,
     private toastr: ToastrService
   ) {
     this.boolAdminRight = false;
@@ -40,7 +42,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Recoger elemento modal
-    const modal = document.getElementById('modal_login');
     this.email = localStorage.getItem('email') || '';
     this.recuerdame = false;
     this.isLog = false;
@@ -51,13 +52,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.email.length > 1) {
       this.recuerdame = true;
     }
-
-    // Al pulsar sobre cualquier lugar fuera del modal, este se cerrará
-    document.onclick = (event) => {
-      if (event.target === modal) {
-        modal.style.display = 'none';
-      }
-    };
 
     this.estalogueado();
     this._getEditUsuario();
@@ -104,6 +98,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
         this.usuarioService.estalogueado();
 
+        // Informar al webSocket del usuario conectado
+        this.wsUsuarioService.loginWS(response.data.usuario.email);
+
         this.toastr.success('Login realizado correctamente.');
         this.router.navigate(['/home']);
       }, error => {
@@ -121,6 +118,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isLog = false;
     this.usuarioService.logout();
     this.usuario = new Usuario(null, null, null, null, null);
+
+    this.wsUsuarioService.logoutWS(this.email);
   }
 
   /**

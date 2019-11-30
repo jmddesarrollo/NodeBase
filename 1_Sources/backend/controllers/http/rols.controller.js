@@ -1,10 +1,10 @@
 'use strict'
-var Sequelize = require('../models/index').sequelize;
+var Sequelize = require('../../models/index').sequelize;
 
 // Servicios
-var RolsService = require('../services/rols');
+var RolsService = require('../../services/rols');
 
-var ControlException = require('../utils/ControlException');
+var ControlException = require('../../utils/ControlException');
 
 /*
  * Consultar todos los rols

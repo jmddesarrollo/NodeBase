@@ -19,6 +19,13 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 
+// Sockets
+import { environment } from '../environments/environment';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+const config: SocketIoConfig = {
+  url: environment.wsUrl, options: {}
+};
+
 // Componentes
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -48,6 +55,7 @@ import { UsuariosImagenComponent } from './components/usuarios-imagen/usuarios-i
     ServiceModule,
     PipesModule,
     BrowserAnimationsModule, // required animations module
+    SocketIoModule.forRoot(config),
     ToastrModule.forRoot({ timeOut: 5000, positionClass: 'toast-top-right', preventDuplicates: true})
   ],
   providers: [

@@ -1,7 +1,7 @@
 'use strict'
 
 var express = require('express');
-var UploadController = require('../../controllers/upload.controller');
+var UploadController = require('../../controllers/http/upload.controller');
 var api = express.Router();
 
 var mdwAutentificacion = require('../../server/middlewares/autenticacion');

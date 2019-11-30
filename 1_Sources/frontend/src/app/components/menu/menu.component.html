@@ -5,3 +5,8 @@
 <a [routerLink]="['/home/']" class="w3-bar-item w3-hover-blue"><i class="fa fa-globe"></i></a>
 <a [routerLink]="['/home/']" class="w3-bar-item w3-hover-blue"><i class="fa fa-trash"></i></a>
 <a [routerLink]="['/login/']" class="w3-bar-item w3-hover-blue"><i class="fa fa-user"></i></a>
+
+<div class="w3-bottom mol-server">
+    <span class="w3-tag w3-green" *ngIf="wsService.socketStatus">On</span>
+    <span class="w3-tag w3-red" *ngIf="!wsService.socketStatus">Off</span>
+</div>

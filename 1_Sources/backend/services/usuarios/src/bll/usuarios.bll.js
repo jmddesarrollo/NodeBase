@@ -2,10 +2,10 @@
 
 // Servicios
 var RolsService = require('../../../../services/rols');
+const DownLoadService = require('../../../../services/download.service');
 
 // CRUD de entidades
 var UsuariosDAL = require("../dal/usuarios.dal");
-var Rols = require("../../../../models/rols");
 
 var db = require("../../../../models");
 var Usuarios = db.usuarios;
@@ -72,6 +72,7 @@ async function addUsuario(eUsuario, t) {
     }
 
     const rol = await RolsService.getRol(eUsuario.rol_id);
+
     if (!rol) {
         throw new ControlException(
             "El rol asociado al usuario no se encuentra.",
@@ -79,7 +80,8 @@ async function addUsuario(eUsuario, t) {
         );
     }
 
-    eUsuario.contrasena = bcrypt.hashSync(eUsuario.contrasena, saltRounds);
+    eUsuario.contrasena = bcrypt.hashSync(eUsuario.password, saltRounds);
+
     let usuarioAdd = await UsuariosDAL.addUsuario(eUsuario, t);
 
     // No mostrar la password en la salida de la petición.
@@ -184,7 +186,11 @@ async function delUsuario(id, t) {
         throw new ControlException("El usuario no ha sido encontrado.", 500);
     }
 
-    await UsuariosDAL.delUsuario(id);
+    await UsuariosDAL.delUsuario(id, t);
+
+    if (usuario.imagen) {
+        DownLoadService.eliminarArchivo(usuario.imagen, 'usuarios');
+    }
 
     return true;
 }

@@ -1,8 +1,8 @@
 'use strict'
 // Servicios
-var UploadService = require('../services/upload.service');
+var UploadService = require('../../services/upload.service');
 
-var ControlException = require('../utils/ControlException');
+var ControlException = require('../../utils/ControlException');
 
 /*
  * Subida de archivos

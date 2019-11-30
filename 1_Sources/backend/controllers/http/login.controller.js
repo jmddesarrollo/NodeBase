@@ -1,10 +1,10 @@
 'use strict'
-var Sequelize = require('../models/index').sequelize;
+var Sequelize = require('../../models/index').sequelize;
 
 // Servicios
-var LoginService = require('../services/login.service');
+var LoginService = require('../../services/login.service');
 
-var ControlException = require('../utils/ControlException');
+var ControlException = require('../../utils/ControlException');
 
 /*
  * Login del usuario para autentificación.
