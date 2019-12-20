@@ -166,6 +166,20 @@ export class ValidadoresService {
   /**
    * Validación del formato de una URL
    */
+  validarFecha(control: FormControl): { [s: string]: boolean }  {
+    const fechaRegex = new RegExp(
+      '^(20[0-9][0-9])([\-/.])(0?[1-9]|1[1-2])(3[01]|[12][0-9]|0?[1-9])'
+    );
+    if (control.value && !fechaRegex.test(control.value.trim())) {
+      return { formatoFecha: true };
+    }
+
+    return null;
+  }
+
+  /**
+   * Validación del formato de una URL
+   */
   validarUrl(control: FormControl): { [s: string]: boolean }  {
     const urlRegex = new RegExp(
       '^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?'

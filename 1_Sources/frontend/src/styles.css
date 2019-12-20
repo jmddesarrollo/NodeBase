@@ -40,3 +40,7 @@
     text-overflow: ellipsis;
     width: 100%;
 }
+
+textarea {
+    resize: none;
+}

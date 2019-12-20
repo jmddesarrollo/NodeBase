@@ -1,0 +1,86 @@
+<div class="w3-container tabs" style="display:block" *ngIf="!mostrarAlert">
+
+    <form class="w3-container w3-panel" [formGroup]="forma" (ngSubmit)="guardarCambios()">
+        <div class="w3-row w3-margin-bottom">
+            <label class="w3-col l12 m12 s12 negrita">Título:</label>
+            <div class=" w3-col l12 m12 s12">
+                <input class="w3-input" type="text" name="titulo" formControlName="titulo" autofocus>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['titulo'].errors?.required && forma.controls['titulo'].touched">
+                    Revisar el título. Debe estar informado.
+                </div>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['titulo'].errors?.mintext) && forma.controls['titulo'].touched && !forma.controls['titulo'].errors?.required">
+                    Revisar el título. Debe tener al menos 2 caracteres.
+                </div>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['titulo'].errors?.maxtext) && forma.controls['titulo'].touched && !forma.controls['titulo'].errors?.required">
+                    Revisar el título. Permitido hasta 100 caracteres.
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row w3-margin-bottom">
+            <label class="w3-col l12 m12 s12 negrita">Lugar:</label>
+            <div class=" w3-col l12 m12 s12">
+                <input class="w3-input" type="text" name="lugar" formControlName="lugar">
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['lugar'].errors?.required && forma.controls['lugar'].touched">
+                    Revisar el lugar. Debe estar informado.
+                </div>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['lugar'].errors?.mintext) && forma.controls['lugar'].touched && !forma.controls['lugar'].errors?.required">
+                    Revisar el lugar. Debe tener al menos 2 caracteres.
+                </div>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['lugar'].errors?.maxtext) && forma.controls['lugar'].touched && !forma.controls['lugar'].errors?.required">
+                    Revisar el lugar. Permitido hasta 100 caracteres.
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row w3-margin-bottom">
+            <label class="w3-col l12 m12 s12 negrita">Fecha:</label>
+            <div class=" w3-col l12 m12 s12">
+                <input class="w3-input" type="date" name="fecha" formControlName="fecha" placeholder="dd/mm/aaaa">
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['fecha'].errors?.required && forma.controls['fecha'].touched">
+                    Revisar la fecha. Fecha inválida.
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row w3-margin-bottom">
+            <label class="w3-col l12 m12 s12 negrita">Descripción:</label>
+            <div class=" w3-col l12 m12 s12">
+                <textarea formControlName="descripcion" id="descripcion" name="descripcion"></textarea>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['descripcion'].errors?.required && forma.controls['descripcion'].touched && forma.controls['ruta'].valid">
+                    Revisar la descripción del enlace. Debe estar informado.
+                </div>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['descripcion'].errors?.mintext) && forma.controls['descripcion'].touched && forma.controls['ruta'].valid && !forma.controls['descripcion'].errors?.required">
+                    Revisar la descripción del enlace. Debe tener al menos 5 caracteres.
+                </div>
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['descripcion'].errors?.maxtext) && forma.controls['descripcion'].touched && forma.controls['ruta'].valid && !forma.controls['descripcion'].errors?.required">
+                    Revisar la descripción del enlace. Permitido hasta 65000 caracteres.
+                </div>
+            </div>
+        </div>
+
+        <!-- <div>
+            <input formControlName="principal" class="w3-check" type="checkbox" name="principal">
+            <label class="negrita">Principal</label>
+        </div> -->
+
+        <div class="w3-row w3-margin-bottom w3-center">
+            <label class="w3-col l2 m2 s12">&nbsp;</label>
+            <div class="w3-col l8 m8 s12">
+                <button type="submit" class="w3-btn w3-blue w3-round" [disabled]="!forma.valid || inProcess" *ngIf="!forma.controls['id'].value">
+                    Añadir
+                </button>
+                <button type="submit" class="w3-btn w3-blue w3-round" [disabled]="!forma.valid" *ngIf="forma.controls['id'].value">
+                    Editar
+                </button>
+                <button type="reset" class="w3-btn w3-orange w3-round" (click)="limpiarData()">Limpiar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- <div id="div-alert" class="w3-panel w3-border w3-round-xlarge" *ngIf="mostrarAlert">
+    <div class="w3-panel w3-pale-red w3-leftbar w3-border-red">
+        El usuario no tiene permiso para el alta de enlaces en este nivel.
+    </div>
+</div> -->

@@ -28,21 +28,25 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(5),
             allowNull: false
         },
-        altitud_max: {
+        altitudMax: {
             type: DataTypes.INTEGER(11),
-            allowNull: true
+            allowNull: true,
+            field: "altitud_max"
         },
-        altitud_min: {
+        altitudMin: {
             type: DataTypes.INTEGER(11),
-            allowNull: true
+            allowNull: true,
+            field: "altitud_min"
         },
-        desnivel_subida: {
+        desnivelSubida: {
             type: DataTypes.INTEGER(11),
-            allowNull: true
+            allowNull: true,
+            field: "desnivel_subida"
         },
-        desnivel_bajada: {
+        desnivelBajada: {
             type: DataTypes.INTEGER(11),
-            allowNull: true
+            allowNull: true,
+            field: "desnivel_bajada"
         },
         senalizacion: {
             type: DataTypes.STRING(100),
@@ -60,50 +64,60 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.TEXT,
             allowNull: true
         },
-        enlace_tiempo: {
+        enlaceTiempo: {
             type: DataTypes.STRING(200),
-            allowNull: true
+            allowNull: true,
+            field: "enlace_tiempo"
         },
-        enlace_ruta: {
+        enlaceRuta: {
             type: DataTypes.STRING(200),
-            allowNull: true
+            allowNull: true,
+            field: "enlace_ruta"
         },
-        enlace_apuntarse: {
+        enlaceApuntarse: {
             type: DataTypes.STRING(200),
-            allowNull: true
+            allowNull: true,
+            field: "enlace_apuntarse"
         },
-        precio_no_socio: {
+        precioNoSocio: {
             type: DataTypes.DECIMAL,
-            allowNull: true
+            allowNull: true,
+            field: "precio_no_socio"
         },
-        precio_socio: {
+        precioSocio: {
             type: DataTypes.DECIMAL,
-            allowNull: true
+            allowNull: true,
+            field: "precio_socio"
         },
-        telefono_contacto: {
+        telefonoContacto: {
             type: DataTypes.STRING(100),
-            allowNull: true
+            allowNull: true,
+            field: "telefono_contacto"
         },
-        ultimo_dia_apuntarse: {
+        ultimoDiaApuntarse: {
             type: DataTypes.DATEONLY,
-            allowNull: true
+            allowNull: true,
+            field: "ultimo_dia_apuntarse"
         },
-        ultima_hora_apuntarse: {
+        ultimaHoraApuntarse: {
             type: DataTypes.STRING(5),
-            allowNull: true
+            allowNull: true,
+            field: "ultima_hora_apuntarse"
         },
         publica: {
             type: DataTypes.INTEGER(4),
             allowNull: true,
             defaultValue: '1'
         },
-        recorrido_id: {
+        recorridoId: {
             type: DataTypes.INTEGER(11),
-            allowNull: false
+            allowNull: false,
+            field: "recorrido_id"
         },
-        dificultad_id: {
+        dificultadId: {
             type: DataTypes.INTEGER(11),
-            allowNull: false
+            allowNull: false,
+            field: "dificultad_id"
         }
     }, {
         tableName: 'rutas',

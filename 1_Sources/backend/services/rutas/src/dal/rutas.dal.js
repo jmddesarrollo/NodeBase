@@ -11,19 +11,8 @@ var ControlException = require("../../../../utils/ControlException");
  */
 function getRutas() {
     const rutas = Rutas.findAll({
-        attributes: [
-            "id",
-            "titulo",
-            "fecha",
-            "distancia", ["desnivel_subida", "desnivelSubida"],
-            ["id", "dificultadId"],
-            "opcional"
-        ],
         include: [{
-            model: Dificultad,
-            attributes: [
-                "nombre", ["id", "dificultadId"],
-            ]
+            model: Dificultad
         }]
     }).catch(error => {
         throw new ControlException(
@@ -38,13 +27,19 @@ function getRutas() {
 /**
  * Recoger datos de una ruta
  */
-function getRuta(id) {
-    const ruta = Rutas.findOne({ where: { id: id } }).catch(error => {
+async function getRuta(id) {
+    const ruta = await Rutas.findOne({
+        where: { id: id },
+        include: [{
+            model: Dificultad
+        }]
+    }).catch(error => {
         throw new ControlException(
             "Ha ocurrido un error al consultar la ruta solicitada.",
             500
         );
     });
+    ruta.dificultad_id = undefined;
 
     return ruta;
 }

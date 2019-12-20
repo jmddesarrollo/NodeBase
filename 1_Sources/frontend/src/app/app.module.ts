@@ -38,6 +38,7 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { UsuariosAdminComponent } from './components/usuarios-admin/usuarios-admin.component';
 import { UsuariosImagenComponent } from './components/usuarios-imagen/usuarios-imagen.component';
 import { RutasComponent } from './components/rutas/rutas.component';
+import { RutasFormComponent } from './components/rutas-form/rutas-form.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { RutasComponent } from './components/rutas/rutas.component';
     HomeComponent,
     UsuariosAdminComponent,
     UsuariosImagenComponent,
-    RutasComponent
+    RutasComponent,
+    RutasFormComponent
   ],
   imports: [
     BrowserModule,
