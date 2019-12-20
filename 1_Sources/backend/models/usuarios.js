@@ -23,8 +23,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         alias: {
             type: DataTypes.STRING(45),
-            allowNull: false,
-            unique: true
+            allowNull: false
         },
         contrasena: {
             type: DataTypes.STRING(60),

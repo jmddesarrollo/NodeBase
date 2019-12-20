@@ -111,12 +111,12 @@ async function updUsuario(editUsuario, t) {
         }
     }
 
-    if (usuario.alias !== editUsuario.alias) {
+    if (usuario.alias !== editUsuario.alias && editUsuario.alias !== null && editUsuario.alias !== '') {
         const usuarioAlias = await UsuariosDAL.getUsuarioByAlias(editUsuario.alias);
 
         if (usuarioAlias) {
             throw new ControlException(
-                "El alias introducido ya se encuentra dado de alta.",
+                "El número de socio introducido ya se encuentra dado de alta.",
                 409
             );
         }

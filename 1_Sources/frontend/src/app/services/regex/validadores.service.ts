@@ -51,6 +51,20 @@ export class ValidadoresService {
   }
 
   /**
+   * Validación del formato del email
+   */
+  valNumero(control: FormControl): { [s: string]: boolean } {
+    const numeroRegex = new RegExp(
+      '(^([0-9])*$)'
+    );
+    if (control.value && !numeroRegex.test(control.value.trim())) {
+      return { formatoNumero: true };
+    }
+
+    return null;
+  }
+
+  /**
    * Validación del formato de contraseña fuerte
    */
   // RegEx	Description

@@ -23,6 +23,7 @@
         "@swimlane/ngx-datatable": "^15.0.2",
         "angular2-fontawesome": "^5.2.1",
         "font-awesome": "^4.7.0",
+        "ng-image-slider": "^2.2.0",
         "ngx-socket-io": "^3.0.1",
         "ngx-toastr": "^10.0.4",
         "rxjs": "^6.5.3",

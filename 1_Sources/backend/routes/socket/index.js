@@ -1,4 +1,5 @@
 const usuarioRouter = require('./usuario.router');
+const rutaRouter = require('./ruta.routes');
 
 const UsuariosListaService = require('../../services/lista-usuarios.service');
 
@@ -8,6 +9,7 @@ module.exports = (io) => {
         UsuariosListaService.agregar(cliente.id);
 
         usuarioRouter(cliente);
+        rutaRouter(cliente);
 
         cliente.on("disconnect", () => {
             UsuariosListaService.borrarUsuario(cliente.id);

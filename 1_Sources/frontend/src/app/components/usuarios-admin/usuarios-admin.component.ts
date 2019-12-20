@@ -89,10 +89,7 @@ export class UsuariosAdminComponent implements OnInit, OnDestroy {
           this.validadoresService.textoMaximo60
         ]),
         alias: new FormControl('', [
-          Validators.required,
-          this.validadoresService.valNombre,
-          this.validadoresService.textoMinimo2,
-          this.validadoresService.textoMaximo15
+          this.validadoresService.valNumero
         ]),
         password: new FormControl('', [
           this.validadoresService.validarPasswordMedium

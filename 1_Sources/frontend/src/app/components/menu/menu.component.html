@@ -1,12 +1,11 @@
-<a [routerLink]="['/home/']" class="w3-bar-item w3-hover-blue"><i class="fa fa-home"></i></a>
-<a [routerLink]="['/usuarios/']" class="w3-bar-item w3-hover-blue" *ngIf="usuario.rol_id === adminId"><i class="fa fa-users"></i></a>
-<a [routerLink]="['/home/']" class="w3-bar-item w3-hover-blue"><i class="fa fa-search"></i></a>
-<a [routerLink]="['/home/']" class="w3-bar-item w3-hover-blue"><i class="fa fa-envelope"></i></a>
-<a [routerLink]="['/home/']" class="w3-bar-item w3-hover-blue"><i class="fa fa-globe"></i></a>
-<a [routerLink]="['/home/']" class="w3-bar-item w3-hover-blue"><i class="fa fa-trash"></i></a>
-<a [routerLink]="['/login/']" class="w3-bar-item w3-hover-blue"><i class="fa fa-user"></i></a>
+<a [routerLink]="['/home/']" class="w3-bar-item w3-hover-blue" (click)="selMenu('home')" [class.seleccion]="seleccion == 'home'"><i class="fa fa-home"></i></a>
+<a [routerLink]="['/usuarios/']" class="w3-bar-item w3-hover-blue" *ngIf="usuario.rol_id === adminId" (click)="selMenu('usuarios')" [class.seleccion]="seleccion == 'usuarios'"><i class="fa fa-users"></i></a>
+<a [routerLink]="['/rutas/']" class="w3-bar-item w3-hover-blue" (click)="selMenu('rutas')" [class.seleccion]="seleccion == 'rutas'"><i class="fa fa-search"></i></a>
+<a [routerLink]="['/home/']" class="w3-bar-item w3-hover-blue" (click)="selMenu('home2')" [class.seleccion]="seleccion == 'home2'"><i class="fa fa-envelope"></i></a>
+<a [routerLink]="['/home/']" class="w3-bar-item w3-hover-blue" (click)="selMenu('home3')" [class.seleccion]="seleccion == 'home3'"><i class="fa fa-globe"></i></a>
+<a [routerLink]="['/home/']" class="w3-bar-item w3-hover-blue" (click)="selMenu('home4')" [class.seleccion]="seleccion == 'home4'"><i class="fa fa-trash"></i></a>
+<a [routerLink]="['/login/']" class="w3-bar-item w3-hover-blue" (click)="selMenu('login')" [class.seleccion]="seleccion == 'login'"><i class="fa fa-user"></i></a>
 
 <div class="w3-bottom mol-server">
-    <span class="w3-tag w3-green" *ngIf="wsService.socketStatus">On</span>
     <span class="w3-tag w3-red" *ngIf="!wsService.socketStatus">Off</span>
 </div>

@@ -19,6 +19,9 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 
+// Modulo de slider de imagenes
+import { NgImageSliderModule } from 'ng-image-slider';
+
 // Sockets
 import { environment } from '../environments/environment';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
@@ -34,6 +37,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { UsuariosAdminComponent } from './components/usuarios-admin/usuarios-admin.component';
 import { UsuariosImagenComponent } from './components/usuarios-imagen/usuarios-imagen.component';
+import { RutasComponent } from './components/rutas/rutas.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,8 @@ import { UsuariosImagenComponent } from './components/usuarios-imagen/usuarios-i
     UsuariosComponent,
     HomeComponent,
     UsuariosAdminComponent,
-    UsuariosImagenComponent
+    UsuariosImagenComponent,
+    RutasComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +57,7 @@ import { UsuariosImagenComponent } from './components/usuarios-imagen/usuarios-i
     AppRoutingModule,
     routing,
     NgxDatatableModule,
+    NgImageSliderModule,
     ServiceModule,
     PipesModule,
     BrowserAnimationsModule, // required animations module
