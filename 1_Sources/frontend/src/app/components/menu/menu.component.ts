@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Location} from '@angular/common';
 import { WebsocketService } from '../../services/websocket.service';
 
 import { adminId } from '../../config/config';
@@ -24,10 +25,12 @@ export class MenuComponent implements OnInit, OnDestroy {
   public isLog: boolean;
   public usuario: Usuario;
   public adminId: number;
+  public seleccion: string;
 
   private observables = new Array();
 
   constructor(
+    private location: Location,
     private usuarioService: UsuarioService,
     private shareUsuariosService: ShareUsuariosService,
     private wsUsuarioService: WsUsuarioService,
@@ -37,6 +40,9 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.isLog = false;
     this.adminId = adminId;
     this.usuario = new Usuario(null, null, null, null, null);
+
+    const path = this.location.path().split('/');
+    this.seleccion = path[1];
   }
 
   ngOnInit() {
@@ -111,6 +117,10 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   limpiarUsuario() {
     this.usuario = new Usuario(null, null, null, null, null);
+  }
+
+  selMenu(seleccion: string) {
+    this.seleccion = seleccion;
   }
 
 }
