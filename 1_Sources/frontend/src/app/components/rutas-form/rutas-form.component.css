@@ -1,6 +1,8 @@
-#descripcion {
-    max-height: 230px;
-    min-height: 230px;
-    min-width: 100%;
-    max-width: 100%;
+textarea {
+    height: 150px;
+    width: 100%;
+}
+
+.numerico {
+    width: 200px;
 }

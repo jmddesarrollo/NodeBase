@@ -89,7 +89,7 @@ export class UsuariosAdminComponent implements OnInit, OnDestroy {
           this.validadoresService.textoMaximo60
         ]),
         alias: new FormControl('', [
-          this.validadoresService.valNumero
+          this.validadoresService.valEntero
         ]),
         password: new FormControl('', [
           this.validadoresService.validarPasswordMedium
@@ -106,6 +106,8 @@ export class UsuariosAdminComponent implements OnInit, OnDestroy {
 
     // Debe situarse después de la creación del formulario, pues recoge información para él.
     this._getEditUsuario();
+
+    this.forma.controls['rol_id'].setValue(2);
   }
 
   ngOnDestroy() {

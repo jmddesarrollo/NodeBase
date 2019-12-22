@@ -1,4 +1,5 @@
 import { Dificultad } from './dificultad.model';
+import { Recorrido } from './recorrido.model';
 
 export class Ruta {
     constructor(
@@ -26,6 +27,7 @@ export class Ruta {
         public publica: number,
         public recorridoId: number,
         public dificultadId: number,
+        public recorrido?: Recorrido,
         public dificultad?: Dificultad,
         public id?: number
     ) {}

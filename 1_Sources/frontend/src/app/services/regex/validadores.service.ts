@@ -51,16 +51,123 @@ export class ValidadoresService {
   }
 
   /**
-   * Validación del formato del email
+   * Validación del formato numérico entero
    */
-  valNumero(control: FormControl): { [s: string]: boolean } {
-    const numeroRegex = new RegExp(
+  valEntero(control: FormControl): { [s: string]: boolean } {
+    const enteroRegex = new RegExp(
       '(^([0-9])*$)'
     );
-    if (control.value && !numeroRegex.test(control.value.trim())) {
-      return { formatoNumero: true };
+    if (control.value && !enteroRegex.test(control.value)) {
+      return { formatoEntero: true };
     }
 
+    return null;
+  }
+
+  /**
+   * Validación del formato decimal hasta dos posiciones
+   */
+  valDecimal(control: FormControl): { [s: string]: boolean } {
+    const decimalRegex = new RegExp(
+      '^-?[0-9]+(([,]|[.])([0-9]{1,2})){0,1}?$'
+    );
+
+    if (!control.value) {
+      return { formatoDecimal: true };
+    }
+
+    if (control.value && !decimalRegex.test(control.value)) {
+      return { formatoDecimal: true };
+    }
+
+    return null;
+  }
+
+  /**
+   * Validación del formato hora
+   */
+  validarHora(control: FormControl): { [s: string]: boolean }  {
+    const horaRegex = new RegExp(
+      '^([0-9]|[0-9]{2})([:])([0-5][0-9])$'
+    );
+    if (control.value && !horaRegex.test(control.value.trim())) {
+      return { formatoHora: true };
+    }
+
+    return null;
+  }
+
+  /**
+   * Validación de la longitud mínima de un texto requerido.
+   */
+  textoMinimo2(control: FormControl): { [s: string]: boolean } {
+    if (control.value === null || control.value.trim().length < 2) {
+      return { mintext: true };
+    }
+    return null;
+  }
+  textoMinimo6(control: FormControl): { [s: string]: boolean } {
+    if (control.value === null || control.value.trim().length < 6) {
+      return { mintext: true };
+    }
+    return null;
+  }
+
+  /**
+   * Validación de la longitud máxima de un texto requerido.
+   */
+  textoMaximo15(control: FormControl): { [s: string]: boolean } {
+    if (!control.value) {
+      return null;
+    }
+    if (control.value.trim().length > 15) {
+      return { maxtext: true };
+    }
+    return null;
+  }
+  textoMaximo45(control: FormControl): { [s: string]: boolean } {
+    if (!control.value) {
+      return null;
+    }
+    if (control.value.trim().length > 45) {
+      return { maxtext: true };
+    }
+    return null;
+  }
+  textoMaximo60(control: FormControl): { [s: string]: boolean } {
+    if (!control.value) {
+      return null;
+    }
+    if (control.value.trim().length > 60) {
+      return { maxtext: true };
+    }
+    return null;
+  }
+  textoMaximo100(control: FormControl): { [s: string]: boolean } {
+    if (!control.value) {
+      return null;
+    }
+    if (control.value.trim().length > 100) {
+      return { maxtext: true };
+    }
+    return null;
+  }
+  textoMaximo200(control: FormControl): { [s: string]: boolean } {
+    if (!control.value) {
+      return null;
+    }
+    if (control.value.trim().length > 200) {
+      return { maxtext: true };
+    }
+    return null;
+  }
+  textoMaximoTextArea(control: FormControl): { [s: string]: boolean } {
+    if (!control.value) {
+      return null;
+    }
+    if (control.value.trim().length > 65535) {
+      return { maxtext: true };
+    }
     return null;
   }
 
@@ -101,54 +208,6 @@ export class ValidadoresService {
   }
 
   /**
-   * Validación de la longitud mínima de un texto requerido.
-   */
-  textoMinimo2(control: FormControl): { [s: string]: boolean } {
-    if (control.value === null || control.value.trim().length < 2) {
-      return { mintext: true };
-    }
-    return null;
-  }
-
-  /**
-   * Validación de la longitud mínima de un texto requerido.
-   */
-  textoMinimo6(control: FormControl): { [s: string]: boolean } {
-    if (control.value === null || control.value.trim().length < 6) {
-      return { mintext: true };
-    }
-    return null;
-  }
-
-  /**
-   * Validación de la longitud máxima de un texto requerido.
-   */
-  textoMaximo15(control: FormControl): { [s: string]: boolean } {
-    if (control.value === null || control.value.trim().length > 15) {
-      return { maxtext: true };
-    }
-    return null;
-  }
-  textoMaximo45(control: FormControl): { [s: string]: boolean } {
-    if (control.value === null || control.value.trim().length > 45) {
-      return { maxtext: true };
-    }
-    return null;
-  }
-  textoMaximo60(control: FormControl): { [s: string]: boolean } {
-    if (control.value === null || control.value.trim().length > 60) {
-      return { maxtext: true };
-    }
-    return null;
-  }
-  textoMaximo100(control: FormControl): { [s: string]: boolean } {
-    if (control.value === null || control.value.trim().length > 100) {
-      return { maxtext: true };
-    }
-    return null;
-  }
-
-  /**
    * Comprobar que las contraseñas son iguales
    */
   sonIguales(str1: string, str2: string) {
@@ -164,14 +223,28 @@ export class ValidadoresService {
   }
 
   /**
-   * Validación del formato de una URL
+   * Validación del formato fecha
    */
   validarFecha(control: FormControl): { [s: string]: boolean }  {
     const fechaRegex = new RegExp(
-      '^(20[0-9][0-9])([\-/.])(0?[1-9]|1[1-2])(3[01]|[12][0-9]|0?[1-9])'
+      '^(20[0-9][0-9])([\-/.])(0?[1-9]|1[1-2])([\-/.])(3[01]|[12][0-9]|0?[1-9])$'
     );
     if (control.value && !fechaRegex.test(control.value.trim())) {
       return { formatoFecha: true };
+    }
+
+    return null;
+  }
+
+  /**
+   * Validación del formato de teléfono
+   */
+  validarTelefono(control: FormControl): { [s: string]: boolean }  {
+    const telefonoRegex = new RegExp(
+      '^([0-9]{3})([\-/.])([0-9]{3})([\-/.])([0-9]{3})$'
+    );
+    if (control.value && !telefonoRegex.test(control.value.trim())) {
+      return { formatoTelefono: true };
     }
 
     return null;

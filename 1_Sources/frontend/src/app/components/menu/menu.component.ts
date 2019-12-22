@@ -69,6 +69,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         if (respuesta) {
           this.usuario = respuesta['usuario'];
           this.usuario.rol = respuesta['rol'];
+          this.shareUsuariosService.editUsuarioPermiso(this.usuario.rol_id);
         }
       });
     }
@@ -94,6 +95,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.usuarioService.cargarUsuario(id).subscribe(
           response => {
             this.usuario = response["usuario"];
+            this.shareUsuariosService.editUsuarioPermiso(this.usuario.rol_id);
           },
           error => {
             const errorMensaje = JSON.parse(error._body);
@@ -112,6 +114,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   getLogout() {
     const ob = this.wsUsuarioService.getLogout().subscribe((data) => {
       this.limpiarUsuario();
+      this.shareUsuariosService.editUsuarioPermiso(0);
     });
     this.observables.push(ob);
   }

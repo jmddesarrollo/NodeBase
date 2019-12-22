@@ -52,11 +52,28 @@ async function consultarRuta(req, cliente) {
 }
 
 /*
- * Consultar una ruta
+ * Consultar todas las rutas
  */
 async function consultarRutas(cliente) {
     try {
         const rutas = await RutasService.getRutas();
+
+        cliente.emit('rutas/consultar', { rutas });
+    } catch (error) {
+        if (error instanceof ControlException) {
+            cliente.emit("error_message", { message: error.message, code: error.code });
+        } else {
+            cliente.emit("error_message", { message: "Error no controlado" });
+        }
+    }
+}
+
+/*
+ * Consultar rutas públicas
+ */
+async function consultarRutasPublicas(cliente) {
+    try {
+        const rutas = await RutasService.getRutasPublicas();
 
         cliente.emit('rutas/consultar', { rutas });
     } catch (error) {
@@ -119,10 +136,47 @@ async function eliminarRuta(req, cliente) {
     }
 }
 
+/*
+ * Consultar dificultades
+ */
+async function consultarDificultades(cliente) {
+    try {
+        const dificultades = await RutasService.getDificultades();
+
+        cliente.emit('ruta/dificultades', { dificultades });
+    } catch (error) {
+        if (error instanceof ControlException) {
+            cliente.emit("error_message", { message: error.message, code: error.code });
+        } else {
+            cliente.emit("error_message", { message: "Error no controlado" });
+        }
+    }
+}
+
+/*
+ * Consultar recorridos
+ */
+async function consultarRecorridos(cliente) {
+    try {
+        const recorridos = await RutasService.getRecorridos();
+
+        cliente.emit('ruta/recorridos', { recorridos });
+    } catch (error) {
+        if (error instanceof ControlException) {
+            cliente.emit("error_message", { message: error.message, code: error.code });
+        } else {
+            cliente.emit("error_message", { message: "Error no controlado" });
+        }
+    }
+}
+
 module.exports = {
     crearRuta,
     consultarRuta,
     consultarRutas,
+    consultarRutasPublicas,
     actualizarRuta,
-    eliminarRuta
+    eliminarRuta,
+    consultarDificultades,
+    consultarRecorridos
 }

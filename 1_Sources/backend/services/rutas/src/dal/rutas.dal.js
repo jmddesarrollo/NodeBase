@@ -3,6 +3,7 @@
 var db = require("../../../../models");
 const Rutas = db.rutas;
 const Dificultad = db.dificultad;
+const Recorrido = db.recorrido;
 
 var ControlException = require("../../../../utils/ControlException");
 
@@ -13,6 +14,33 @@ function getRutas() {
     const rutas = Rutas.findAll({
         include: [{
             model: Dificultad
+        }],
+        include: [{
+            model: Recorrido
+        }]
+    }).catch(error => {
+        throw new ControlException(
+            "Ha ocurrido un error al consultar las rutas.",
+            500
+        );
+    });
+
+    return rutas;
+}
+
+/*
+ * Consultar de las rutas públicas.
+ */
+function getRutasPublicas() {
+    const rutas = Rutas.findAll({
+        where: {
+            publica: 1
+        },
+        include: [{
+            model: Dificultad
+        }],
+        include: [{
+            model: Recorrido
         }]
     }).catch(error => {
         throw new ControlException(
@@ -28,18 +56,23 @@ function getRutas() {
  * Recoger datos de una ruta
  */
 async function getRuta(id) {
+    if (!id) {
+        throw new ControlException("La ruta a consultar no ha sido informada.", 500);
+    }
+
     const ruta = await Rutas.findOne({
         where: { id: id },
-        include: [{
-            model: Dificultad
-        }]
+        include: [{ model: Dificultad }, { model: Recorrido }]
     }).catch(error => {
-        throw new ControlException(
-            "Ha ocurrido un error al consultar la ruta solicitada.",
-            500
-        );
+        throw new ControlException("Ha ocurrido un error al consultar la ruta solicitada.", 500);
     });
-    ruta.dificultad_id = undefined;
+
+    if (!ruta) {
+        throw new ControlException("La ruta a consultar no ha sido encontrada.", 500);
+    } else {
+        ruta.dificultad_id = undefined;
+        ruta.recorrido_id = undefined;
+    }
 
     return ruta;
 }
@@ -49,36 +82,9 @@ async function getRuta(id) {
  */
 function addRuta(ruta, t) {
     try {
-        const rutaAdd = Rutas.create({
-            id: null,
-            titulo: ruta.titulo,
-            lugar: ruta.lugar,
-            fecha: ruta.fecha,
-            distancia: ruta.distancia,
-            duracion: ruta.duracion,
-            altitud_max: ruta.altitud_max,
-            altitud_min: ruta.altitud_min,
-            desnivel_subida: ruta.desnivel_subida,
-            desnivel_bajada: ruta.desnivel_bajada,
-            senalizacion: ruta.senalizacion,
-            ibp: ruta.ibp,
-            descripcion: ruta.descripcion,
-            opcional: ruta.opcional,
-            enlace_tiempo: ruta.enlace_tiempo,
-            enlace_ruta: ruta.enlace_ruta,
-            enlace_apuntarse: ruta.enlace_apuntarse,
-            precio_no_socio: ruta.precio_no_socio,
-            precio_socio: ruta.precio_socio,
-            telefono_contacto: ruta.telefono_contacto,
-            ultimo_dia_apuntarse: ruta.ultimo_dia_apuntarse,
-            ultima_hora_apuntarse: ruta.ultima_hora_apuntarse,
-            publica: ruta.publica,
-            recorrido_id: ruta.recorrido_id,
-            dificultad_id: ruta.dificultad_id
-        }, { transaction: t }).catch(error => {
+        const rutaAdd = Rutas.create(ruta, { transaction: t }).catch(error => {
             throw new ControlException(
-                "Revisar los datos introducidos. Se ha producido un error al añadir una nueva ruta.",
-                500
+                "Revisar los datos introducidos. Se ha producido un error al añadir una nueva ruta.", 500
             );
         });
 
@@ -94,8 +100,8 @@ function addRuta(ruta, t) {
 /*
  * Editar una ruta
  */
-function updRuta(ruta, t) {
-    const rutaUpd = ruta.save({ transaction: t }).catch(error => {
+function updRuta(rutas, t) {
+    const rutaUpd = rutas.save({ transaction: t }).catch(error => {
         throw new ControlException(
             "Revisar datos introduciods. Se ha producido un error al editar la ruta.",
             500
@@ -123,6 +129,7 @@ async function delRuta(id, t) {
 
 module.exports = {
     getRutas,
+    getRutasPublicas,
     getRuta,
     addRuta,
     updRuta,

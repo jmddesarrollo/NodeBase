@@ -16,8 +16,11 @@ const appRoutes: Routes = [
     {path: '', component: HomeComponent},
     {path: 'home', component: HomeComponent, data: {titulo: 'Home'} },
     {path: 'usuarios', component: UsuariosComponent, canActivate: [AdminGuard, RenovartokenGuard], data: {titulo: 'Gestión de usuarios'} },
-    {path: 'rutas', component: RutasComponent, data: {titulo: 'Rutas'} },
-    {path: 'rutas/form/:id', component: RutasFormComponent, canActivate: [RenovartokenGuard], data: {titulo: 'Gestión de rutas'} },
+    {path: 'rutas', component: RutasComponent, canActivate: [RenovartokenGuard], data: {titulo: 'Rutas'} },
+    {path: 'rutas/form/:id', component: RutasFormComponent, canActivate: [AdminGuard, RenovartokenGuard],
+            data: {titulo: 'Gestión de rutas'} },
+    {path: 'rutas/form', component: RutasFormComponent, canActivate: [AdminGuard, RenovartokenGuard],
+            data: {titulo: 'Gestión de rutas'} },
     {path: 'login', component: LoginComponent, data: {titulo: 'Login'} },
     {path: '**', component: HomeComponent}
 ];

@@ -2,9 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 // Servicios
 import { WsRutaService } from '../../services/socket/rutas.service';
+// Servicios propios
+import { ShareUsuariosService } from '../../services/share/share-usuarios';
 
 //Modelo
 import { Ruta } from '../../models/ruta.model';
+
+// Config
+import { adminId } from '../../config/config';
 
 @Component({
   selector: 'app-rutas',
@@ -15,18 +20,34 @@ export class RutasComponent implements OnInit, OnDestroy {
   public rutas: Ruta[];
   public numRegs: number;
   public numTotRegs: number;
+  public adminId: number;
+  public permiso: number;
 
   private observables = new Array();
 
   constructor(
-    private wsRutaService: WsRutaService
+    private wsRutaService: WsRutaService,
+    private shareUsuariosService: ShareUsuariosService
   ) {
     this.numRegs = 12;
+    this.adminId = adminId;
+    this.permiso = 0;
   }
 
   ngOnInit() {
-    this.getRutas();
+    const id = localStorage.getItem('id');
+    if (id) {
+      this.getRutas();
+    } else {
+      this.getRutasPublicas();
+    }
+
     this.getConsultarRutas();
+    this.getConsultarRutasPublicas();
+
+    this.shareUsuariosService.currentUsuarioPermiso.subscribe(permiso => {
+      this.permiso = permiso;
+    });
   }
 
   ngOnDestroy() {
@@ -50,12 +71,17 @@ export class RutasComponent implements OnInit, OnDestroy {
     this.observables.push(ob);
   }
 
-  detalleRuta(id) {
-
+  getRutasPublicas() {
+    this.wsRutaService.consultarRutasPublicas();
   }
 
-  editarRuta(id) {
+  getConsultarRutasPublicas() {
+    const ob = this.wsRutaService.getConsultarRutasPublicas().subscribe((data) => {
+      this.rutas = data["rutas"];
+      this.changeUnits();
+    });
 
+    this.observables.push(ob);
   }
 
   delRuta(id) {

@@ -50,6 +50,29 @@ export class WsRutaService {
 
   getConsultarRutas() {
     return this.wsService.listen("rutas/consultar");
-  }  
+  }
 
+  consultarRutasPublicas() {
+    this.wsService.emit("rutas/publicas");
+  }
+
+  getConsultarRutasPublicas() {
+    return this.wsService.listen("rutas/publicas");
+  }
+
+  consultarDificultades() {
+    this.wsService.emit("ruta/dificultades");
+  }
+
+  getConsultarDificultades() {
+    return this.wsService.listen("ruta/dificultades");
+  }
+
+  consultarRecorridos() {
+    this.wsService.emit("ruta/recorridos");
+  }
+
+  getConsultarRecorridos() {
+    return this.wsService.listen("ruta/recorridos");
+  }
 }

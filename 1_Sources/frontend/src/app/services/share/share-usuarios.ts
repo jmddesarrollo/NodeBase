@@ -15,6 +15,9 @@ export class ShareUsuariosService {
   private objUsuarioEditPost = new BehaviorSubject<any>('');
   currentObjUsuarioEditPost = this.objUsuarioEditPost.asObservable();
 
+  private usuarioPermiso = new BehaviorSubject<any>('');
+  currentUsuarioPermiso = this.usuarioPermiso.asObservable();
+
   constructor() {}
 
   addObjUsuario(valorObjUsuario: any) {
@@ -27,5 +30,9 @@ export class ShareUsuariosService {
 
   editObjUsuarioPost(valorObjUsuarioEditPost: any) {
     this.objUsuarioEditPost.next(valorObjUsuarioEditPost);
+  }
+
+  editUsuarioPermiso(valorUsuarioPermiso: any) {
+    this.usuarioPermiso.next(valorUsuarioPermiso);
   }
 }

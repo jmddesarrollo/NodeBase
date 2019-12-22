@@ -12,4 +12,6 @@ module.exports = (socket) => {
     socket.on("usuario/eliminar", req => { UsuarioController.eliminarUsuario(req, socket) });
     socket.on("usuario/consultar", req => { UsuarioController.consultarUsuario(req, socket) });
     socket.on("usuario/delimagen", req => { UsuarioController.quitarImagenUsuario(req, socket) });
+
+    socket.on("usuario/permiso", req => { UsuarioController.consultarPermiso(socket) });
 };

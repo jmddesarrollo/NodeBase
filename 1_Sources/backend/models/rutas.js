@@ -126,6 +126,7 @@ module.exports = function(sequelize, DataTypes) {
 
     Ruta.associate = function(models) {
         Ruta.belongsTo(models.dificultad, { foreignKey: 'dificultad_id' });
+        Ruta.belongsTo(models.recorrido, { foreignKey: 'recorrido_id' });
     };
 
     return Ruta;

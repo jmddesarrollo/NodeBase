@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -11,6 +12,8 @@ import { ToastrService } from 'ngx-toastr';
 
 // Modelos
 import { Ruta } from '../../models/ruta.model';
+import { Dificultad } from '../../models/dificultad.model';
+import { Recorrido } from '../../models/recorrido.model';
 
 @Component({
   selector: 'app-usuarios-form',
@@ -21,9 +24,9 @@ export class RutasFormComponent implements OnInit, OnDestroy {
   public rutaId: number;
   public ruta: Ruta;
   public rutaPrev: Ruta;
-
-  public mostrarAlert: boolean;
-  public inProcess: boolean;
+  public dificultades: Dificultad[];
+  public recorridos: Recorrido[];
+  public contadorCambiosForma: number;
 
   public forma: FormGroup;
 
@@ -32,6 +35,7 @@ export class RutasFormComponent implements OnInit, OnDestroy {
   constructor(
     private rutaService: WsRutaService,
     private validadoresService: ValidadoresService,
+    private route: ActivatedRoute,
     private toastr: ToastrService
   ) {
     this.rutaId = null;
@@ -40,50 +44,65 @@ export class RutasFormComponent implements OnInit, OnDestroy {
 
     this.rutaPrev = Ruta.copiar(this.ruta);
 
-    this.mostrarAlert = false;
-    this.inProcess = false;
+    this.contadorCambiosForma = 0;
 
     // FormControl parametros: valor por defecto / regla validación[] / regla validación asincrona[]
     this.forma = new FormGroup({
-      'id': new FormControl(''),
-      'titulo': new FormControl('', [Validators.required, this.validadoresService.textoMinimo2, this.validadoresService.textoMaximo100]),
-      'lugar': new FormControl('', [Validators.required, this.validadoresService.textoMinimo2, this.validadoresService.textoMaximo100]),
-      'fecha': new FormControl('', [Validators.required]),
-      'distancia': new FormControl('', [Validators.required]),
-      'duracion': new FormControl('', [Validators.required]),
-      'altitudMax': new FormControl('', [Validators.required]),
-      'altitudMin': new FormControl('', [Validators.required]),
-      'desnivelSubida': new FormControl('', [Validators.required]),
-      'desnivelBajada': new FormControl('', [Validators.required]),
-      'senalizacion': new FormControl('', [Validators.required]),
-      'ibp': new FormControl('', [Validators.required]),
-      'descripcion': new FormControl('', [Validators.required, this.validadoresService.textoMinimo2]),
-      'opcional': new FormControl('', [Validators.required]),
-      'enlaceTiempo': new FormControl('', [Validators.required]),
-      'enlaceRuta': new FormControl('', [Validators.required]),
-      'enlaceApuntarse': new FormControl('', [Validators.required]),
-      'precioNoSocio': new FormControl('', [Validators.required]),
-      'precioSocio': new FormControl('', [Validators.required]),
-      'telefonoContacto': new FormControl('', [Validators.required]),
-      'ultimoDiaApuntarse': new FormControl('', [Validators.required]),
-      'ultimaHoraApuntarse': new FormControl('', [Validators.required]),
-      'publica': new FormControl('', [Validators.required]),
-      'recorridoId': new FormControl('', [Validators.required]),
-      'dificultadId': new FormControl('', [Validators.required]),
-      'dificultad': new FormControl('', [Validators.required]),
+      id: new FormControl(''),
+      titulo: new FormControl('', [Validators.required, this.validadoresService.textoMinimo2, this.validadoresService.textoMaximo100]),
+      lugar: new FormControl('', [Validators.required, this.validadoresService.textoMinimo2, this.validadoresService.textoMaximo100]),
+      fecha: new FormControl('', [Validators.required]),
+      distancia: new FormControl('', [this.validadoresService.valDecimal]),
+      duracion: new FormControl('', [this.validadoresService.validarHora]),
+      altitudMax: new FormControl('', [this.validadoresService.valEntero]),
+      altitudMin: new FormControl('', [this.validadoresService.valEntero]),
+      desnivelSubida: new FormControl('', [this.validadoresService.valEntero]),
+      desnivelBajada: new FormControl('', [this.validadoresService.valEntero]),
+      senalizacion: new FormControl('', [this.validadoresService.textoMaximo100]),
+      ibp: new FormControl('', [this.validadoresService.textoMaximo45]),
+      descripcion: new FormControl('', [this.validadoresService.textoMaximoTextArea]),
+      opcional: new FormControl('', [this.validadoresService.textoMaximoTextArea]),
+      enlaceTiempo: new FormControl('', [this.validadoresService.validarUrl, this.validadoresService.textoMaximo200]),
+      enlaceRuta: new FormControl('', [this.validadoresService.validarUrl, this.validadoresService.textoMaximo200]),
+      enlaceApuntarse: new FormControl('', [this.validadoresService.validarUrl, this.validadoresService.textoMaximo200]),
+      precioNoSocio: new FormControl('', [this.validadoresService.valDecimal]),
+      precioSocio: new FormControl('', [this.validadoresService.valDecimal]),
+      telefonoContacto: new FormControl('', [this.validadoresService.validarTelefono]),
+      ultimoDiaApuntarse: new FormControl('', [Validators.required]),
+      ultimaHoraApuntarse: new FormControl('', [this.validadoresService.validarHora]),
+      publica: new FormControl('', []),
+      recorridoId: new FormControl('', []),
+      dificultadId: new FormControl('', []),
+      recorrido: new FormControl('', []),
+      dificultad: new FormControl('', [])
     });
   }
 
   ngOnInit() {
-    console.log('Carga ruta');
-    this.rutaId = 1;
-    this.rutaService.consultarRuta(this.rutaId);
-    this._getRuta();
-    // this._getRolsUserLevel();
-    // this._addEnlace();
-    // this._editEnlace();
-  }
+    this.route.params.forEach((params: Params) => {
+      this.rutaId = params['id'];
+    });
 
+    this._getRuta();
+    this._getDificultades();
+    this._getRecorridos();
+    this._crearRuta();
+    this._actualizarRuta();
+    if (this.rutaId) {
+      this.rutaService.consultarRuta(this.rutaId);
+    } else {
+      // Valores por defecto en los select si no se consulta ruta
+      this.forma.controls['publica'].setValue(1);
+      this.forma.controls['dificultadId'].setValue(1);
+      this.forma.controls['recorridoId'].setValue(1);
+    }
+    this.rutaService.consultarDificultades();
+    this.rutaService.consultarRecorridos();
+
+    this.forma.valueChanges.subscribe( () => {
+      this.contadorCambiosForma ++;
+    });
+  }
 
   ngOnDestroy() {
     for (const ob of this.observables) {
@@ -94,17 +113,14 @@ export class RutasFormComponent implements OnInit, OnDestroy {
   }
 
   /*
-   * Tratar respuesta de la identificación de la versión.
+   * Tratar respuesta de la consulta a la ruta.
    */
   _getRuta() {
     const ob = this.rutaService.getConsultarRuta().subscribe((respuesta: Ruta) => {
       if (respuesta) {
-        console.log(respuesta);
         this.ruta = respuesta['ruta'];
 
         this.rutaPrev = Ruta.copiar(this.ruta);
-
-        // this.getRolsUserLevel();
 
         this.forma.setValue(this.ruta);
       }
@@ -113,88 +129,61 @@ export class RutasFormComponent implements OnInit, OnDestroy {
   }
 
   /*
-   * Solicitud de roles del usuario en el nivel.
+   * Tratar respuesta de la consulta a las dificultades.
    */
-  // getRolsUserLevel() {
-  //   this.mostrarAlert = false;
-
-  //   const data = { nivelid: this.idNivelWork };
-  //   this._accesoService.getRolsUserLevel(data);
-  // }
+  _getDificultades() {
+    const ob = this.rutaService.getConsultarDificultades().subscribe((respuesta: Dificultad[]) => {
+      if (respuesta) {
+        this.dificultades = respuesta['dificultades'];
+      }
+    });
+    this.observables.push(ob);
+  }
 
   /*
-   * Tratar respuesta de la solicitud de roles del usuario en el nivel.
+   * Tratar respuesta de la consulta a los recorridos.
    */
-  // _getRolsUserLevel() {
-  //   const ob = this._accesoService._getRolsUserLevel().subscribe(
-  //     response => {
-  //       this.mostrarAlert = true;
-  //       // Buscar si el usuario posee en el nivel un modo de rol Responsable o Usuario
-  //       const indR = response["modorol"].indexOf('r');
-  //       const indU = response["modorol"].indexOf('u');
-
-  //       if (indR >= 0 || indU >= 0) {
-  //         this.mostrarAlert = false;
-  //       }
-  //     });
-  //   this.observables.push(ob);
-  // }
+  _getRecorridos() {
+    const ob = this.rutaService.getConsultarRecorridos().subscribe((respuesta: Recorrido[]) => {
+      if (respuesta) {
+        this.recorridos = respuesta['recorridos'];
+      }
+    });
+    this.observables.push(ob);
+  }
 
   /**
    * Alta o edición de noticia.
    */
   guardarCambios() {
-    console.log(this.forma.value);
-  //   this.enlace = this.forma.value;
+    this.ruta = this.forma.value;
 
-  //   this.enlace.ruta = this.enlace.ruta.trim();
-  //   this.enlace.comentario = this.enlace.comentario.trim();
-  //   this.inProcess = true;
-
-  //   if (this.enlace.identrada === "" || this.enlace.identrada === null) {
-  //     if (!this.enlace.idnivel) {
-  //       this.enlace.idnivel = this.idNivel;
-  //     }
-  //     // Alta de enlace
-  //     this._enlaceService.addEnlaceNivel(this.enlace);
-  //   } else {
-  //     // Edición de un elace
-  //     if (this.enlace.ruta === this.enlace_prev.ruta &&
-  //        this.enlace.comentario === this.enlace_prev.comentario &&
-  //        this.enlace.principal === this.enlace_prev.principal) {
-  //       this._toastr.warning('Enlace no actualizado. No se ha encontrado ningún cambio.');
-  //       return false;
-  //     }
-
-  //     this._enlaceService.editEnlaceNivel(this.enlace);
-  //   }
-
-  //   this.limpiarData();
+    if (this.ruta.id) {
+      this.rutaService.actualizarRuta(this.ruta);
+    } else {
+      this.rutaService.crearRuta(this.ruta);
+    }
   }
-
-  // _addEnlace() {
-  //   const ob = this._enlaceService._addEnlaceNivel().subscribe(
-  //     response => {
-  //       if (response["mensaje"] !== undefined) {
-  //         this.inProcess = false;
-  //         this._toastr.success(response["mensaje"]);
-  //         this.limpiarData();
-  //       }
-  //     });
-  //   this.observables.push(ob)
-  // }
-
-  // _editEnlace() {
-  //   const ob = this._enlaceService._editEnlaceNivel().subscribe(
-  //     response => {
-  //       if (response["mensaje"] !== undefined) {
-  //         this.inProcess = false;
-  //         this._toastr.success(response["mensaje"]);
-  //         this.limpiarData();
-  //       }
-  //     });
-  //   this.observables.push(ob)
-  // }
+  _crearRuta() {
+    const ob = this.rutaService.getCrearRuta().subscribe(
+      response => {
+        if (response["mensaje"] !== undefined) {
+          this.toastr.success(response["mensaje"]);
+          this.limpiarData();
+        }
+      });
+    this.observables.push(ob)
+  }
+  _actualizarRuta() {
+    const ob = this.rutaService.getActualizarRuta().subscribe(
+      response => {
+        if (response["mensaje"] !== undefined) {
+          this.toastr.success(response["mensaje"]);
+          this.limpiarData();
+        }
+      });
+    this.observables.push(ob)
+  }
 
 
   // Limpiar contenido de objeto que contiene información a editar.
