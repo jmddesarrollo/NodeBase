@@ -39,6 +39,7 @@ import { UsuariosAdminComponent } from './components/usuarios-admin/usuarios-adm
 import { UsuariosImagenComponent } from './components/usuarios-imagen/usuarios-imagen.component';
 import { RutasComponent } from './components/rutas/rutas.component';
 import { RutasFormComponent } from './components/rutas-form/rutas-form.component';
+import { InfoComponent } from './components/info/info.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { RutasFormComponent } from './components/rutas-form/rutas-form.component
     UsuariosAdminComponent,
     UsuariosImagenComponent,
     RutasComponent,
-    RutasFormComponent
+    RutasFormComponent,
+    InfoComponent
   ],
   imports: [
     BrowserModule,

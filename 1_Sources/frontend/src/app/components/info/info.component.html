@@ -1,0 +1,170 @@
+<div class="w3-container w3-border w3-round-xlarge w3-margin-top w3-margin-bottom">
+    <!-- Administración - Tabs -->
+    <div class="w3-row w3-panel">
+        <div (click)="abrirPestana('tab_encuentro', '1');">
+            <div id="tab_encuentro" class="w3-quarter tablink w3-bottombar w3-hover-light-grey w3-padding w3-center" [ngClass]="{'w3-border-red': pestanaAbierta == '1'}">Punto de encuentro y seguro</div>
+        </div>
+        <div (click)="abrirPestana('tab_normativa', '2');">
+            <div id="tab_normativa" class="w3-quarter tablink w3-bottombar w3-hover-light-grey w3-padding w3-center" [ngClass]="{'w3-border-red': pestanaAbierta == '2'}">Normativa obligada</div>
+        </div>
+        <div (click)="abrirPestana('tab_consejos', '3');">
+            <div id="tab_consejos" class="w3-quarter tablink w3-bottombar w3-hover-light-grey w3-padding w3-center" [ngClass]="{'w3-border-red': pestanaAbierta == '3'}">Consejos sobre el equipo</div>
+        </div>
+        <div (click)="abrirPestana('tab_dificultad', '4');">
+            <div id="tab_dificultad" class="w3-quarter tablink w3-bottombar w3-hover-light-grey w3-padding w3-center" [ngClass]="{'w3-border-red': pestanaAbierta == '4'}">Catalogación dificultad</div>
+        </div>
+    </div>
+    <!-- Fin Administración - Tabs -->
+
+    <!-- Punto de encuentro -->
+    <div class="w3-container tabs" *ngIf="pestanaAbierta == '1'">
+        <h2>PUNTO DE ENCUENTRO Y SEGURO DE PARTICIPANTE</h2>
+        <p>Hora y lugar de salida: 8h (salvo que se especifique otra hora en el detalle de la ruta) en aparcamiento de tierra de Sta. Teresa, Avda. Carlos III (Toledo).</p>
+        <p>Hora y lugar de llegada: entre las 18h y las 19h en Avenida Carlos III s/n, a la izquierda del Colegio Santa Teresa.</p>
+        <p>El precio de la actividad lo establece el gasto del autobús, que será la forma preferente. O el de coche particular, (si no se fuera en autobús) que requiere el desplazamiento, en caso de acoplarse a algún coche.</p>
+        <p>Esta actividad además, tiene unos gastos consistentes en un seguro del participante, que se hace a través de la Federación Española de Montañismo; además de los de equipos de transmisión y primeros auxilios. Estos gastos se cobrarán antes del
+            inicio de la ruta.</p>
+        <p>Asistentes No socios CON licencia de FEDME 2€.</p>
+        <p>Asistentes No socios SIN Licencia de FEDME 8€.</p>
+        <p>La asistencia a esta actividad se llevará a cabo de forma voluntaria por los asistentes, que asumen personalmente cualquier riesgo individual que pudiera derivarse de su participación en ella. El hecho de participar en esta actividad implicará
+            la aceptación de estas condiciones.</p>
+    </div>
+    <!-- Fin Punto de encuentro -->
+
+    <!-- Normativa -->
+    <div class="w3-container tabs" *ngIf="pestanaAbierta == '2'">
+        <h2>SENDERISMO, EXCURSIONISMO U OTRA ACTIVIDAD CON EL CLUB DE SENDERISMO Y-TOLEDO:</h2>
+        <h3>NORMATIVA DE OBLIGADO CUMPLIMIENTO CONDICIONES DE LA ACTIVIDAD GUIADA POR EL MONITOR-GUIA</h3>
+        <ul>
+            <li>El monitor-guía no se hace responsable de los accidentes que se puedan dar en el traslado tanto de ida como de vuelta ni en el transcurso de la actividad a realizar.</li>
+            <li>Los participantes deberán seguir las instrucciones del monitor-guía durante todo el transcurso de la actividad, la persona que no desee continuar con la actividad o desee realizar una actividad no programada deberá comunicarlo al monitor-guía
+                para tener conocimiento de la situación, y en ese mismo momento esa persona ya no formará parte de la actividad.</li>
+            <li>Los participantes menores de edad estarán en todo momento bajo la responsabilidad de sus padres o tutores.</li>
+            <li>La actividad se hace en grupo por lo que hay que respetar en todo momento el ritmo que marque el monitor-guía que será el adecuado para que todos los participantes vayan juntos.</li>
+            <li>Los participantes deberán respetar la normativa del espacio natural en el que se desarrolle la actividad, todo comportamiento en contra de las normas será responsable la persona que lo realice y bajo su responsabilidad radican las sanciones
+                que pueda recibir de los agentes forestales pertinentes.</li>
+            <li>La equipación adecuada es fundamental y obligatoria para el bienestar y comodidad de los participantes. Toda persona que acuda a la actividad debe equiparse con las prendas adecuadas: botas de montaña, chubasquero, ropa de abrigo, gorra...
+                atendiendo a la época en que se desarrolle. Aquellas personas que no estén equipas acorde con la actividad a realizar y con las condiciones meteorológicas no podrá realizar la actividad.</li>
+            <li>El respeto por los compañeros y por el medio natural que nos encontremos es imprescindible para el correcto desarrollo de la actividad.</li>
+            <li>Flexibilidad y cortesía en los horarios de los puntos de encuentros. Se dará un espacio de tiempo de 10 minutos de espera para las personas apuntadas y que no estén en el punto de encuentro. Una vez transcurrido ese período la no asistencia
+                a la actividad no será responsabilidad del guía ni de los organizadores.</li>
+            <li>Estas condiciones podrán ser modificadas o ampliadas cuando así lo estime el monitor-guía, dando en todo momento información a los participantes de los cambios realizados.</li>
+            <li>Los apuntados a la actividad tienen la obligación de seguir sus consejos y recomendaciones.</li>
+            <li>La actividad se hace en grupo por lo que hay que respetar en todo momento el ritmo que marque el monitor-guía, no adelantándose o abandonando al grupo, ya que será el adecuado para que todos los participantes vayan juntos.</li>
+            <li>Toda persona que realice una reserva en una ruta u otra actividad, da por entendido que se ha leído o conoce las características de la ruta o actividad, que ha leído la información correspondiente y ACEPTA los problemas que puedan surgir,
+                como pueden ser: cambios meteorológicos inesperados; falta de vehículos (por motivos inesperados y ajenos a los coordinadores de la actividad) para desplazamiento al punto inicial de la ruta o actividad, con el trastorno que puede ocasionar;
+                cambios o suspensión de la ruta o actividad, por problemas diversos (caminos o senderos en mal estado y difícil de transitar, cortes inesperados por causa de alguna valla, muro, caza, desprendimientos, incendios forestales, etc.).</li>
+            <li>El participante en la actividad es responsable de llevar su propia comida, agua u otro tipo de alimentos energéticos de refuerzo que estime convenientes. Elementos como tiritas, vendas, analgésicos y demás medicación son recomendables.</li>
+            <li>Gastos de los vehículos: el precio de la actividad viene establecido por el desplazamiento al lugar de la ruta y regreso al punto inicial de reunión. El precio se detalla en la descripción de la ruta. El importe será abonado al conductor del
+                coche con el que se desplace.</li>
+            <li>Este grupo tiene reservado el derecho de admisión. Los coordinadores del grupo y el guía tienen el derecho de no aceptar la participación en las actividades de este grupo de personas que no se adapten al espíritu del grupo.</li>
+            <li>Las personas que incumplan las instrucciones del guía en cada una de las actividades, las condiciones aquí expuestas o las instrucciones del coordinador de cada actividad, lo hacen exclusivamente bajo su responsabilidad, quedando por lo tanto
+                la organización del grupo y el propio guía libres de cualquier responsabilidad sobre los acontecimientos que pudieran tener lugar como consecuencia de dichos incumplimientos.</li>
+            <li>Las personas que decidan realizar acciones peligrosas, incumplan la normativa del espacio natural en el que nos encontremos o que puedan poner en peligro al grupo serán máximas responsables de las consecuencias que se determinen. Los participantes
+                irán a la actividad bajo su responsabilidad.</li>
+            <li>Si dispones de unos Walkie Talkies y te apetece llevarlos en las rutas de senderismo por tema de seguridad puedes hacerlo libremente. También si dispones de GPS puedes utilizarlo libremente.</li>
+            <li>El solicitante manifiesta que cuenta con las condiciones físicas y psíquicas para realizar la actividad planteada.</li>
+            <li>El participante es responsable de su mascota. Si llevas una, deberá ir atada en aquellos tramos del camino donde corresponda. Asimismo, será conveniente que te informes de si tu mascota está permitida en la ruta a la que estás asistiendo o
+                vas a asistir.</li>
+            <li>En cumplimiento de la Ley Orgánica 15/1999, de 13 de diciembre de Protección de Datos y del Reglamento de desarrollo de dicha Ley Orgánica, aprobado por Real Decreto 1720/2007, de 21 de diciembre, sus datos personales, aportados en la solicitud
+                y contenidos en la documentación que, en su caso, la acompañe, serán tratados por el Club de Senderismo Y-Toledo, con sede en calle Carreteros, 7 45003 Toledo, con la finalidad de gestionar el seguro correspondiente para la realización
+                de las rutas y actividades del Club. Sus datos serán cedidos a la Federación de Montaña de Castilla-La Mancha y en su caso a alojamientos o destinatarios relacionados con la actividad, bien para recibir información o con la finalidad de
+                organizar las actividades y tramitar los seguros.</li>
+            <li>De conformidad también con lo establecido en esta norma informada de Protección de datos, el Club de Senderismo Y-Toledo le comunica que se procederá a la publicación de imágenes y videos, con la finalidad de pasar a formar parte del fondo
+                de actividades organizadas por el Club. Dichas imágenes y videos se incluirán en las publicaciones del Club y serán difundidas a través de cualquier medio de comunicación, incluido Internet. Como participante, Ud. da su autorización a
+                que se publiquen las imágenes tomadas y los videos grabados en la realización de las actividades del Club.</li>
+            <li>Le informamos que, respecto a los dos puntos anteriores, puede ejercitar sus derechos de acceso, rectificación, cancelación y oposición ante la Secretaría del Club, al correo electrónico senderismoytoledo@gmail.com o bien en la dirección de
+                correo postal anteriormente indicada como sede, mediante solicitud escrita acompañada de copia del DNI. </li>
+        </ul>
+    </div>
+    <!-- Fin Normativa -->
+
+    <!-- Consejos -->
+    <div class="w3-container tabs" *ngIf="pestanaAbierta == '3'">
+        <h2>CONSEJOS SOBRE EL EQUIPO</h2>
+        <p>El senderismo es una actividad muy saludable y entretenida, ya que además de hacer ejercicio, podrás conocer preciosos lugares y disfrutar de la naturaleza. Asimismo, no se trata de un deporte reservado a especialistas, sino que cualquiera puede
+            también iniciarse en las rutas a pie y el senderismo. Aunque para ello será recomendable organizarse bien la equipación para que no eches en falta nada que puedas necesitar. Aquí dejamos una serie de consejos básicos que pueden ayudarte en
+            tu elección de la equipación.</p>
+        <h4>Ropa en tres capas</h4>
+        <p>La idea surge de llevar como primera capa una camiseta térmica (manga larga o corta) que nos calentará sin retener la humedad, lo cual nos mantendrá secos. La segunda capa sería un forro polar, que retendrá el calor gracias a sus membranas especiales.
+            Y la tercera capa el corta vientos/impermeable, que puede hacer las dos acciones o sólo una de ellas.</p>
+        <h4>Botas</h4>
+        <p>Dentro del calzado apto para senderismo existe una gran variedad. Es esencial comprarnos unas botas cómodas y que se ajusten a la horma de nuestro pié y que nunca los dedos toquen con la puntera, siempre dejando un poco de espacio o lo pagaremos
+            duramente en las bajadas. Una forma de elegir bien la talla a la hora de comprar es, por ejemplo, sacar la plantilla de la bota, poner nuestro pie encima y que sobre el ancho de nuestro dedo pulgar. Luego tenemos que revisar dos cosas más,
+            el tipo de suela y la membrana. Que la bota tenga capa impermeable es esencial para cuando hay que cruzar pequeños arroyos o charcos.</p>
+
+        <p>Unos buenos calcetines siempre deben acompañar a nuestras botas. Estos nos ayudarán a combatir roces y posibles ampollas, además de ser un aislante del frio adicional.</p>
+        <h4>Mochila</h4>
+        <p>La mochila ideal para salidas para baja o media montaña (hasta 2.200m de altitud) sin nieve, en época estival y para una jornada, es una mochila con una capacidad entre 25 y 30 litros. El peso de la mochila oscilará sobre unos 4 ó 5kg. Dependiendo
+            del agua que se necesite.</p>
+        <p>Al fondo ha de ir el impermeable cortavientos (tercera capa) que sea de colores llamativos por si hay algún problema y queremos que nos encuentren con poca visibilidad. Encima la chaqueta fina o forro polar (segunda capa o capa térmica) para zonas
+            de umbría o cuando va cayendo el Sol. Para cubrir huecos o encima, echar en una bolsa impermeable calcetines de repuesto, guantes finos y calienta-cuellos. Todo esto ocupará más o menos la mitad de la mochila y tiene poco peso.</p>
+        <p>A partir de aquí hay echar los objetos más pesados que irán a la mitad de la espalda (la parte alta de zona lumbar y parte baja zona dorsal). Esto es, la botella de agua (mínimo recomendable 1,5 litros) y la comida preparada para ese día. En compartimentos
+            de la mochila ha de ir el material extra de acceso rápido, como pueden ser una gorra, protectores solares, gafas de sol, la comida extra de rápida asimilación, cámara, pañuelos, material de supervivencia (brújula, navaja, mapa, móvil apagado
+            para que no consuma excesiva batería al buscar cobertura de línea o al menos desactivar como teléfono si se quiere usar como cámara o GPS, …).</p>
+        <p>Los bastones han de ir por fuera de la mochila, en un lateral sujetos por dragoneras con los picos hacia arriba con su funda puesta. Recomendable comprimir bien la mochila si dispones de cintas de compresión. Cinturones ventrales y pectorales
+            ajustables, hombreras ajustables y regulables, espaldera con cierta rigidez y ventilación.</p>
+        <p>El peso de la mochila oscilará sobre unos 4kg.</p>
+        <p></p>
+        <p>Espero que esta serie de consejos básicos te ayuden en la planificación del material. Es importante conocer el tiempo que va a hacer en la zona para el día de la ruta, y así ajustar las prendas a las posibles necesidades. </p>
+    </div>
+    <!-- Fin Consejos -->
+
+    <!-- Dificultad -->
+    <div class="w3-container tabs" *ngIf="pestanaAbierta == '4'">
+        <h2>CATALOGACIÓN NIVELES DE DIFICULTAD RUTAS</h2>
+
+        <h4>MUY FÁCIL:</h4>
+        <ul>
+            <li>Ruta por asfalto, pista forestal, camino vecinal accesible en coche o, eventualmente, vereda de fácil acceso.</li>
+            <li>Distancia inferior a 5 km aprox. y desnivel acumulado no superior a 300 metros aprox. Se desarrolla con buena climatología.</li>
+            <li>No es necesario ningún material particular excepto calzado cómodo y, dependiendo de la persona, protección solar (gafas, gorra y crema solar). No es necesario llevar comida ni bebida, aunque esto depende de cada persona.</li>
+            <li>No es necesario estar federado.</li>
+        </ul>
+
+        <h4>FÁCIL:</h4>
+        <ul>
+            <li>Ruta por pista forestal o vereda no superior a 10km aprox. Puntualmente puede discurrir por campo a través. Desniveles positivos no superiores a 400 metros aprox.</li>
+            <li>Climatología variada descartando lluvia torrencial y nieve. </li>
+            <li>Obligado llevar agua y algo de comida. Recomendable el uso de botas específicas de montaña y vestimenta técnica. </li>
+            <li>Necesario estar federado o seguro diario de la FEDME.</li>
+        </ul>
+
+        <h4>MODERADO: </h4>
+        <ul>
+            <li>Ruta con más de 10km y/o más de 400 metros de desnivel positivo acumulado que discurre por cualquier terreno. Pensada para gente habituada a moverse por el campo. </li>
+            <li>Climatología variada descartando nieve y lluvia torrencial. </li>
+            <li>Obligación de llevar agua y comida para un día. Obligatorio uso de calzado específico de montaña y vestimenta técnica acorde a la climatología. </li>
+            <li>Necesario estar federado o seguro diario de la FEDME.</li>
+        </ul>
+
+        <h4>DIFÍCIL: </h4>
+        <ul>
+            <li>Ruta con más de 15km y/o más de 600 metros de desnivel positivo acumulado que discurre por cualquier terreno, pudiendo llegar el caso de tener que efectuar pequeñas trepadas (sin necesidad de asegurarse). Pensada para gente habituada a moverse
+                por montaña. </li>
+            <li>Puede durar más de un día. (Se anunciaría en la descripción de la ruta)</li>
+            <li>Climatología variada, incluso nieve, lluvia, altos vientos y frío extremo.</li>
+            <li>Imprescindible calzado y ropa técnicos, adecuados a la climatología. Necesario llevar agua y comida para los días en los que se desarrolle. </li>
+            <li>Necesario estar federado o seguro diario de la FEDME.</li>
+        </ul>
+
+        <h4>MUY DIFÍCIL: </h4>
+        <ul>
+            <li>Aplica las mismas normas que para la ruta DIFÍCIL pero requiere el uso de material específico de alpinismo (crampones y piolet) así como el conocimiento de sus técnicas de uso (progresión por glaciar, autodetención, ...)</li>
+            <li>Eventualmente puede ser necesario saber el manejo de material de aseguramiento (cuerda, arnés, mosquetones, ...) en función de la ruta o el estado de la misma.</li>
+            <li>Necesario estar federado o seguro diario de la FEDME.</li>
+        </ul>
+
+
+        <h4>ACTIVIDAD ESPECIAL: </h4>
+        <ul>
+            <li>Salidas organizadas y programadas para varios días, por lo que se requiere confirmación con bastantes días de antelación. </li>
+            <li>El programa y las rutas son las propuestas por la Junta Directiva del Club, estas se podrían alterar, pues no se puede prever la climatología. Dentro de lo posible, se buscarían otras, para ello se informaría debidamente antes de realizarlas.</li>
+            <li>Si algunos de los asistentes, no desea hacer alguna de las rutas, deberá informar de ello a los responsables del grupo, indicando su cambio; y serán ellos los únicos responsables de lo que hagan y donde vayan. </li>
+            <li>Cuando se sepa los asistentes interesados, se indicará la forma de proceder.</li>
+            <li>Necesario estar federado o seguro diario de la FEDME.</li>
+        </ul>
+
+    </div>
+    <!-- Fin Dificultad -->
+</div>

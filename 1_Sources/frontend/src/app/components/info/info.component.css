@@ -1,0 +1,11 @@
+.tablink {
+    cursor: pointer;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+li {
+    text-decoration: none;
+}
