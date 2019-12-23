@@ -1,6 +1,13 @@
 <!-- Panel Central de la sección de Rutas -->
 <div class="w3-container w3-panel" id="div-panel-central">
     <a [routerLink]="['/rutas/form']" class="w3-btn w3-blue w3-margin-bottom" *ngIf="permiso === adminId">Añadir ruta</a>
+    <div>
+        <select class="w3-select" name="option" [(ngModel)]="opcRutas" (change)="cambiarOpcion()">
+            <option value="1" selected>Observar rutas pendientes</option>
+            <option value="2">Observar todas las rutas</option>
+          </select>
+    </div>
+
     <div id="div_panel_enlaces" class="w3-card w3-responsive w3-border w3-margin-bottom" (window:resize)="onResize($event)">
         <ngx-datatable class="material striped" [rows]="rutas" [columnMode]="'flex'" [headerHeight]="40" [footerHeight]="40" [rowHeight]="30" [sorts]="[{prop: 'fecha', dir: 'desc'}]" [limit]="numRegs" [messages]="{emptyMessage: 'Sin datos a mostrar'}" (click)="editContador()">
             <ngx-datatable-column name="Fecha" prop="fecha" [headerClass]="'w3-padding'" [cellClass]="'w3-padding-small'" [flexGrow]="1" [resizeable]="false" [draggable]="false">

@@ -5,11 +5,14 @@ import { WsRutaService } from '../../services/socket/rutas.service';
 // Servicios propios
 import { ShareUsuariosService } from '../../services/share/share-usuarios';
 
-//Modelo
+// Modelo
 import { Ruta } from '../../models/ruta.model';
 
 // Config
 import { adminId } from '../../config/config';
+
+// Modulo de tiempo
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-rutas',
@@ -18,10 +21,13 @@ import { adminId } from '../../config/config';
 })
 export class RutasComponent implements OnInit, OnDestroy {
   public rutas: Ruta[];
+  public rutasOriginal: Ruta[];
   public numRegs: number;
   public numTotRegs: number;
   public adminId: number;
   public permiso: number;
+  public hoy: string;
+  public opcRutas: number;
 
   private observables = new Array();
 
@@ -32,6 +38,9 @@ export class RutasComponent implements OnInit, OnDestroy {
     this.numRegs = 12;
     this.adminId = adminId;
     this.permiso = 0;
+    this.opcRutas = 1;
+
+    this.hoy = moment().format('YYYY-MM-DD');
   }
 
   ngOnInit() {
@@ -64,7 +73,11 @@ export class RutasComponent implements OnInit, OnDestroy {
 
   getConsultarRutas() {
     const ob = this.wsRutaService.getConsultarRutas().subscribe((data) => {
-      this.rutas = data["rutas"];
+      this.rutasOriginal = data["rutas"];
+      this.rutas = this.rutasOriginal.filter((ruta) => {
+        return ruta.fecha >= this.hoy;
+      });
+
       this.changeUnits();
     });
 
@@ -77,7 +90,10 @@ export class RutasComponent implements OnInit, OnDestroy {
 
   getConsultarRutasPublicas() {
     const ob = this.wsRutaService.getConsultarRutasPublicas().subscribe((data) => {
-      this.rutas = data["rutas"];
+      this.rutasOriginal = data["rutas"];
+      this.rutas = this.rutasOriginal.filter((ruta) => {
+        return ruta.fecha >= this.hoy;
+      });
       this.changeUnits();
     });
 
@@ -137,10 +153,23 @@ export class RutasComponent implements OnInit, OnDestroy {
     }
   }
 
+  cambiarOpcion() {
+    if (this.opcRutas == 1) {
+      this.rutas = this.rutasOriginal.filter((ruta) => {
+        return ruta.fecha >= this.hoy;
+      });
+    } else {
+      this.rutas = this.rutasOriginal;
+    }
+    this.rutas = [...this.rutas];
+
+    this.changeUnits();
+  }
+
   refrescarDatos() {
     setTimeout(() => {
       this.rutas = [...this.rutas];
     }, 100);
-  }  
+  }
 
 }

@@ -7,3 +7,7 @@ ngx-datatable {
 .fa {
     margin-left: 5px;
 }
+
+select {
+    width: 250px;
+}
