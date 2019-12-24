@@ -12,6 +12,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RutasComponent } from './components/rutas/rutas.component';
 import { RutasFormComponent } from './components/rutas-form/rutas-form.component';
 import { InfoComponent } from './components/info/info.component';
+import { RutasConsultaComponent } from './components/rutas-consulta/rutas-consulta.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -39,6 +40,11 @@ const appRoutes: Routes = [
     component: RutasFormComponent,
     canActivate: [AdminGuard, RenovartokenGuard],
     data: { titulo: 'Gestión de rutas' }
+  },
+  {
+    path: 'rutas/consulta/:id',
+    component: RutasConsultaComponent,
+    data: { titulo: 'Consulta ruta' }
   },
   {
     path: 'info',

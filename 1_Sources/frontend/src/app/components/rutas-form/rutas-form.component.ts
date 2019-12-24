@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -36,6 +36,7 @@ export class RutasFormComponent implements OnInit, OnDestroy {
     private rutaService: WsRutaService,
     private validadoresService: ValidadoresService,
     private route: ActivatedRoute,
+    private router: Router,
     private toastr: ToastrService
   ) {
     this.rutaId = null;
@@ -163,6 +164,10 @@ export class RutasFormComponent implements OnInit, OnDestroy {
     } else {
       this.rutaService.crearRuta(this.ruta);
     }
+
+    setTimeout(() => {
+      this.router.navigate(['rutas']);
+    }, 1000);
   }
   _crearRuta() {
     const ob = this.rutaService.getCrearRuta().subscribe(
@@ -172,19 +177,18 @@ export class RutasFormComponent implements OnInit, OnDestroy {
           this.limpiarData();
         }
       });
-    this.observables.push(ob)
+    this.observables.push(ob);
   }
   _actualizarRuta() {
     const ob = this.rutaService.getActualizarRuta().subscribe(
       response => {
         if (response["mensaje"] !== undefined) {
           this.toastr.success(response["mensaje"]);
-          this.limpiarData();
+          this.contadorCambiosForma = 1;
         }
       });
-    this.observables.push(ob)
+    this.observables.push(ob);
   }
-
 
   // Limpiar contenido de objeto que contiene información a editar.
   limpiarData() {

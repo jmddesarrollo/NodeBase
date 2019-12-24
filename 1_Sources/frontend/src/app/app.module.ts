@@ -40,6 +40,7 @@ import { UsuariosImagenComponent } from './components/usuarios-imagen/usuarios-i
 import { RutasComponent } from './components/rutas/rutas.component';
 import { RutasFormComponent } from './components/rutas-form/rutas-form.component';
 import { InfoComponent } from './components/info/info.component';
+import { RutasConsultaComponent } from './components/rutas-consulta/rutas-consulta.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { InfoComponent } from './components/info/info.component';
     UsuariosImagenComponent,
     RutasComponent,
     RutasFormComponent,
-    InfoComponent
+    InfoComponent,
+    RutasConsultaComponent
   ],
   imports: [
     BrowserModule,

@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
       if (data.titulo !== undefined && data.titulo !== null) {
         this.titulo.setTitle(data.titulo);
       } else {
-        this.titulo.setTitle('ZenProject');
+        this.titulo.setTitle('Y-Toledo');
       }
     });
 
