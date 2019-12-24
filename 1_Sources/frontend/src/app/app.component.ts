@@ -5,6 +5,11 @@ import { WebsocketService } from './services/websocket.service';
 // Modulo de notificaciones.
 import { ToastrService } from 'ngx-toastr';
 
+// Título en cada página
+import { Router, ActivationEnd } from '@angular/router';
+import { filter, map } from 'rxjs/operators';
+import { Title } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-root',
@@ -16,8 +21,17 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private websocketService: WebsocketService,
-    private toastr: ToastrService
+    private router: Router,
+    private toastr: ToastrService,
+    private titulo: Title
   ) {
+    this.getDataRoute().subscribe (data => {
+      if (data.titulo !== undefined && data.titulo !== null) {
+        this.titulo.setTitle(data.titulo);
+      } else {
+        this.titulo.setTitle('ZenProject');
+      }
+    });
 
   }
 
@@ -31,6 +45,14 @@ export class AppComponent implements OnInit, OnDestroy {
         ob.unsubscribe();
       }
     }
+  }
+
+  getDataRoute() {
+    return this.router.events.pipe(
+      filter(evento => evento instanceof ActivationEnd ),
+      filter( (evento: ActivationEnd) => evento.snapshot.firstChild === null ),
+      map ( (evento: ActivationEnd ) => evento.snapshot.data)
+    );
   }
 
   getError() {
