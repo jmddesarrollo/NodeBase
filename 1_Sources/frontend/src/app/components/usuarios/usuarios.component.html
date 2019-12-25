@@ -21,23 +21,23 @@
     <div class="w3-card w3-responsive w3-border w3-margin-bottom" (window:resize)="onResize($event)">
         <ngx-datatable class="material striped server-scrolling-demo" [rows]="usuarios" [columnMode]="'flex'" [headerHeight]="headerHeight" [footerHeight]="40" [rowHeight]="rowHeight" [loadingIndicator]="isLoading" [scrollbarV]="true" (scroll)="onScroll($event.offsetY)"
             [sorts]="[{prop: 'apellidos', dir: 'asc'}, {prop: 'nombre', dir: 'asc'}]" [limit]="numRegs" [messages]="{emptyMessage: 'Sin datos a mostrar'}">
-            <ngx-datatable-column name="Apellidos" prop="apellidos" [headerClass]="'w3-pale-red w3-padding mol-negritaCabecera'" [cellClass]="'w3-padding-small'" [flexGrow]="3" [resizeable]="false"></ngx-datatable-column>
-            <ngx-datatable-column name="Nombre" prop="nombre" [headerClass]="'w3-pale-red w3-padding mol-negritaCabecera'" [cellClass]="'w3-padding-small'" [flexGrow]="2" [resizeable]="false"></ngx-datatable-column>
-            <ngx-datatable-column name="Socio" prop="alias" [headerClass]="'w3-pale-red w3-padding mol-negritaCabecera'" [cellClass]="'w3-padding-small'" [flexGrow]="2" [resizeable]="false"></ngx-datatable-column>
-            <ngx-datatable-column name="Email" prop="email" [headerClass]="'w3-pale-red w3-padding mol-negritaCabecera'" [cellClass]="'w3-padding-small'" [flexGrow]="3" [resizeable]="false"></ngx-datatable-column>
-            <ngx-datatable-column name="Rol" prop="rol.nombre" [headerClass]="'w3-pale-red w3-padding mol-negritaCabecera'" [cellClass]="'w3-padding-small'" [flexGrow]="1" [resizeable]="false"></ngx-datatable-column>
-            <ngx-datatable-column name="Activo" prop="activo" [headerClass]="'w3-pale-red w3-padding w3-center mol-negritaCabecera'" [cellClass]="'w3-padding-small w3-center'" [flexGrow]="1" [resizeable]="false" [sortable]="false">
+            <ngx-datatable-column name="Apellidos" prop="apellidos" [headerClass]="'w3-padding mol-negritaCabecera'" [cellClass]="'w3-padding-small'" [flexGrow]="3" [resizeable]="false"></ngx-datatable-column>
+            <ngx-datatable-column name="Nombre" prop="nombre" [headerClass]="'w3-padding mol-negritaCabecera'" [cellClass]="'w3-padding-small'" [flexGrow]="2" [resizeable]="false"></ngx-datatable-column>
+            <ngx-datatable-column name="Socio" prop="alias" [headerClass]="'w3-padding mol-negritaCabecera'" [cellClass]="'w3-padding-small'" [flexGrow]="2" [resizeable]="false"></ngx-datatable-column>
+            <ngx-datatable-column name="Email" prop="email" [headerClass]="'w3-padding mol-negritaCabecera'" [cellClass]="'w3-padding-small'" [flexGrow]="3" [resizeable]="false"></ngx-datatable-column>
+            <ngx-datatable-column name="Rol" prop="rol.nombre" [headerClass]="'w3-padding mol-negritaCabecera'" [cellClass]="'w3-padding-small'" [flexGrow]="1" [resizeable]="false"></ngx-datatable-column>
+            <ngx-datatable-column name="Activo" prop="activo" [headerClass]="'w3-padding w3-center mol-negritaCabecera'" [cellClass]="'w3-padding-small w3-center'" [flexGrow]="1" [resizeable]="false" [sortable]="false">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex " let-row="row ">
                     <i *ngIf="row.activo" class="fa fa-lg fa-user w3-text-green" title="Activo"></i>
                     <i *ngIf="!row.activo" class="fa fa-lg fa-ban w3-text-red" title="Inactivo"></i>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Imagen" prop="imagen" [headerClass]="'w3-pale-red w3-padding w3-center mol-negritaCabecera'" [cellClass]="'w3-padding-small w3-center'" [flexGrow]="1" [resizeable]="false" [sortable]="false">
+            <ngx-datatable-column name="Imagen" prop="imagen" [headerClass]="'w3-padding w3-center mol-negritaCabecera'" [cellClass]="'w3-padding-small w3-center'" [flexGrow]="1" [resizeable]="false" [sortable]="false">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex " let-row="row ">
                     <i *ngIf="row.imagen" class="fa fa-lg fa-camera w3-text-blue" title="Activo"></i>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Acc." [headerClass]="'w3-pale-red w3-padding w3-center mol-negritaCabecera'" [cellClass]="'w3-padding-small w3-center'" [flexGrow]="1" [resizeable]="false" [sortable]="false">
+            <ngx-datatable-column name="Acc." [headerClass]="'w3-padding w3-center mol-negritaCabecera'" [cellClass]="'w3-padding-small w3-center'" [flexGrow]="1" [resizeable]="false" [sortable]="false">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex " let-row="row ">
                     <i class="fa fa-lg fa-edit mol-cursor w3-margin-right w3-text-blue" title="Editar" (click)="sendEditarUsuario(row)"></i>
                     <i class="fa fa-lg fa-times-rectangle mol-cursor w3-text-red" title="Eliminar" (click)="delUsuario(row)"></i>
