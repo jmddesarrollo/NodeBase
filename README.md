@@ -68,3 +68,85 @@ Actualización en tiempo real en la tabla de usuarios para el alta, edición y e
 Vista que muestra los datos del usuario y permite el login o logout.
 =======
 Se ha utilizado las tecnologías de Angular 8, NodeJS v10.15 y MySQL.
+
+---
+## Publicar en producción
+0 - Desplegar la base de datos en el mySQL del servidor.  
+1 - En el servidor realizar clonación del repositorio:
+~~~
+git clone url_repositorioName
+~~~
+2 - En el frontend modificar el archivo de enviroment.ts para indicar el parametro 'production' a 'true'.  
+3 - Situarse en la consola en carpeta del 'frontend'. Realizar una instalación de los módulos en modo administrador:
+~~~
+sudo npm install
+~~~
+4 - En misma carpeta del 'frontend' realizar construcción de archivos para producción:
+~~~
+sudo ng build --prod
+~~~
+5 - Copiar el contenido de la carpeta dist/frontend a la carpeta 'public' del 'backend'.
+6 - En el 'backend' modificar el archivo 'config.json' para indicar el nombre de la base de datos y la constraseña.  
+7 - En el 'backend' modificar el archivo 'package.json' para indicar en el script de 'start': 'node index'  
+8 - Por consola en la carpeta 'backend' usar comando:
+~~~
+sudo npm start
+~~~
+*Nota: Al cerrar conexión en el servidor se perderá la conexión de la web. Para dejar nuestro servidor web funcionando en todo momento es necesario dejarlo en segundo plano con una aplicación como 'Process Manager' (pm2).
+
+9 - Instalación del paquete de Node PM2 de manera global (paso si aún no se tiene instalado PM2 en el servidor):
+~~~
+sudo npm install pm2 -g
+~~~
+10 - Arrancar la aplicación web usando pm2 situandonos en carpeta del 'backend'
+~~~
+pm2 start index.js
+~~~
+Nota: con comando 'pm2 list' muestra las app en segundo plano con PM2. 
+Nota: con comando 'pm2 stop index.js' para parar la app en segundo plano en PM2.
+Nota: con comando 'pm2 kill' para parar todas las app en segundo plano con PM2.
+Nota: con comando 'pm2 help' muestra ayuda de comandos con PM2.
+
+11 - Ir al navegador del servidor y comprobar funcionamiento de la web:
+http://localhost:3679
+o desde otro terminal conectado a la red indicando la ip del servidor:  
+http://192.168.1.89:3679  
+Nota: Para conocer la ip del servidor se puede consultar con el comando 'ifconfig' en la consola del servidor.
+
+---
+## Puerto 80
+Las peticiones a nuestra web se hacen por un puerto determinado(:3679), pero si queremos redirigirlo por el puerto 80, que es el preconfigurado en cualquier servidor para HTTP hay que seguir estos pasos:
+1 - Instalar el servidor web Nginx
+~~~
+sudo apt install nginx
+~~~
+2 - Configurar el FireWall. Obtener la lista de configuraciones de las aplicaciones:
+~~~
+sudo ufw app list
+~~~
+Output:
+~~~
+Aplicaciones disponibles:
+  CUPS
+  Nginx Full
+  Nginx HTTP
+  Nginx HTTPS
+~~~
+3 - Activar el perfil más restrictivo que aún permita el tráfico que haya configurado:
+~~~
+sudo ufw allow 'Nginx HTTP'
+~~~
+4 - Con 'iptables' para redirigir puertos. En este caso todo lo que llegue por el puerto 80 sea redirigido a 3679:
+~~~
+sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3679
+~~~
+Nota: 'eth0' o aquella tarjeta de red que aparece con el comando 'ifconfig'.  
+5 - Restaurar Nginx:
+~~~
+service nginx restart
+~~~
+
+
+
+
+
