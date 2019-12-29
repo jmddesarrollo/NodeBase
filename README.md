@@ -146,7 +146,67 @@ Nota: 'eth0' o aquella tarjeta de red que aparece con el comando 'ifconfig'.
 service nginx restart
 ~~~
 
-
-
-
+---
+## Configuración de mySQL en el servidor
+1 - Realizar una actualización de la versiones del repositorio del servidor:
+~~~
+sudo apt-get update
+~~~
+2 - Instalar MySQL server
+~~~
+sudo apt-get install mysql-server
+~~~
+3 - Ejecutar el script de seguridad para indicar constraseña para usuario 'root'. Aceptar todas las configuraciones predeterminadas para eliminar usuarios anonimos, deshabilitar inicios remotos con root (si así se desea):
+~~~
+sudo mysql_secure_installation
+~~~
+4 - Para iniciar el directorio de datos de MySQL
+~~~
+mysqld --initialize
+~~~
+5 - Ajustar la autenticación y privilegios de usuaros.  
+Para los sistemas Ubuntu que estén usando MySQL 5.7 (y las versiones posteriores), el usuario root de MySQL está configurado, de forma predeterminada, para autenticarse usando el plugin auth_socket en vez de una contraseña. En muchos casos, esto permite que la seguridad y usabilidad sea mayor, pero también puede complicar las cosas cuando deba permitir que un programa externo (tal como phpMyAdmin) tenga acceso al usuario.
+~~~
+sudo mysql
+~~~
+o indicando contraseña si así se indicó en paso 3.
+~~~
+sudo mysql -h localhost -u root -p
+~~~
+6 - Consultar autenticación de cada cuenta de usuario de MySQL
+~~~
+mysql > SELECT user,authentication_string,plugin,host FROM mysql.user;
+~~~
+Seguramente el usuario root se autentica con 'auth_socket'.  
+7 - Cambiar a autentificación por contraseña e indicar la contraseña para MySQL (que altera la indicada en el paso 3 si así se hizo):
+~~~
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+~~~
+8 - Purgar privilegios para que el servidor vuelva a cargar las tablas grant e implemente cambios:
+~~~
+mysql > FLUSH PRIVILEGES;
+~~~
+9 - Salir de mysql
+~~~
+mysql > exit
+~~~
+10 - Alternativamente si lo que se necesita es crear un usuario especifico para la aplicación se puede generar un nuevo usuario dentro de mysql:
+~~~
+mysql > CREATE USER 'user_name'@'localhost' IDENTIFIED BY 'password';
+~~~
+Luego se puede dar al nuevo usuario los privilegios adecuados. Por ejemplo, puede concederle al usuario privilegios a todas las tablas dentro de la base de datos, así como autoridad para agregar, cambiar y eliminar privilegios de usuario, mediante este comando:
+~~~
+GRANT ALL PRIVILEGES ON *.* TO 'sammy'@'localhost' WITH GRANT OPTION;
+~~~
+Nota: no es necesario ejecutar FLUH PRIVILEGIES dado que se creó un usuario nuevo en lugar de modificar uno existente.
+11 - Probar mysql para verificar su estado:
+~~~
+systemctl status mysql.service
+~~~
+Si no se está ejecutando
+~~~
+sudo systemctl start mysql
+~~~
+12 - Verificar acceso a la base de datos por Workbench, línea de comandos, ... o programa que se use para el manejo de datos.
+Una vez se tenga acceso se puede ejecutar el script para la creación de la base de datos de la aplicación.
 
