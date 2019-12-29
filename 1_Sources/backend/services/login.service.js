@@ -4,7 +4,7 @@ var db = require("../models");
 var UsuariosService = require('./usuarios');
 
 // Encriptación de password
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 var jwt = require('jsonwebtoken');
 

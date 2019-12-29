@@ -50,8 +50,11 @@ app.use(function(req, res, next) {
     next();
 });
 
-// Habilitar la carpeta public
-// app.use(express.static(path.resolve(__dirname, '../public')));
+/**
+ * Carga ficheros estáticos
+ */
+// app.use(express.static(path.resolve('../frontend/dist')));
+app.use(express.static(path.resolve(__dirname, '../public')));
 
 // Rutas
 app.use('/api', login_routes);

@@ -12,7 +12,7 @@ var Usuarios = db.usuarios;
 var Rol = db.rols;
 
 // Encriptación de password
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 
 var ControlException = require("../../../../utils/ControlException");
