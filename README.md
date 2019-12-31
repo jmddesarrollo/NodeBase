@@ -76,7 +76,7 @@ Se ha utilizado las tecnologías de Angular 8, NodeJS v10.15 y MySQL.
 ~~~
 git clone url_repositorioName
 ~~~
-2 - En el frontend modificar el archivo de enviroment.ts para indicar el parametro 'production' a 'true'.  
+2 - En el frontend modificar el archivo de enviroment.ts para indicar el parametro 'production' a 'true', así como la ip del servidor donde va a estar alojado.  
 3 - Situarse en la consola en carpeta del 'frontend'. Realizar una instalación de los módulos en modo administrador:
 ~~~
 sudo npm install
@@ -86,19 +86,23 @@ sudo npm install
 sudo ng build --prod
 ~~~
 5 - Copiar el contenido de la carpeta dist/frontend a la carpeta 'public' del 'backend'.
-6 - En el 'backend' modificar el archivo 'config.json' para indicar el nombre de la base de datos y la constraseña.  
-7 - En el 'backend' modificar el archivo 'package.json' para indicar en el script de 'start': 'node index'  
-8 - Por consola en la carpeta 'backend' usar comando:
+6 - En el backend realizar instalación de módulos:
+~~~
+sudo npm install
+~~~
+7 - En el 'backend' modificar el archivo 'config.json' para indicar el nombre de la base de datos y la constraseña.  
+8 - En el 'backend' modificar el archivo 'package.json' para indicar en el script de 'start': 'node index'  
+9 - Por consola en la carpeta 'backend' usar comando:
 ~~~
 sudo npm start
 ~~~
 *Nota: Al cerrar conexión en el servidor se perderá la conexión de la web. Para dejar nuestro servidor web funcionando en todo momento es necesario dejarlo en segundo plano con una aplicación como 'Process Manager' (pm2).
 
-9 - Instalación del paquete de Node PM2 de manera global (paso si aún no se tiene instalado PM2 en el servidor):
+10 - Instalación del paquete de Node PM2 de manera global (paso si aún no se tiene instalado PM2 en el servidor):
 ~~~
 sudo npm install pm2 -g
 ~~~
-10 - Arrancar la aplicación web usando pm2 situandonos en carpeta del 'backend'
+11 - Arrancar la aplicación web usando pm2 situandonos en carpeta del 'backend'
 ~~~
 pm2 start index.js
 ~~~
@@ -107,10 +111,10 @@ Nota: con comando 'pm2 stop index.js' para parar la app en segundo plano en PM2.
 Nota: con comando 'pm2 kill' para parar todas las app en segundo plano con PM2.
 Nota: con comando 'pm2 help' muestra ayuda de comandos con PM2.
 
-11 - Ir al navegador del servidor y comprobar funcionamiento de la web:
+12 - Ir al navegador del servidor y comprobar funcionamiento de la web:
 http://localhost:3679
 o desde otro terminal conectado a la red indicando la ip del servidor:  
-http://192.168.1.89:3679  
+http://192.168.1.25:3679  
 Nota: Para conocer la ip del servidor se puede consultar con el comando 'ifconfig' en la consola del servidor.
 
 ---
@@ -141,7 +145,7 @@ sudo ufw allow 'Nginx HTTP'
 sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3679
 ~~~
 Nota: 'eth0' o aquella tarjeta de red que aparece con el comando 'ifconfig'.  
-5 - Restaurar Nginx:
+5 - Restaurar Nginx (No necesario):
 ~~~
 service nginx restart
 ~~~
@@ -207,6 +211,57 @@ Si no se está ejecutando
 ~~~
 sudo systemctl start mysql
 ~~~
-12 - Verificar acceso a la base de datos por Workbench, línea de comandos, ... o programa que se use para el manejo de datos.
-Una vez se tenga acceso se puede ejecutar el script para la creación de la base de datos de la aplicación.
+12 - Ejecutar script con la base de datos, se puede o bien por ejecución de comando o si se tiene acceso por programa como WorkBench en remoto:
+
+12a - Remotamente (o en local) se puede ejecutar el script para la creación de la base de datos de la aplicación, previamente alojado el script:
+~~~
+mysql -h localhost -u root -p --default-character-set=utf8 nombrebd < /var/www/file.sql
+~~~
+12b - Verificar acceso a la base de datos por Workbench y ejecutar script. 
+
+Nota:
+1 - Crear base de datos
+~~~
+CREATE database 'database_name';
+~~~
+~~~
+SHOW DATATABLES;
+~~~
+~~~
+USE database_name;
+~~~
+~~~
+show tables;
+~~~
+
+---
+## Apertura de puerto en el servidor en raspberry pi
+No es la forma más segura de acceder a la base de datos, pues esta opción deja el puerto abierto en el servidor:  
+  
+1 - Instalar y configurar cortafuegos en raspberry Pi:  
+[Enlace a información cortafuegos ufw](http://rpi.uroboros.es/segurid.html)
+
+---
+## Apertura de puerto 3306 mySQL en el servidor (No necesario)
+No es la forma más segura de acceder a la base de datos, pues esta opción deja el puerto abierto en el servidor:
+1 - Abrir puerto ejecutando siguiente instrucción en el servidor:
+~~~
+iptables -A INPUT -i eth0 -p tcp --destination-port 3306 -j ACCEPT
+~~~
+o más seguro indicando ip desde el terminal donde se quiere acceder remotamente:
+~~~
+sudo iptables -A INPUT -i eth0 -s 192.168.1.10/24 -p tcp --destination-port 3306 -j ACCEPT
+~~~
+3 - Reiniciar MySQL
+~~~
+sudo service mysql restart
+~~~
+4 - Para listar las reglas
+~~~
+sudo iptables -nL
+~~~
+5 - Para eliminar una regla
+~~~
+sudo iptables -D INPUT <núm.regla>
+~~~
 
