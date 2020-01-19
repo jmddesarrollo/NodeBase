@@ -5,3 +5,12 @@
 .seleccion {
     background-color: blue;
 }
+
+
+/* On screens that are 990px or less */
+
+@media screen and (max-width: 990px) {
+    .mol-server {
+        width: 100%;
+    }
+}

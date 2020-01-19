@@ -1,10 +1,14 @@
-<div class="w3-container tabs" style="display:block">
+<div class="w3-container w3-panel w3-card-4">
 
     <form class="w3-container w3-panel" [formGroup]="forma" (ngSubmit)="guardarCambios()">
         <div class="w3-margin-bottom">
-            <label class="negrita">Título:</label>
+            <div class="w3-row w3-section">
+                <div class="w3-col" style="width: 100px"><label class="mol-negrita label-color">Título:</label></div>
+                <div class="w3-rest">
+                    <input class="w3-input" type="text" name="titulo" formControlName="titulo" autofocus>
+                </div>
+            </div>
             <div>
-                <input class="w3-input" type="text" name="titulo" formControlName="titulo" autofocus>
                 <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['titulo'].errors?.required && forma.controls['titulo'].touched">
                     Revisar el título. Debe estar informado.
                 </div>
@@ -17,228 +21,325 @@
             </div>
         </div>
 
-        <div class="w3-margin-bottom">
-            <label class="negrita">Lugar:</label>
-            <div>
-                <input class="w3-input" type="text" name="lugar" formControlName="lugar">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['lugar'].errors?.required && forma.controls['lugar'].touched">
-                    Revisar el lugar. Debe estar informado.
+        <div class="w3-row">
+            <div class="w3-half w3-container">
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col " style="width: 250px"><label class="mol-negrita label-color">Lugar:</label></div>
+                        <div class="w3-rest">
+                            <input class="w3-input" type="text" name="lugar" formControlName="lugar">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['lugar'].errors?.required && forma.controls['lugar'].touched">
+                            Revisar el lugar. Debe estar informado.
+                        </div>
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['lugar'].errors?.mintext) && forma.controls['lugar'].touched && !forma.controls['lugar'].errors?.required">
+                            Revisar el lugar. Debe tener al menos 2 caracteres.
+                        </div>
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['lugar'].errors?.maxtext) && forma.controls['lugar'].touched && !forma.controls['lugar'].errors?.required">
+                            Revisar el lugar. Permitido hasta 100 caracteres.
+                        </div>
+                    </div>
                 </div>
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['lugar'].errors?.mintext) && forma.controls['lugar'].touched && !forma.controls['lugar'].errors?.required">
-                    Revisar el lugar. Debe tener al menos 2 caracteres.
-                </div>
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['lugar'].errors?.maxtext) && forma.controls['lugar'].touched && !forma.controls['lugar'].errors?.required">
-                    Revisar el lugar. Permitido hasta 100 caracteres.
-                </div>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Fecha (dd/mm/aaaa):</label>
-            <div>
-                <input class="w3-input numerico" type="date" name="fecha" formControlName="fecha" placeholder="dd/mm/aaaa">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['fecha'].errors?.required && forma.controls['fecha'].touched">
-                    Revisar la fecha. Fecha inválida.
-                </div>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Último día para apuntarse (dd/mm/aaaa):</label>
-            <div>
-                <input class="w3-input numerico" type="date" name="ultimoDiaApuntarse" formControlName="ultimoDiaApuntarse" placeholder="dd/mm/aaaa">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['ultimoDiaApuntarse'].errors?.required && forma.controls['ultimoDiaApuntarse'].touched">
-                    Revisar la fecha. Fecha inválida.
-                </div>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Última hora para apuntarse (hh:mm):</label>
-            <div>
-                <input class="w3-input numerico" type="text" name="ultimaHoraApuntarse" formControlName="ultimaHoraApuntarse" title="Introduce formato 00:00" placeholder="00:00">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['ultimaHoraApuntarse'].errors?.formatoHora) && forma.controls['ultimaHoraApuntarse'].touched">
-                    Revisar la hora. Formato incorrecto. Se espera formato '00:00'.
-                </div>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Distancia (en km):</label>
-            <div>
-                <input class="w3-input numerico" type="number" name="distancia" formControlName="distancia" min="0" max="24" step="0.1" value="0.00" title="Introduce un valor numérico decimal positivo">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['distancia'].errors?.formatoDecimal) && forma.controls['distancia'].touched">
-                    Revisar la distancia. Formato incorrecto. Se espera número entero o decimal de hasta dos posiciones.
-                </div>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Duración (hh:mm):</label>
-            <div>
-                <input class="w3-input numerico" type="text" name="duracion" formControlName="duracion" title="Introduce formato 00:00" placeholder="00:00">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['duracion'].errors?.formatoHora) && forma.controls['duracion'].touched">
-                    Revisar la duración. Formato incorrecto. Se espera formato '00:00'.
-                </div>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Altitud máxima (en metros):</label>
-            <div>
-                <input class="w3-input numerico" type="number" name="altitudMax" formControlName="altitudMax" title="Introduce formato 00:00" placeholder="00:00">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['altitudMax'].errors?.formatoEntero) && forma.controls['altitudMax'].touched">
-                    Revisar la altitud máxima. Formato incorrecto. Se espera número entero.
-                </div>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Altitud mínima (en metros):</label>
-            <div>
-                <input class="w3-input numerico" type="number" name="altitudMin" formControlName="altitudMin" title="Introduce formato 00:00" placeholder="00:00">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['altitudMin'].errors?.formatoEntero) && forma.controls['altitudMin'].touched">
-                    Revisar la altitud mínima. Formato incorrecto. Se espera número entero.
-                </div>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Desnivel de subida (en metros):</label>
-            <div>
-                <input class="w3-input numerico" type="number" name="desnivelSubida" formControlName="desnivelSubida" title="Introduce formato 00:00" placeholder="00:00">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['desnivelSubida'].errors?.formatoEntero) && forma.controls['desnivelSubida'].touched">
-                    Revisar el desnivel de subida. Formato incorrecto. Se espera número entero.
-                </div>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Desnivel de bajada (en metros):</label>
-            <div>
-                <input class="w3-input numerico" type="number" name="desnivelBajada" formControlName="desnivelBajada" title="Introduce formato 00:00" placeholder="00:00">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['desnivelBajada'].errors?.formatoEntero) && forma.controls['desnivelBajada'].touched">
-                    Revisar el desnivel de bajada. Formato incorrecto. Se espera número entero.
-                </div>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Pública:</label>
-            <div>
-                <select formControlName="publica">
-                    <option [ngValue]="0">No</option>
-                    <option [ngValue]="1" >Si</option>
-                  </select>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Dificultad:</label>
-            <div>
-                <select formControlName="dificultadId">
-                    <option *ngFor="let dificultad of dificultades" [ngValue]="dificultad.id">
-                      {{ dificultad.nombre }}
-                    </option>
-                  </select>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Recorrido:</label>
-            <div>
-                <select formControlName="recorridoId">
-                    <option *ngFor="let recorrido of recorridos" [ngValue]="recorrido.id">
-                      {{ recorrido.nombre }}
-                    </option>
-                  </select>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Precio para los NO socios (€):</label>
-            <div>
-                <input class="w3-input numerico" type="number" name="precioNoSocio" formControlName="precioNoSocio" min="0" max="24" step="0.1" value="0.00" title="Introduce un valor numérico decimal positivo">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['precioNoSocio'].errors?.formatoDecimal) && forma.controls['precioNoSocio'].touched">
-                    Revisar el precio. Formato incorrecto. Se espera número entero o decimal de hasta dos posiciones.
-                </div>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Precio para los socios (€):</label>
-            <div>
-                <input class="w3-input numerico" type="number" name="precioSocio" formControlName="precioSocio" min="0" max="24" step="0.1" value="0.00" title="Introduce un valor numérico decimal positivo">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['precioSocio'].errors?.formatoDecimal) && forma.controls['precioSocio'].touched">
-                    Revisar el precio. Formato incorrecto. Se espera número entero o decimal de hasta dos posiciones.
-                </div>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Señalización:</label>
-            <div>
-                <input class="w3-input" type="text" name="senalizacion" formControlName="senalizacion">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['senalizacion'].errors?.maxtext) && forma.controls['senalizacion'].touched">
-                    Revisar la señalización. Permitido hasta 100 caracteres.
-                </div>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">IBP:</label>
-            <div>
-                <input class="w3-input" type="text" name="ibp" formControlName="ibp">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['ibp'].errors?.maxtext) && forma.controls['ibp'].touched">
-                    Revisar la señalización. Permitido hasta 100 caracteres.
-                </div>
-            </div>
-        </div>
 
-        <div class="w3-margin-bottom">
-            <label class="negrita">Descripción de la ruta:</label>
-            <div>
-                <textarea formControlName="descripcion" id="descripcion" name="descripcion"></textarea>
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['descripcion'].errors?.maxtext) && forma.controls['descripcion'].touched">
-                    Revisar la descripción. Permitido hasta 65535 caracteres.
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width: 250px"><label class="mol-negrita label-color">Fecha (dd/mm/aaaa):</label></div>
+                        <div class="w3-rest">
+                            <input class="w3-input numerico" type="date" name="fecha" formControlName="fecha" placeholder="dd/mm/aaaa">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['fecha'].errors?.required && forma.controls['fecha'].touched">
+                            Revisar la fecha. Fecha inválida.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width: 250px"><label class="mol-negrita label-color">Distancia (en km):</label></div>
+                        <div class="w3-rest">
+                            <input class="w3-input numerico" type="number" name="distancia" formControlName="distancia" min="0" max="24" step="0.1" value="0.00" title="Introduce un valor numérico decimal positivo">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['distancia'].errors?.formatoDecimal) && forma.controls['distancia'].touched">
+                            Revisar la distancia. Formato incorrecto. Se espera número entero o decimal de hasta dos posiciones.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width: 250px"><label class="mol-negrita label-color">Duración (hh:mm):</label></div>
+                        <div class="w3-rest">
+                            <input class="w3-input numerico" type="text" name="duracion" formControlName="duracion" title="Introduce formato 00:00" placeholder="00:00">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['duracion'].errors?.formatoHora) && forma.controls['duracion'].touched">
+                            Revisar la duración. Formato incorrecto. Se espera formato '00:00'.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width: 250px"><label class="mol-negrita label-color">Dificultad:</label></div>
+                        <div class="w3-rest">
+                            <select formControlName="dificultadId">
+                                <option *ngFor="let dificultad of dificultades" [ngValue]="dificultad.id">
+                                  {{ dificultad.nombre }}
+                                </option>
+                              </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width: 250px"><label class="mol-negrita label-color">Pública:</label></div>
+                        <div class="w3-rest">
+                            <select formControlName="publica">
+                                <option [ngValue]="0">No</option>
+                                <option [ngValue]="1" >Si</option>
+                              </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width: 250px"><label class="mol-negrita label-color">Precio para socios (€):</label></div>
+                        <div class="w3-rest">
+                            <input class="w3-input numerico" type="number" name="precioSocio" formControlName="precioSocio" min="0" max="24" step="0.1" value="0.00" title="Introduce un valor numérico decimal positivo">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['precioSocio'].errors?.formatoDecimal) && forma.controls['precioSocio'].touched">
+                            Revisar el precio. Formato incorrecto. Se espera número entero o decimal de hasta dos posiciones.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width: 250px"><label class="mol-negrita label-color">Precio para NO socios (€):</label></div>
+                        <div class="w3-rest">
+                            <input class="w3-input numerico" type="number" name="precioNoSocio" formControlName="precioNoSocio" min="0" max="24" step="0.1" value="0.00" title="Introduce un valor numérico decimal positivo">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['precioNoSocio'].errors?.formatoDecimal) && forma.controls['precioNoSocio'].touched">
+                            Revisar el precio. Formato incorrecto. Se espera número entero o decimal de hasta dos posiciones.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-half w3-container">
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width: 250px"><label class="mol-negrita label-color">Altitud máxima (m):</label></div>
+                        <div class="w3-rest">
+                            <input class="w3-input numerico" type="number" name="altitudMax" formControlName="altitudMax" title="Introduce altitud máxima en metros">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['altitudMax'].errors?.formatoEntero) && forma.controls['altitudMax'].touched">
+                            Revisar la altitud máxima. Formato incorrecto. Se espera número entero.
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width: 250px"><label class="mol-negrita label-color">Altitud mínima (m):</label></div>
+                        <div class="w3-rest">
+                            <input class="w3-input numerico" type="number" name="altitudMin" formControlName="altitudMin" title="Introduce altitud mínima en metros">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['altitudMin'].errors?.formatoEntero) && forma.controls['altitudMin'].touched">
+                            Revisar la altitud mínima. Formato incorrecto. Se espera número entero.
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width: 250px"><label class="mol-negrita label-color">Desnivel de subida (m):</label></div>
+                        <div class="w3-rest">
+                            <input class="w3-input numerico" type="number" name="desnivelSubida" formControlName="desnivelSubida" title="Introduce el desnivel de subida en metros">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['desnivelSubida'].errors?.formatoEntero) && forma.controls['desnivelSubida'].touched">
+                            Revisar el desnivel de subida. Formato incorrecto. Se espera número entero.
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width: 250px"><label class="mol-negrita label-color">Desnivel de bajada (m):</label></div>
+                        <div class="w3-rest">
+                            <input class="w3-input numerico" type="number" name="desnivelBajada" formControlName="desnivelBajada" title="Introduce el desnivel de bajada en metros">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['desnivelBajada'].errors?.formatoEntero) && forma.controls['desnivelBajada'].touched">
+                            Revisar el desnivel de bajada. Formato incorrecto. Se espera número entero.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width: 250px"><label class="mol-negrita label-color">Recorrido:</label></div>
+                        <div class="w3-rest">
+                            <select formControlName="recorridoId">
+                                <option *ngFor="let recorrido of recorridos" [ngValue]="recorrido.id">
+                                  {{ recorrido.nombre }}
+                                </option>
+                              </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width: 250px"><label class="mol-negrita label-color">Último día para apuntarse:</label></div>
+                        <div class="w3-rest">
+                            <input class="w3-input numerico" type="date" name="ultimoDiaApuntarse" formControlName="ultimoDiaApuntarse" placeholder="dd/mm/aaaa">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="forma.controls['ultimoDiaApuntarse'].errors?.required && forma.controls['ultimoDiaApuntarse'].touched">
+                            Revisar la fecha. Fecha inválida.
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width: 250px"><label class="mol-negrita label-color">Última hora para apuntarse:</label></div>
+                        <div class="w3-rest">
+                            <input class="w3-input numerico" type="text" name="ultimaHoraApuntarse" formControlName="ultimaHoraApuntarse" title="Introduce formato 00:00" placeholder="00:00">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['ultimaHoraApuntarse'].errors?.formatoHora) && forma.controls['ultimaHoraApuntarse'].touched">
+                            Revisar la hora. Formato incorrecto. Se espera formato '00:00'.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width: 250px"><label class="mol-negrita label-color">Señalización:</label></div>
+                        <div class="w3-rest">
+                            <input class="w3-input" type="text" name="senalizacion" formControlName="senalizacion">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['senalizacion'].errors?.maxtext) && forma.controls['senalizacion'].touched">
+                            Revisar la señalización. Permitido hasta 100 caracteres.
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-margin-bottom">
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width: 250px"><label class="mol-negrita label-color">IBP:</label></div>
+                        <div class="w3-rest">
+                            <input class="w3-input numerico" type="text" name="ibp" formControlName="ibp">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['ibp'].errors?.maxtext) && forma.controls['ibp'].touched">
+                            Revisar la señalización. Permitido hasta 100 caracteres.
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Descripción ruta opcional:</label>
-            <div>
-                <textarea formControlName="opcional" id="opcional" name="opcional"></textarea>
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['opcional'].errors?.maxtext) && forma.controls['opcional'].touched">
-                    Revisar la descripción de la ruta opcional. Permitido hasta 65535 caracteres.
+        <p></p>
+        <div class="w3-container">
+            <div class="w3-margin-bottom">
+                <div class="w3-row w3-section">
+                    <div class="w3-col" style="width: 350px"><label class="mol-negrita label-color">Enlace al tiempo en la localidad:</label></div>
+                    <div class="w3-rest">
+                        <input class="w3-input" type="text" name="enlaceTiempo" formControlName="enlaceTiempo">
+                    </div>
+                </div>
+                <div>
+                    <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['enlaceTiempo'].errors?.formatoUrl) && forma.controls['enlaceTiempo'].touched">
+                        Revisar el enlace del tiempo. Debe tener formato 'http://' o 'https://'.
+                    </div>
+                    <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['enlaceTiempo'].errors?.maxtext) && forma.controls['enlaceTiempo'].touched">
+                        Revisar el enlace del tiempo. Permitido hasta 200 caracteres.
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Enlace al tiempo en la localidad:</label>
-            <div>
-                <input class="w3-input" type="text" name="enlaceTiempo" formControlName="enlaceTiempo">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['enlaceTiempo'].errors?.formatoUrl) && forma.controls['enlaceTiempo'].touched">
-                    Revisar el enlace del tiempo. Debe tener formato 'http://' o 'https://'.
+            <div class="w3-margin-bottom">
+                <div class="w3-row w3-section">
+                    <div class="w3-col" style="width: 350px"><label class="mol-negrita label-color">Enlace a la ruta (¿wikiloc?):</label></div>
+                    <div class="w3-rest">
+                        <input class="w3-input" type="text" name="enlaceRuta" formControlName="enlaceRuta">
+                    </div>
                 </div>
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['enlaceTiempo'].errors?.maxtext) && forma.controls['enlaceTiempo'].touched">
-                    Revisar el enlace del tiempo. Permitido hasta 200 caracteres.
-                </div>
-            </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Enlace a la ruta (¿wikiloc?):</label>
-            <div>
-                <input class="w3-input" type="text" name="enlaceRuta" formControlName="enlaceRuta">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['enlaceRuta'].errors?.formatoUrl) && forma.controls['enlaceRuta'].touched">
-                    Revisar el enlace a la ruta. Debe tener formato 'http://' o 'https://'.
-                </div>
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['enlaceRuta'].errors?.maxtext) && forma.controls['enlaceRuta'].touched">
-                    Revisar el enlace a la ruta. Permitido hasta 200 caracteres.
+                <div>
+                    <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['enlaceRuta'].errors?.formatoUrl) && forma.controls['enlaceRuta'].touched">
+                        Revisar el enlace a la ruta. Debe tener formato 'http://' o 'https://'.
+                    </div>
+                    <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['enlaceRuta'].errors?.maxtext) && forma.controls['enlaceRuta'].touched">
+                        Revisar el enlace a la ruta. Permitido hasta 200 caracteres.
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Enlace para apuntarse:</label>
-            <div>
-                <input class="w3-input" type="text" name="enlaceApuntarse" formControlName="enlaceApuntarse">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['enlaceApuntarse'].errors?.formatoUrl) && forma.controls['enlaceApuntarse'].touched">
-                    Revisar el enlace para apuntarse. Debe tener formato 'http://' o 'https://'.
+            <div class="w3-margin-bottom">
+                <div class="w3-row w3-section">
+                    <div class="w3-col" style="width: 350px"><label class="mol-negrita label-color">Enlace para apuntarse:</label></div>
+                    <div class="w3-rest">
+                        <input class="w3-input" type="text" name="enlaceApuntarse" formControlName="enlaceApuntarse">
+                    </div>
                 </div>
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['enlaceApuntarse'].errors?.maxtext) && forma.controls['enlaceApuntarse'].touched">
-                    Revisar el enlace para apuntarse. Permitido hasta 200 caracteres.
+                <div>
+                    <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['enlaceApuntarse'].errors?.formatoUrl) && forma.controls['enlaceApuntarse'].touched">
+                        Revisar el enlace para apuntarse. Debe tener formato 'http://' o 'https://'.
+                    </div>
+                    <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['enlaceApuntarse'].errors?.maxtext) && forma.controls['enlaceApuntarse'].touched">
+                        Revisar el enlace para apuntarse. Permitido hasta 200 caracteres.
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="w3-margin-bottom">
-            <label class="negrita">Teléfono de contacto(999-999-999):</label>
-            <div>
-                <input class="w3-input" type="text" name="telefonoContacto" formControlName="telefonoContacto">
-                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['telefonoContacto'].errors?.formatoTelefono) && forma.controls['telefonoContacto'].touched">
-                    Revisar el número de teléfono. Permitido formato '999-999-999' o '999.999.999'.
+            <div class="w3-margin-bottom">
+                <div class="w3-row w3-section">
+                    <div class="w3-col" style="width: 350px"><label class="mol-negrita label-color">Teléfono de contacto:</label></div>
+                    <div class="w3-rest">
+                        <input class="w3-input numerico" type="text" name="telefonoContacto" formControlName="telefonoContacto" title="Introduce número de teléfono" placeholder="999-999-999">
+                    </div>
+                </div>
+                <div>
+                    <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['telefonoContacto'].errors?.formatoTelefono) && forma.controls['telefonoContacto'].touched">
+                        Revisar el número de teléfono. Permitido formato '999-999-999' o '999.999.999'.
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-margin-bottom">
+                <label class="mol-negrita label-color">Descripción de la ruta:</label>
+                <div>
+                    <textarea formControlName="descripcion" id="descripcion" name="descripcion"></textarea>
+                    <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['descripcion'].errors?.maxtext) && forma.controls['descripcion'].touched">
+                        Revisar la descripción. Permitido hasta 65535 caracteres.
+                    </div>
+                </div>
+            </div>
+            <div class="w3-margin-bottom">
+                <label class="mol-negrita label-color">Descripción ruta opcional:</label>
+                <div>
+                    <textarea formControlName="opcional" id="opcional" name="opcional"></textarea>
+                    <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" *ngIf="(forma.controls['opcional'].errors?.maxtext) && forma.controls['opcional'].touched">
+                        Revisar la descripción de la ruta opcional. Permitido hasta 65535 caracteres.
+                    </div>
                 </div>
             </div>
         </div>

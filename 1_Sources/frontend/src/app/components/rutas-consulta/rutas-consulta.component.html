@@ -1,79 +1,51 @@
-<div class="w3-container">
-    <div class="w3-margin-bottom">
-        <label class="negrita">Título:</label>{{ruta.titulo}}
+<div class="w3-container w3-panel w3-card-4" *ngIf="ruta">
+    <div class="w3-panel w3-blue w3-text-white">
+        <h2 class="w3-center">{{ruta.titulo}}</h2>
     </div>
-    <div class="w3-margin-bottom">
-        <label class="negrita">Lugar:</label>{{ruta.lugar}}
+    <div class="w3-row">
+        <div class="w3-half w3-container">
+            <p><label class="mol-negrita label-min">Lugar:</label>{{ruta.lugar}}</p>
+            <p><label class="mol-negrita label-min">Fecha:</label>{{ruta.fecha}}</p>
+            <p><label class="mol-negrita label-min">Distancia:</label>{{ruta.distancia}} Kms.</p>
+            <p><label class="mol-negrita label-min">Duración:</label>{{ruta.duracion}} h.</p>
+            <p><label class="mol-negrita label-min">Dificultad:</label>{{ruta.dificultad.nombre}}</p>
+            <p *ngIf="ruta.publica"><label class="mol-negrita label-min">Pública:</label>Sí</p>
+            <p *ngIf="!ruta.publica"><label class="mol-negrita label-min">Pública:</label>No</p>
+            <p><label class="mol-negrita label-min">Precio para los socios:</label>{{ruta.precioSocio}} €</p>
+            <p><label class="mol-negrita label-min">Precio para los NO socios:</label>{{ruta.precioNoSocio}} €</p>
+        </div>
+        <div class="w3-half w3-container">
+            <p><label class="mol-negrita label-min">Altitud máxima:</label>{{ruta.altitudMax}} m.</p>
+            <p><label class="mol-negrita label-min">Altitud mínima:</label>{{ruta.altitudMin}} m.</p>
+            <p><label class="mol-negrita label-min">Desnivel de subida:</label>{{ruta.desnivelSubida}} m.</p>
+            <p><label class="mol-negrita label-min">Desnivel de bajada:</label>{{ruta.desnivelBajada}} m.</p>
+            <p><label class="mol-negrita label-min">Recorrido:</label>{{ruta.recorrido.nombre}}</p>
+            <p><label class="mol-negrita label-min">Último día para apuntarse:</label>{{ruta.ultimoDiaApuntarse}} ({{ruta.ultimaHoraApuntarse}})</p>
+            <p><label class="mol-negrita label-min">Señalización:</label>{{ruta.senalizacion}}</p>
+            <p><label class="mol-negrita label-min">IBP:</label>{{ruta.ibp}}</p>
+        </div>
     </div>
-    <div class="w3-margin-bottom">
-        <label class="negrita">Fecha:</label>{{ruta.fecha}}
-    </div>
-    <div class="w3-margin-bottom" *ngIf="ruta.ultimoDiaApuntarse">
-        <label class="negrita">Último día para apuntarse:</label>{{ruta.ultimoDiaApuntarse}}
-    </div>
-    <div class="w3-margin-bottom" *ngIf="ruta.ultimaHoraApuntarse">
-        <label class="negrita">Última hora para apuntarse:</label>{{ruta.ultimaHoraApuntarse}}
-    </div>
-    <div class="w3-margin-bottom" *ngIf="ruta.distancia">
-        <label class="negrita">Distancia:</label>{{ruta.distancia}} Kms.
-    </div>
-    <div class="w3-margin-bottom" *ngIf="ruta.duracion">
-        <label class="negrita">Duración:</label>{{ruta.duracion}} h.
-    </div>
-    <div class="w3-margin-bottom" *ngIf="ruta.altitudMax">
-        <label class="negrita">Altitud máxima:</label>{{ruta.altitudMax}} m.
-    </div>
-    <div class="w3-margin-bottom" *ngIf="ruta.altitudMin">
-        <label class="negrita">Altitud mínima:</label>{{ruta.altitudMin}} m.
-    </div>
-    <div class="w3-margin-bottom" *ngIf="ruta.desnivelSubida">
-        <label class="negrita">Desnivel de subida:</label>{{ruta.desnivelSubida}} m.
-    </div>
-    <div class="w3-margin-bottom" *ngIf="ruta.desnivelBajada">
-        <label class="negrita">Desnivel de bajada:</label>{{ruta.desnivelBajada}} m.
-    </div>
-    <div class="w3-margin-bottom" *ngIf="ruta.publica">
-        <label class="negrita">Pública:</label>Sí
-    </div>
-    <div class="w3-margin-bottom" *ngIf="!ruta.publica">
-        <label class="negrita">Pública:</label>No
-    </div>
-    <div class="w3-margin-bottom">
-        <label class="negrita">Dificultad:</label>{{ruta.dificultad.nombre}}
-    </div>
-    <div class="w3-margin-bottom">
-        <label class="negrita">Recorrido:</label>{{ruta.recorrido.nombre}}
-    </div>
-    <div class="w3-margin-bottom">
-        <label class="negrita">Precio para los NO socios:</label>{{ruta.precioNoSocio}} €
-    </div>
-    <div class="w3-margin-bottom">
-        <label class="negrita">Precio para los socios:</label>{{ruta.precioSocio}} €
-    </div>
-    <div class="w3-margin-bottom" *ngIf="ruta.telefonoContacto">
-        <label class="negrita">Señalización:</label>{{ruta.senalizacion}}
-    </div>
-    <div class="w3-margin-bottom" *ngIf="ruta.telefonoContacto">
-        <label class="negrita">IBP:</label>{{ruta.ibp}}
-    </div>
-    <div class="w3-margin-bottom">
-        <label class="negrita">Descripción de la ruta:</label>
-        <p>{{ruta.descripcion}}</p>
-    </div>
-    <div class="w3-margin-bottom" *ngIf="ruta.opcional">
-        <label class="negrita">Descripción ruta opcional:</label>
-        <p>{{ruta.opcional}}</p>
-    </div>
-    <div class="w3-margin-bottom" *ngIf="ruta.enlaceTiempo">
-        <label class="negrita">Enlace del tiempo:</label><a href="{{ruta.enlaceTiempo}}" target="_blank">{{ruta.enlaceTiempo}}</a>
-    </div>
-    <div class="w3-margin-bottom" *ngIf="ruta.enlaceRuta">
-        <label class="negrita">Enlace a la ruta (¿wikiloc?):</label><a href="{{ruta.enlaceRuta}}" target="_blank">{{ruta.enlaceRuta}}</a>
-    </div>
-    <div class="w3-margin-bottom" *ngIf="ruta.enlaceApuntarse">
-        <label class="negrita">Enlace para apuntarse:</label><a href="{{ruta.enlaceApuntarse}}" target="_blank">{{ruta.enlaceApuntarse}}</a>
-    </div>
-    <div class="w3-margin-bottom" *ngIf="ruta.telefonoContacto">
-        <label class="negrita">Teléfono de contacto:</label>{{ruta.telefonoContacto}}
+    <p></p>
+    <div class="w3-container">
+        <div class="w3-margin-bottom" *ngIf="ruta.enlaceTiempo">
+            <label class="mol-negrita label-min">Enlace del tiempo:</label><a href="{{ruta.enlaceTiempo}}" target="_blank">{{ruta.enlaceTiempo}}</a>
+        </div>
+        <div class="w3-margin-bottom" *ngIf="ruta.enlaceRuta">
+            <label class="mol-negrita label-min">Enlace a la ruta (¿wikiloc?):</label><a href="{{ruta.enlaceRuta}}" target="_blank">{{ruta.enlaceRuta}}</a>
+        </div>
+        <div class="w3-margin-bottom" *ngIf="ruta.enlaceApuntarse">
+            <label class="mol-negrita label-min">Enlace para apuntarse:</label><a href="{{ruta.enlaceApuntarse}}" target="_blank">{{ruta.enlaceApuntarse}}</a>
+        </div>
+        <div class="w3-margin-bottom" *ngIf="ruta.telefonoContacto">
+            <label class="mol-negrita label-min">Teléfono de contacto:</label>{{ruta.telefonoContacto}}
+        </div>
+        <div class="w3-margin-bottom">
+            <label class="mol-negrita">Descripción de la ruta:</label>
+            <p>{{ruta.descripcion}}</p>
+        </div>
+        <div class="w3-margin-bottom" *ngIf="ruta.opcional">
+            <label class="mol-negrita">Descripción ruta opcional:</label>
+            <p>{{ruta.opcional}}</p>
+        </div>
     </div>
 </div>

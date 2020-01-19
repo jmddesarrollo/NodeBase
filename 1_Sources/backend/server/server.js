@@ -54,7 +54,7 @@ app.use(function(req, res, next) {
  * Carga ficheros estáticos
  */
 // Cargar en raíz el contenido en carpeta pública.
-app.use('/', express.static(path.resolve(__dirname, '../public'), { redirect: false }));
+// app.use('/', express.static(path.resolve(__dirname, '../public'), { redirect: false }));
 
 // Rutas del API
 app.use('/api', login_routes);
@@ -64,6 +64,6 @@ app.use('/api', upload_routes);
 
 // Cualquier otra ruta, que no sea raíz o ruta del api, se manda al index de la carpeta pública y angular ya se encarga de 
 // redireccionar. Así con el refresco de una página sabe donde ha de alojarse.
-app.use('*', express.static(path.resolve(__dirname, '../public/index.html')));
+// app.use('*', express.static(path.resolve(__dirname, '../public/index.html')));
 
 module.exports = app;

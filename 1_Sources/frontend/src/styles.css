@@ -16,6 +16,10 @@
     font-size: 16px !important;
 }
 
+.label-color {
+    color: blue;
+}
+
 
 /* Cambios globales en ngx-datable*/
 
