@@ -82,9 +82,104 @@ async function updImgUsuario(req, res) {
     }
 }
 
+/*
+ * Editar imagen de un usuario
+ */
+async function postGaleria(req, res) {
+    try {
+        UploadService.postGaleria(req);
+
+        res.status(200).send({ status: 'success', message: "Las imagenes han sido almacenadas correctamente." });
+    } catch (error) {
+        if (error instanceof ControlException) {
+            res.status(error.code).send({ status: 'error', message: error.message });
+        } else {
+            res.status(500).send({ status: 'error', message: 'Error no controlado.' });
+        }
+    }
+}
+
+/*
+ * Editar imagen de un usuario
+ */
+async function getGaleria(req, res) {
+    try {
+        const data = await UploadService.getGaleria(req);
+
+        res.status(200).send({ status: 'success', message: "Las imagenes han sido consultadas correctamente.", data });
+    } catch (error) {
+        if (error instanceof ControlException) {
+            res.status(error.code).send({ status: 'error', message: error.message });
+        } else {
+            res.status(500).send({ status: 'error', message: 'Error no controlado.' });
+        }
+    }
+}
+
+/*
+ * Descargar imagen del usuario
+ */
+function getGaleriaById(req, res) {
+    try {
+        const imgnombre = req.params.imgnombre;
+        const id = req.params.id;
+
+        var tipo = 'imagenes/' + id;
+        var nombre_archivo = imgnombre;
+
+        var archivoPath = UploadService.getArchivo(tipo, nombre_archivo);
+
+        res.sendFile(archivoPath);
+    } catch (error) {
+        if (error instanceof ControlException) {
+            res.status(error.code).send({ status: 'error', message: error.message });
+        } else {
+            res.status(500).send({ status: 'error', message: 'Error no controlado.' });
+        }
+    }
+}
+
+/*
+ * Editar imagen de un usuario
+ */
+async function getGaleria(req, res) {
+    try {
+        const data = await UploadService.getGaleria(req);
+
+        res.status(200).send({ status: 'success', message: "Las imagenes han sido consultadas correctamente.", data });
+    } catch (error) {
+        if (error instanceof ControlException) {
+            res.status(error.code).send({ status: 'error', message: error.message });
+        } else {
+            res.status(500).send({ status: 'error', message: 'Error no controlado.' });
+        }
+    }
+}
+
+/*
+ * Eliminar archivo
+ */
+async function eliminarImg(req, res) {
+    try {
+        await UploadService.eliminarImg(req);
+
+        res.status(200).send({ status: 'success', message: "Las imagen ha sido eliminada correctamente." });
+    } catch (error) {
+        if (error instanceof ControlException) {
+            res.status(error.code).send({ status: 'error', message: error.message });
+        } else {
+            res.status(500).send({ status: 'error', message: 'Error no controlado.' });
+        }
+    }
+}
+
 module.exports = {
     putArchivo,
     getArchivo,
     getImagenUsuario,
-    updImgUsuario
+    updImgUsuario,
+    postGaleria,
+    getGaleria,
+    getGaleriaById,
+    eliminarImg
 }

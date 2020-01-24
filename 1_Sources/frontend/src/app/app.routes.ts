@@ -13,6 +13,8 @@ import { RutasComponent } from './components/rutas/rutas.component';
 import { RutasFormComponent } from './components/rutas-form/rutas-form.component';
 import { InfoComponent } from './components/info/info.component';
 import { RutasConsultaComponent } from './components/rutas-consulta/rutas-consulta.component';
+import { GaleriaAltaComponent } from './components/galeria-alta/galeria-alta.component';
+import { GaleriasComponent } from './components/galerias/galerias.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -50,6 +52,16 @@ const appRoutes: Routes = [
     path: 'info',
     component: InfoComponent,
     data: { titulo: 'Información general' }
+  },
+  {
+    path: 'galeria/:id',
+    component: GaleriaAltaComponent,
+    data: { titulo: 'Galeria de fotos - Alta' }
+  },
+  {
+    path: 'galerias',
+    component: GaleriasComponent,
+    data: { titulo: 'Galeria de fotos' }
   },
   { path: 'login', component: LoginComponent, data: { titulo: 'Login' } },
   { path: '**', component: HomeComponent }

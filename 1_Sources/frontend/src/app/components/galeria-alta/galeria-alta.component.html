@@ -1,0 +1,23 @@
+<div class="w3-padding-16 w3-center">
+    <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+            Arrastrar archivos a este contenedor
+            <button type="button" (click)="openFileSelector()" class="w3-margin-left">Seleccionar archivos</button>
+        </ng-template>
+    </ngx-file-drop>
+</div>
+
+<div *ngIf="arrGaleria.length > 0">
+    <div class="w3-row-padding w3-margin-top">
+        <div *ngFor="let galeria of arrGaleria">
+            <div class="w3-quarter">
+                <div class="w3-card">
+                    <img [src]="id+'/'+galeria | galeria" alt="Avatar" title="Imagen usuario" style="width:100%">
+                    <div class="w3-container w3-center">
+                        <button class="w3-button w3-red w3-margin-top w3-margin-bottom" (click)="eliminarImg(galeria)">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

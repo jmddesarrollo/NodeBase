@@ -25,6 +25,7 @@
         "font-awesome": "^4.7.0",
         "moment": "^2.24.0",
         "ng-image-slider": "^2.2.0",
+        "ngx-file-drop": "^8.0.8",
         "ngx-socket-io": "^3.0.1",
         "ngx-toastr": "^10.0.4",
         "rxjs": "^6.5.3",

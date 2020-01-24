@@ -16,6 +16,7 @@
 }
 
 .data-content {
+    font-weight: bold;
     text-align: left;
 }
 
@@ -25,5 +26,14 @@
 @media screen and (max-width: 990px) {
     #div_panel_admin {
         width: 100%;
+    }
+}
+
+
+/* Moviles */
+
+@media screen and (max-width: 768px) {
+    .data-label {
+        text-align: left;
     }
 }

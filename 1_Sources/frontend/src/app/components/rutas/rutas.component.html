@@ -41,6 +41,7 @@
             <ngx-datatable-column id="acciones" name="Acciones" [headerClass]="'w3-padding w3-center'" [cellClass]="'w3-padding-small w3-center'" [flexGrow]="1" [resizeable]="false" [draggable]="false" [sortable]="false">
                 <ng-template let-column="column" ngx-datatable-header-template><span title="Acciones" class="datatable-header-cell-label">Acciones</span></ng-template>
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex " let-row="row ">
+                    <a [routerLink]="['/galeria/', row.id]"><i class="fa fa-lg fa-camera btn-cursor w3-text-blue" title="Crear galeria" *ngIf="permiso === adminId"></i></a>
                     <a [routerLink]="['/rutas/consulta/', row.id]"><i class="fa fa-lg fa-eye btn-cursor w3-text-orange" title="Detalle"></i></a>
                     <a [routerLink]="['/rutas/form/', row.id]"><i class="fa fa-lg fa-edit btn-cursor w3-text-green" title="Editar" *ngIf="permiso === adminId"></i></a>
                     <i class="fa fa-lg fa-times-rectangle btn-cursor w3-text-red" title="Eliminar" (click)="delRuta(row.id)" *ngIf="permiso === adminId"></i>

@@ -15,6 +15,9 @@ import { PipesModule } from './pipes/pipes.module';
 // Modulo para DataTable
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
+// Modulo de importar archivos
+import { NgxFileDropModule } from 'ngx-file-drop';
+
 // Modulo de notificaciones
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -41,6 +44,8 @@ import { RutasComponent } from './components/rutas/rutas.component';
 import { RutasFormComponent } from './components/rutas-form/rutas-form.component';
 import { InfoComponent } from './components/info/info.component';
 import { RutasConsultaComponent } from './components/rutas-consulta/rutas-consulta.component';
+import { GaleriaAltaComponent } from './components/galeria-alta/galeria-alta.component';
+import { GaleriasComponent } from './components/galerias/galerias.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +59,9 @@ import { RutasConsultaComponent } from './components/rutas-consulta/rutas-consul
     RutasComponent,
     RutasFormComponent,
     InfoComponent,
-    RutasConsultaComponent
+    RutasConsultaComponent,
+    GaleriaAltaComponent,
+    GaleriasComponent
   ],
   imports: [
     BrowserModule,
@@ -64,6 +71,7 @@ import { RutasConsultaComponent } from './components/rutas-consulta/rutas-consul
     routing,
     NgxDatatableModule,
     NgImageSliderModule,
+    NgxFileDropModule,
     ServiceModule,
     PipesModule,
     BrowserAnimationsModule, // required animations module

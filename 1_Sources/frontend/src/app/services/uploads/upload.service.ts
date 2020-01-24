@@ -1,14 +1,21 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 
-import { GLOBAL } from '../global';
+import { Http, Headers } from '@angular/http';
+import { UsuarioService } from '../http/usuario.service';
 
 @Injectable()
 export class UploadService {
   public url: string;
+  public headers: any;
+  public token: string;
 
-  constructor() {
-    this.url = GLOBAL.url;
+  constructor(
+    private http: Http,
+    private usuarioService: UsuarioService
+  ) {
+    this.headers = new Headers({ 'Content-Type': 'application/json'});
+    this.token = this.usuarioService.token;
   }
 
   // Petición Ajax para subir ficheros convencionales.
@@ -35,9 +42,41 @@ export class UploadService {
       };
 
       xhr.open('PUT', url, true);
-      xhr.setRequestHeader('Authorization', 'bearer ' + token);
+      xhr.setRequestHeader('Authorization', 'Bearer ' + this.token);
       xhr.send(formData);
     });
   }
   // Fin Subida archivos al servidor
+
+  // Petición Ajax para subir ficheros convencionales.
+  updloadsFilesServer(url, formData: FormData) {
+    // Lanzar el código de la subida
+    return new Promise((resolve, reject) => {
+      // Petición de ajax tipica
+      const xhr = new XMLHttpRequest();
+
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            resolve(JSON.parse(xhr.response));
+          } else {
+            reject(xhr.response);
+          }
+        }
+      };
+
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader('Authorization', 'Bearer ' + this.token);
+      xhr.send(formData);
+    });
+  }
+  // Fin Subida archivos al servidor
+
+  getGaleria(url) {
+    return this.http.get(url, {headers: this.headers}).map(res => res.json());
+  }
+
+  eliminarImg(url) {
+    return this.http.delete(url, {headers: this.headers}).map(res => res.json());
+  }
 }
