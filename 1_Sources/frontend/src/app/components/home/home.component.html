@@ -3,27 +3,16 @@
         <div class="w3-panel w3-green w3-round-xlarge w3-center">
             <h2 class="w3-opacity">Y-Toledo, grupo de senderismo</h2>
         </div>
-        <p>Aunque el grupo de senderismo iniciaba sus rutas allá por el 2.004, es en Diciembre de 2.015 cuando nace Y-Toledo como un club de senderismo en Toledo, con toda su ilusión y con la filosofía de practicar el senderismo, compartiendo cada vez con
-            más gente, la maravillosa experiencia de disfrutar de la Naturaleza, caminando y sintiendo en cada momento con tus compañeros de viaje la magia de la Naturaleza.</p>
+        <p>Aunque el grupo de senderismo iniciaba sus rutas allá por el 2.004, es en Diciembre de 2.015 cuando nace Y-Toledo como un club de senderismo en la ciudad de Toledo, con toda su ilusión y con la filosofía de practicar el senderismo, compartiendo
+            cada vez con más gente, la maravillosa experiencia de disfrutar de la Naturaleza, caminando y sintiendo en cada momento con tus compañeros de viaje la magia de la Naturaleza.</p>
         <p>Caminando juntos descubriremos bellos rincones naturales mientras compartes con gente estupenda las mismas sensaciones, aficiones y ganas de disfrutar de la naturaleza y de la amistad.</p>
         <p>En nuestra web del club de senderismo Y-Toledo encontrarás información de todas nuestras actividades. En ellas te sentirás en todo momento entre amigos, rodeado de energía positiva, todo gracias a cada uno de los compañeros de ruta.</p>
         <p>Si necesitas cualquier tipo de información respecto a nuestras actividades de senderimo, no dudes de contactarnos al email: <b><a href="mailto:senderismoytoledo@gmail.com" target="_blank">senderismoytoledo@gmail.com</a></b></p>
 
-        <div class="w3-margin-bottom">
-            <ng-image-slider [images]="imageObject" [imageSize]="imageSize" [infinite]="infinite" [animationSpeed]="animationSpeed" [autoSlide]="autoSlide" #nav></ng-image-slider>
-        </div>
+        <div class="w3-right"><a [routerLink]="['/galeria/', 0]"><i class="fa fa-lg fa-camera btn-cursor w3-text-blue" title="Crear galeria" *ngIf="permiso === adminId"></i></a></div>
 
-        <div>
-            <h3>Y-Toledo - Club de senderismo de Toledo</h3>
-            <p>El senderimso consiste en el desarrollo de caminatas por un entorno natural y abierto con fines recreativos. Quien hace senderismo busca conocer un lugar y admirar su paisaje mientras realiza actividad física. En algunos casos el senderismo
-                se realiza por senderos y rutas ya establecidos y señalizados.</p>
-            <p>El senderimos forma parte del turismo ecológico ya que, si se desarrolla con conciencia, no genera ningún tipo de huella en el medio ambiente.</p>
-            <p>Las personas deben cuidar el medio ambiente, paseando sin generar daños a plantas ni animales y recogiendo la basura que producen.</p>
-            <p>El ejercicio físico, el conocimiento cercano de la naturaleza y el bajo coste son algunas de las ventajas que proporciona el senderismo frente a otras actividades. Además, dada su flexibilidad, personas muy diversas pueden practicarlo, sin
-                importar sus habilidades físicas o su resistencia, ya que cada una puede adaptar las actividades a sus propias necesidades y limitaciones.</p>
-            <p>En el club de senderismo de Y-Toledo podrás encontrar actividades sobre rutas cercanas a la localidad de Toledo.</p>
+        <div class="w3-margin-bottom">
+            <app-galeria id="0"></app-galeria>
         </div>
     </div>
-
-
 </div>

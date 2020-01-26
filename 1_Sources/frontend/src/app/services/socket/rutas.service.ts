@@ -60,6 +60,15 @@ export class WsRutaService {
     return this.wsService.listen("rutas/publicas");
   }
 
+  consultarRutasRango(fdesde, fhasta) {
+    const payload = { fdesde, fhasta };
+    this.wsService.emit("rutas/rango", payload);
+  }
+
+  getConsultarRutasRango() {
+    return this.wsService.listen("rutas/rango");
+  }
+
   consultarDificultades() {
     this.wsService.emit("ruta/dificultades");
   }

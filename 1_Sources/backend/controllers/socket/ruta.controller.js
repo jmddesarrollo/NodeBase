@@ -170,11 +170,31 @@ async function consultarRecorridos(cliente) {
     }
 }
 
+/*
+ * Consultar rutas entre un rango de fechas
+ */
+async function consultarRutasRango(req, cliente) {
+    const fdesde = req.fdesde;
+    const fhasta = req.fhasta;
+    try {
+        const data = await RutasService.getRutasRango(fdesde, fhasta);
+
+        cliente.emit('rutas/rango', { data });
+    } catch (error) {
+        if (error instanceof ControlException) {
+            cliente.emit("error_message", { message: error.message, code: error.code });
+        } else {
+            cliente.emit("error_message", { message: "Error no controlado" });
+        }
+    }
+}
+
 module.exports = {
     crearRuta,
     consultarRuta,
     consultarRutas,
     consultarRutasPublicas,
+    consultarRutasRango,
     actualizarRuta,
     eliminarRuta,
     consultarDificultades,

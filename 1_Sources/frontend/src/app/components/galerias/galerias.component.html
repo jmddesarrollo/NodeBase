@@ -1,3 +1,39 @@
-<p>
-  galerias works!
-</p>
+<div class="w3-center w3-blue">
+    <h2 class="w3-opacity">Galeria de imágenes</h2>
+</div>
+<div class="w3-container">
+    <div class="w3-row w3-responsive">
+        <div class="w3-cell">
+            <div class="negrita">
+                <label>Desde: </label>
+            </div>
+            <div class="w3-container">
+                <input class="w3-input w3-cell" type="date" [(ngModel)]="fechaDesde" />
+            </div>
+        </div>
+
+        <div class="w3-cell">
+            <div class="negrita w3-margin-left">
+                <label>Hasta: </label>
+            </div>
+            <div>
+                <input class="w3-input" type="date" [(ngModel)]="fechaHasta" />
+            </div>
+        </div>
+        <div class="w3-cell w3-container">
+            <button class="w3-btn w3-blue w3-margin-top w3-margin-left" (click)="mostrarDatos()">Mostrar</button>
+        </div>
+    </div>
+</div>
+
+<div class="w3-container w3-panel">
+
+    <div class="w3-card-4 w3-margin-bottom" *ngFor="let ruta of rutas">
+        <div class="w3-center w3-green">
+            <h3>{{ruta.fecha}} - {{ruta.titulo}}</h3>
+        </div>
+
+        <app-galeria id="{{ruta.id}}"></app-galeria>
+    </div>
+
+</div>

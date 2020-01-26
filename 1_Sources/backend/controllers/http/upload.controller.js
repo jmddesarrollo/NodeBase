@@ -100,24 +100,24 @@ async function postGaleria(req, res) {
 }
 
 /*
- * Editar imagen de un usuario
+ * Consultar galeria de fotos
  */
-async function getGaleria(req, res) {
-    try {
-        const data = await UploadService.getGaleria(req);
+// async function getGaleria(req, res) {
+//     try {
+//         const data = await UploadService.getGaleria(req);
 
-        res.status(200).send({ status: 'success', message: "Las imagenes han sido consultadas correctamente.", data });
-    } catch (error) {
-        if (error instanceof ControlException) {
-            res.status(error.code).send({ status: 'error', message: error.message });
-        } else {
-            res.status(500).send({ status: 'error', message: 'Error no controlado.' });
-        }
-    }
-}
+//         res.status(200).send({ status: 'success', message: "Las imagenes han sido consultadas correctamente.", data });
+//     } catch (error) {
+//         if (error instanceof ControlException) {
+//             res.status(error.code).send({ status: 'error', message: error.message });
+//         } else {
+//             res.status(500).send({ status: 'error', message: 'Error no controlado.' });
+//         }
+//     }
+// }
 
 /*
- * Descargar imagen del usuario
+ * Descargar imagen de la galeria
  */
 function getGaleriaById(req, res) {
     try {
@@ -172,7 +172,6 @@ async function eliminarImg(req, res) {
             const all = await UploadService.getGaleria(id);
 
             for (var one of all) {
-                console.log(one);
                 await UploadService.eliminarImg(id, one);
             }
         }

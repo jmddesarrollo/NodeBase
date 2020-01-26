@@ -10,6 +10,8 @@ import { Usuario } from '../../models/usuario.model';
 
 // Servicios propios
 import { ShareUsuariosService } from '../../services/share/share-usuarios';
+import { ShareMenuService } from '../../services/share/share-menu';
+
 // Servicios HTTP
 import { UsuarioService } from '../../services/service.index';
 // Servicios Socket
@@ -34,6 +36,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     private location: Location,
     private usuarioService: UsuarioService,
     private shareUsuariosService: ShareUsuariosService,
+    private shareMenuService: ShareMenuService,
     private wsUsuarioService: WsUsuarioService,
     private toastr: ToastrService,
     public wsService: WebsocketService
@@ -49,6 +52,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.estalogueado();
     this.getEditUsuario();
+    this.getEditMenu();
     this.getLogin();
     this.getLogout();
   }
@@ -83,6 +87,17 @@ export class MenuComponent implements OnInit, OnDestroy {
       if (usuarioEdit && (usuarioEdit.id === this.usuario.id)) {
         this.usuario = usuarioEdit;
       }
+    });
+
+    this.observables.push(ob);
+  }
+
+  /*
+   * Observable para la edición de un usuario.
+   */
+  getEditMenu() {
+    const ob = this.shareMenuService.currentObjMenu.subscribe(menuEdit => {
+        this.selMenu(menuEdit);
     });
 
     this.observables.push(ob);

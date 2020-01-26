@@ -7,6 +7,10 @@ const Recorrido = db.recorrido;
 
 var ControlException = require("../../../../utils/ControlException");
 
+// Operandos
+var Sequelize = require('sequelize');
+var Op = Sequelize.Op;
+
 /*
  * Consultar todas las rutas.
  */
@@ -42,6 +46,26 @@ function getRutasPublicas() {
         include: [{
             model: Recorrido
         }]
+    }).catch(error => {
+        throw new ControlException(
+            "Ha ocurrido un error al consultar las rutas.",
+            500
+        );
+    });
+
+    return rutas;
+}
+
+/*
+ * Consultar de las rutas públicas.
+ */
+async function getRutasRango(fdesde, fhasta) {
+    const rutas = await Rutas.findAll({
+        where: {
+            fecha: {
+                [Op.between]: [fdesde, fhasta]
+            },
+        }
     }).catch(error => {
         throw new ControlException(
             "Ha ocurrido un error al consultar las rutas.",
@@ -130,6 +154,7 @@ async function delRuta(id, t) {
 module.exports = {
     getRutas,
     getRutasPublicas,
+    getRutasRango,
     getRuta,
     addRuta,
     updRuta,

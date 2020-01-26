@@ -3,6 +3,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 // Servicios
 import { UploadService } from '../../services/uploads/upload.service';
+import { ShareMenuService } from '../../services/share/share-menu';
+
 // Modulo de importar archivos
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 
@@ -25,10 +27,10 @@ export class GaleriaAltaComponent implements OnInit {
   public url: string;
 
   public arrGaleria = [];
-  public imgTemp: string;
 
   constructor(
     private uploadService: UploadService,
+    private shareMenuService: ShareMenuService,
     private route: ActivatedRoute,
     private toastr: ToastrService
   ) {
@@ -36,7 +38,6 @@ export class GaleriaAltaComponent implements OnInit {
     this.url = GLOBAL.url;
 
     this.arrGaleria = [];
-    this.imgTemp = 'IMG_20200101_170939.jpg';
   }
 
   ngOnInit() {
@@ -45,6 +46,8 @@ export class GaleriaAltaComponent implements OnInit {
       this.id = params['id'];
       this.getGaleria();
     });
+
+    this.shareMenuService.editObjMenu('galeria');
   }
 
   /**

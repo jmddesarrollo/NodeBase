@@ -46,6 +46,7 @@ import { InfoComponent } from './components/info/info.component';
 import { RutasConsultaComponent } from './components/rutas-consulta/rutas-consulta.component';
 import { GaleriaAltaComponent } from './components/galeria-alta/galeria-alta.component';
 import { GaleriasComponent } from './components/galerias/galerias.component';
+import { GaleriaComponent } from './components/galeria/galeria.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { GaleriasComponent } from './components/galerias/galerias.component';
     InfoComponent,
     RutasConsultaComponent,
     GaleriaAltaComponent,
-    GaleriasComponent
+    GaleriasComponent,
+    GaleriaComponent
   ],
   imports: [
     BrowserModule,

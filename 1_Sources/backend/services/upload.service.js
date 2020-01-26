@@ -168,14 +168,21 @@ function postGaleria(req) {
  * Consultar una imagen.
  */
 function getGaleria(id) {
-    const data = fs.readdirSync(`uploads/imagenes/${id}`, function(err, archivos) {
-        if (err) {
-            onError(err);
-            return false;
-        }
+    var dir = `uploads/imagenes/${id}`;
 
-        return archivos;
-    });
+    var data = null;
+
+    if (fs.existsSync(dir)) {
+        data = fs.readdirSync(dir, function(err, archivos) {
+            if (err) {
+                return false;
+            }
+
+            return archivos;
+        });
+    }
+
+
 
     return data;
 }

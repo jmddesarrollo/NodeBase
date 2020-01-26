@@ -25,6 +25,15 @@ async function getRutasPublicas() {
     return rutas;
 }
 
+/*
+ * Consultar todas las rutas entre dos fechas.
+ */
+async function getRutasRango(fdesde, fhasta) {
+    const rutas = await RutasDAL.getRutasRango(fdesde, fhasta);
+
+    return rutas;
+}
+
 /**
  * Recoger datos de una ruta
  */
@@ -119,6 +128,7 @@ async function getRecorridos() {
 module.exports = {
     getRutas,
     getRutasPublicas,
+    getRutasRango,
     getRuta,
     addRuta,
     updRuta,

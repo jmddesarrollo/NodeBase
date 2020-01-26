@@ -11,4 +11,5 @@ module.exports = (socket) => {
     socket.on("ruta/eliminar", req => { RutaController.eliminarRuta(req, socket) });
     socket.on("ruta/dificultades", () => { RutaController.consultarDificultades(socket) });
     socket.on("ruta/recorridos", () => { RutaController.consultarRecorridos(socket) });
+    socket.on("rutas/rango", req => { RutaController.consultarRutasRango(req, socket) });
 };
