@@ -143,8 +143,10 @@ function getGaleriaById(req, res) {
  * Editar imagen de un usuario
  */
 async function getGaleria(req, res) {
+    const id = req.params.id;
+
     try {
-        const data = await UploadService.getGaleria(req);
+        const data = await UploadService.getGaleria(id);
 
         res.status(200).send({ status: 'success', message: "Las imagenes han sido consultadas correctamente.", data });
     } catch (error) {
@@ -160,8 +162,21 @@ async function getGaleria(req, res) {
  * Eliminar archivo
  */
 async function eliminarImg(req, res) {
+    const id = req.params.id;
+    const imgnombre = req.params.imgnombre;
+
     try {
-        await UploadService.eliminarImg(req);
+        if (imgnombre !== 'all') {
+            await UploadService.eliminarImg(id, imgnombre);
+        } else {
+            const all = await UploadService.getGaleria(id);
+
+            for (var one of all) {
+                console.log(one);
+                await UploadService.eliminarImg(id, one);
+            }
+        }
+
 
         res.status(200).send({ status: 'success', message: "Las imagen ha sido eliminada correctamente." });
     } catch (error) {

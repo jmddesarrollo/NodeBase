@@ -101,8 +101,13 @@ export class GaleriaAltaComponent implements OnInit {
     const url = this.url + 'galeria/' + this.id + '/' + imgName;
 
     this.uploadService.eliminarImg(url).subscribe(() => {
-      this.arrGaleria = this.arrGaleria.filter(imagen => imagen !== imgName);
-      this.arrGaleria = [...this.arrGaleria];
+      if (imgName !== 'all') {
+        this.arrGaleria = this.arrGaleria.filter(imagen => imagen !== imgName);
+        this.arrGaleria = [...this.arrGaleria];
+      } else {
+        this.arrGaleria = [];
+      }
+
     });
   }
 

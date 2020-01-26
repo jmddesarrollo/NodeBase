@@ -167,8 +167,7 @@ function postGaleria(req) {
 /*
  * Consultar una imagen.
  */
-function getGaleria(req) {
-    const id = req.params.id;
+function getGaleria(id) {
     const data = fs.readdirSync(`uploads/imagenes/${id}`, function(err, archivos) {
         if (err) {
             onError(err);
@@ -184,10 +183,7 @@ function getGaleria(req) {
 /**
  * Eliminar un archivo del repositorio del servidor
  */
-function eliminarImg(req) {
-    const id = req.params.id;
-    const imgnombre = req.params.imgnombre;
-
+function eliminarImg(id, imgnombre) {
     var pathFile = path.resolve(__dirname, `../uploads/imagenes/${id}/${imgnombre}`);
 
     if (fs.existsSync(pathFile)) {
